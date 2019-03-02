@@ -1,0 +1,49 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 1
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 08h00 ngày 28/02/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Thống nhất ý tưởng bài tập lớn
+		- Thống nhất lấy chủ đề làm game mobile để thực hiện bài tập lớn.
+		- Thể loại game được chọn là game đối kháng cổ điển.
+		- Thống nhất tên gọi tựa game là LineXO.
+
+	4.2. Nhóm trưởng triển khai cách thức làm ứng dụng mobile
+		- Giới thiệu kiến trúc ba lớp Clean (Data-Domain-Presentation).
+		- Giới thiệu kiến trúc ba lớp MVVM (Model-View-ViewModel).
+		- Giới thiệu kỹ thuật Data Binding.
+		- Giới thiệu Design pattern Dependency Injection sử dụng thư viện Dagger.
+		- Giới thiệu kỹ thuật quản lý thread sử dụng thư viện RxJava.
+		- Giới thiệu một số thư viện khác: Glide, Crashlytics, ...
+
+	4.3. Xác định nhiệm vụ của từng thành viên
+		- Anh:		+ Chịu trách nhiệm hiện thực tầng Presentation.
+				+ Tìm hiểu Data Binding.
+				+ Tìm hiểu kiến trúc MVVM.
+
+		- Hùng:		+ Chuẩn bị project theo kiến trúc đề ra.
+				+ Đăng ký bài tập lớn với đề tài đã thống nhất.
+				+ Chuẩn bị bài thuyết trình về hệ điều hành Window Phone.
+
+		- Sang:		+ Chịu trách nhiệm hiện thực tầng Data. 
+				+ Tìm hiểu Firebase, SharePreferences.
+				+ Thiết kế logo ứng dụng.
+
+		- Trọng:	+ Chịu trách nhiệm hiện thực tầng Domain.
+				+ Tìm hiểu RxJava.
+				+ Thiết kế logic ứng dụng.
+
+5. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+6. Cuộc họp kết thúc vào lúc 11h00 cùng ngày.
