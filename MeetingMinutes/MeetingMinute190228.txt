@@ -25,25 +25,30 @@
 		- Giới thiệu kỹ thuật quản lý thread sử dụng thư viện RxJava.
 		- Giới thiệu một số thư viện khác: Glide, Crashlytics, ...
 
-	4.3. Xác định nhiệm vụ của từng thành viên
-		- Anh:		+ Chịu trách nhiệm hiện thực tầng Presentation.
-				+ Tìm hiểu Data Binding.
-				+ Tìm hiểu kiến trúc MVVM.
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Chịu trách nhiệm hiện thực tầng Presentation.
+		+ Tìm hiểu Data Binding.
+		+ Tìm hiểu kiến trúc MVVM.
+	- Hùng
+		+ Chuẩn bị project theo kiến trúc đề ra.
+		+ Đăng ký bài tập lớn với đề tài đã thống nhất.
+		+ Chuẩn bị bài thuyết trình về hệ điều hành Window Phone.
+	- Sang	
+		+ Chịu trách nhiệm hiện thực tầng Data. 
+		+ Tìm hiểu Firebase, SharePreferences.
+		+ Thiết kế logo ứng dụng.
+	- Trọng
+		+ Chịu trách nhiệm hiện thực tầng Domain.
+		+ Tìm hiểu RxJava.
+		+ Thiết kế logic ứng dụng.
 
-		- Hùng:		+ Chuẩn bị project theo kiến trúc đề ra.
-				+ Đăng ký bài tập lớn với đề tài đã thống nhất.
-				+ Chuẩn bị bài thuyết trình về hệ điều hành Window Phone.
+6. Thống nhất buổi hợp tiếp theo
+		- Thời gian: 08h00 ngày 03/03/2019.
+		- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
 
-		- Sang:		+ Chịu trách nhiệm hiện thực tầng Data. 
-				+ Tìm hiểu Firebase, SharePreferences.
-				+ Thiết kế logo ứng dụng.
-
-		- Trọng:	+ Chịu trách nhiệm hiện thực tầng Domain.
-				+ Tìm hiểu RxJava.
-				+ Thiết kế logic ứng dụng.
-
-5. Tổng kết
+7. Tổng kết
 	- Biểu quyết: 100% nhất trí.
 			0% không nhất trí.
 
-6. Cuộc họp kết thúc vào lúc 11h00 cùng ngày.
+8. Cuộc họp kết thúc vào lúc 11h00 cùng ngày.

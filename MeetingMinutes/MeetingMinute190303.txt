@@ -1,0 +1,45 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 2
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 08h00 ngày 03/03/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Thống nhất kỷ luật với thành viên đi muộn
+		- Mỗi thành viên đi muộn đóng phạt 10.000đ. Tiền đóng phạt sử dụng cho các hoạt động của nhóm.
+
+	4.2. Các thành viên trình bày kết quả công việc được phân công
+		- Các thành viên trình bày phần nghiên cứu lý thuyết các chủ đề được phân công.
+		- Sang trình bày phần thiết kế logo. Do chưa đạt yêu cầu phải làm lại.
+
+	4.3. Nhóm trưởng giới thiệu code ứng dụng
+		- Giới thiệu code ba tầng của kiến trúc clean và MVVM.
+		- Trình bày cách sử dụng và kết nối giữa các tầng.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Tìm hiểu về thư viện load image Glide.
+		+ Tìm hiểu hiện thực bàn cờ.
+	- Hùng
+		+ Chuẩn bị project mẫu để các thành viên tham khảo.
+	- Sang
+		+ Thiết kế lại logo ứng dụng.
+	- Trọng
+		+ Nghiên cứu AI cho ứng dụng.
+
+6. Thống nhất buổi hợp tiếp theo
+	- Thời gian: 13h00 ngày 06/03/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 11h00 cùng ngày.
