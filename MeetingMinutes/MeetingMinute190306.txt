@@ -1,0 +1,37 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 3
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 13h30 ngày 06/03/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Thiết kế UI cho ứng dụng
+		- Thiết kế logo vuông và tròn.
+		- Thiết kế các màn hình khởi động, đăng nhập, hiển thị danh sách bàn chơi, chơi.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Tìm hiểu RecyclerView và DiffUtils.
+	- Hùng
+		+ Tiếp tục làm bài thuyết trình về Window Phone.
+	- Sang
+		+ Thiết kế cây Database cho lưu trữ Firebase.
+	- Trọng
+		+ Chuẩn bị 10 bàn cờ khác nhau với kích cỡ đã thống nhất trên UI.
+
+6. Thống nhất buổi hợp tiếp theo
+	- Thời gian: 13h00 ngày 12/03/2019.
+	- Địa điểm: Phòng tự học CS2 BK.
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 23h00 cùng ngày.
