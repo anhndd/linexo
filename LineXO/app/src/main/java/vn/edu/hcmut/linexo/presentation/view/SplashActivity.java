@@ -6,20 +6,20 @@ import android.os.Bundle;
 import javax.inject.Inject;
 import javax.inject.Named;
 import vn.edu.hcmut.linexo.R;
-import vn.edu.hcmut.linexo.databinding.ActivityWelcomeBinding;
+import vn.edu.hcmut.linexo.databinding.ActivitySplashBinding;
 import vn.edu.hcmut.linexo.presentation.di.AppComponent;
 import vn.edu.hcmut.linexo.presentation.di.AppModule;
 import vn.edu.hcmut.linexo.presentation.di.DaggerAppComponent;
+import vn.edu.hcmut.linexo.presentation.view_model.SplashViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
-import vn.edu.hcmut.linexo.presentation.view_model.WelcomeViewModel;
 
-public class WelcomeActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity {
 
     @Inject
-    @Named("WelcomeViewModel")
+    @Named("SplashViewModel")
     public ViewModel viewModel;
 
-    ActivityWelcomeBinding binding;
+    ActivitySplashBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +28,12 @@ public class WelcomeActivity extends BaseActivity {
 
     @Override
     public void onDataBinding() {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_welcome);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         viewModel = (ViewModel) getLastCustomNonConfigurationInstance();
         if (viewModel == null) {
-            WelcomeActivity.getAppComponent(this).inject(this);
+            SplashActivity.getAppComponent(this).inject(this);
         }
-        binding.setViewModel((WelcomeViewModel)viewModel);
+        binding.setViewModel((SplashViewModel)viewModel);
     }
 
     @Override

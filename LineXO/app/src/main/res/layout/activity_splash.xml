@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="vn.edu.hcmut.linexo.presentation.view_model.WelcomeViewModel"/>
+            type="vn.edu.hcmut.linexo.presentation.view_model.SplashViewModel"/>
     </data>
 
     <FrameLayout
@@ -19,6 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Hello World!" />
+            android:text="Hello World!"/>
     </FrameLayout>
 </layout>
