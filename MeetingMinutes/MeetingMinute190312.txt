@@ -1,0 +1,50 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 4
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 13h00 ngày 12/03/2019.
+	- Địa điểm: Phòng tự học tầng 3 H6 CS2 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Các thành viên báo cáo kết quả công việc được phân công
+		- Anh
+			+ Trình bày phần tìm hiểu về RecyclerView.
+			+ Trình bày cách sử dụng DiffUtils.
+		- Sang
+			+ Trình bày thiết kế sơ bộ Database Firebase.
+		- Trọng
+			+ Trình bày thiết kế 10 bàn cờ.
+
+	4.2. Nhóm trưởng ví dụ về custom view
+		- Nhóm trưởng trình bày về bộ icon đã chuẩn bị.
+		- Giới thiệu custom view và thực hiện custom view cho splash layout.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Thực hành RecyclerView và DiffUtils.
+		+ Thực hành custom view để layout một cell bàn chơi trong list bàn chơi.
+	- Hùng
+		+ Tiếp tục làm bài thuyết trình về Window Phone.
+		+ Thiết kế một số layout trong game.
+	- Sang
+		+ Thiết kế lại Database Firebase.
+		+ Thực hiện đăng nhập/đăng xuất bằng google/facebook, lấy thông tin đăng nhập.
+	- Trọng
+		+ Nghiên cứu AI cho game.
+		+ Thực hành RxJava.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 08h00 ngày 17/03/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 15h00 cùng ngày.
