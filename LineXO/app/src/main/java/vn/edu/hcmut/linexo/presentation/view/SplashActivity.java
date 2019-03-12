@@ -2,6 +2,7 @@ package vn.edu.hcmut.linexo.presentation.view;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -24,6 +25,13 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AnimationDrawable animationDrawable = (AnimationDrawable)binding.loading.getBackground();
+        animationDrawable.start();
     }
 
     @Override
