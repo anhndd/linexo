@@ -3,5 +3,8 @@
     <color name="colorPrimary">#ff0000</color>
     <color name="colorPrimaryDark">#0070c0</color>
     <color name="colorAccent">#4a8522</color>
+
     <color name="systemBar">#3F000000</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorScore">#f7a911</color>
 </resources>
