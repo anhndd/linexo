@@ -1,4 +1,4 @@
-package vn.edu.hcmut.linexo.presentation.custom;
+package vn.edu.hcmut.linexo.presentation.view.splash;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -38,8 +38,8 @@ public class SplashLayout extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int width  = MeasureSpec.getSize(widthMeasureSpec);
-        int height = MeasureSpec.getSize(heightMeasureSpec);
+        final int width  = MeasureSpec.getSize(widthMeasureSpec);
+        final int height = MeasureSpec.getSize(heightMeasureSpec);
         logo.measure(
                 (width / 8) | MeasureSpec.EXACTLY,
                 (width / 8) | MeasureSpec.EXACTLY
@@ -56,6 +56,7 @@ public class SplashLayout extends FrameLayout {
         int l = (getMeasuredWidth() - logo.getMeasuredWidth()) / 2;
         int t = (getMeasuredHeight() - logo.getMeasuredHeight()) / 2;
         logo.layout(l, t, l + logo.getMeasuredWidth(), t + logo.getMeasuredHeight());
+
         l = (getMeasuredWidth() - loading.getMeasuredWidth()) / 2;
         t += logo.getMeasuredHeight() + 4 * loading.getMeasuredHeight();
         loading.layout(l, t, l + loading.getMeasuredWidth(), t + loading.getMeasuredHeight());

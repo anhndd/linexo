@@ -5,7 +5,7 @@ import javax.inject.Named;
 import dagger.Module;
 import dagger.Provides;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
-import vn.edu.hcmut.linexo.presentation.view_model.SplashViewModel;
+import vn.edu.hcmut.linexo.presentation.view_model.splash.SplashViewModel;
 
 @Module
 public class AppModule {

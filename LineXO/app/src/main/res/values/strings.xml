@@ -4,4 +4,9 @@
     <string name="network_error">Kiểm tra kết nối mạng</string>
     <string name="search_hint">Tìm bàn chơi</string>
     <string name="create_room">Tạo phòng</string>
+    <string name="login">ĐĂNG NHẬP</string>
+    <string name="google">Google</string>
+    <string name="facebook">Facebook</string>
+
+    <string name="message_hint">Aa</string>
 </resources>

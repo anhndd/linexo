@@ -1,4 +1,4 @@
-package vn.edu.hcmut.linexo.presentation.view;
+package vn.edu.hcmut.linexo.presentation.view.splash;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,10 @@ import vn.edu.hcmut.linexo.databinding.ActivitySplashBinding;
 import vn.edu.hcmut.linexo.presentation.di.AppComponent;
 import vn.edu.hcmut.linexo.presentation.di.AppModule;
 import vn.edu.hcmut.linexo.presentation.di.DaggerAppComponent;
-import vn.edu.hcmut.linexo.presentation.view_model.SplashViewModel;
+import vn.edu.hcmut.linexo.presentation.view.BaseActivity;
+import vn.edu.hcmut.linexo.presentation.view.play.PlayActivity;
+import vn.edu.hcmut.linexo.presentation.view.room.RoomActivity;
+import vn.edu.hcmut.linexo.presentation.view_model.splash.SplashViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 
 public class SplashActivity extends BaseActivity {
@@ -26,6 +29,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startActivity(new Intent(this, PlayActivity.class));
     }
 
     @Override

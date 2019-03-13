@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
             name="viewModel"
-            type="vn.edu.hcmut.linexo.presentation.view_model.SplashViewModel"/>
+            type="vn.edu.hcmut.linexo.presentation.view_model.splash.SplashViewModel"/>
     </data>
 
-    <vn.edu.hcmut.linexo.presentation.custom.SplashLayout
+    <vn.edu.hcmut.linexo.presentation.view.splash.SplashLayout
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,5 +23,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/img_splash_loading"/>
-    </vn.edu.hcmut.linexo.presentation.custom.SplashLayout>
+    </vn.edu.hcmut.linexo.presentation.view.splash.SplashLayout>
 </layout>

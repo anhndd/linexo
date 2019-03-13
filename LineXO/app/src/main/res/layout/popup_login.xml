@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vn.edu.hcmut.linexo.presentation.view.room.LoginLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_login_form">
+
+    <TextView
+        android:id="@+id/txt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_10dp"
+        android:text="@string/login"
+        android:textStyle="bold"
+        android:background="@drawable/bg_login_title"/>
+    <View
+        android:id="@+id/line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#bfbfbf"/>
+    <Button
+        android:id="@+id/btn_google"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/google"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/btn_google"
+        android:stateListAnimator="@null"/>
+    <Button
+        android:id="@+id/btn_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/facebook"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:background="@drawable/btn_facebook"
+        android:stateListAnimator="@null"/>
+</vn.edu.hcmut.linexo.presentation.view.room.LoginLayout>

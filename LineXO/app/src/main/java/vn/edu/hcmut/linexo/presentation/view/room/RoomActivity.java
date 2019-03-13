@@ -1,7 +1,8 @@
-package vn.edu.hcmut.linexo.presentation.view;
+package vn.edu.hcmut.linexo.presentation.view.room;
 
 import android.os.Bundle;
 import vn.edu.hcmut.linexo.R;
+import vn.edu.hcmut.linexo.presentation.view.BaseActivity;
 
 public class RoomActivity extends BaseActivity {
 

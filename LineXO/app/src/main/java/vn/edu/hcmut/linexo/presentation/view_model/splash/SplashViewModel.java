@@ -1,8 +1,9 @@
-package vn.edu.hcmut.linexo.presentation.view_model;
+package vn.edu.hcmut.linexo.presentation.view_model.splash;
 
 import android.databinding.BaseObservable;
 import io.reactivex.Observer;
 import io.reactivex.subjects.PublishSubject;
+import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.utils.Event;
 
 public class SplashViewModel extends BaseObservable implements ViewModel {

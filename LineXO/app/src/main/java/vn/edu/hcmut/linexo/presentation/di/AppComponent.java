@@ -2,7 +2,7 @@ package vn.edu.hcmut.linexo.presentation.di;
 
 import javax.inject.Singleton;
 import dagger.Component;
-import vn.edu.hcmut.linexo.presentation.view.SplashActivity;
+import vn.edu.hcmut.linexo.presentation.view.splash.SplashActivity;
 
 @Component(modules = {AppModule.class})
 @Singleton
