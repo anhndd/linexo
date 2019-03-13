@@ -1,6 +1,7 @@
 package vn.edu.hcmut.linexo.presentation.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
