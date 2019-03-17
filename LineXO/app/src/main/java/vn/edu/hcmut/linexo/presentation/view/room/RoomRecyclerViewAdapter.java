@@ -59,4 +59,9 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerVi
         this.roomItems.addAll(roomItems);
         diffResult.dispatchUpdatesTo(this);
     }
+
+    public void filterList(ArrayList<RoomItem> filteredList) {
+        roomItems = filteredList;
+        notifyDataSetChanged();
+    }
 }
