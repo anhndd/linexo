@@ -1,88 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vn.edu.hcmut.linexo.presentation.view.room.RoomLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.view.room.RoomActivity">
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="vn.edu.hcmut.linexo.presentation.view_model.splash.SplashViewModel" />
+    </data>
 
-    <View
-        android:id="@+id/action_bar"
+    <vn.edu.hcmut.linexo.presentation.view.room.RoomLayout
+        android:id="@+id/root"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"/>
-    <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
-        android:id="@+id/avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/txt_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textSize="18sp"
-        android:textColor="@color/colorWhite"/>
-    <TextView
-        android:id="@+id/txt_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dimen_20dp"
-        android:paddingRight="@dimen/dimen_10dp"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorScore"
-        android:background="@drawable/bg_score_right"/>
-    <View
-        android:id="@+id/score_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_coin"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txt_network"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/network_error"
-        android:textColor="@color/colorPrimary"/>
+        <View
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent" />
 
-    <EditText
-        android:id="@+id/edt_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dimen_10dp"
-        android:paddingRight="@dimen/dimen_10dp"
-        android:maxLines="1"
-        android:inputType="number"
-        android:imeOptions="actionDone"
-        android:hint="@string/search_hint"
-        android:drawableLeft="@drawable/ic_search"
-        android:drawablePadding="@dimen/dimen_10dp"
-        android:background="@drawable/bg_search"/>
+        <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/lst_room"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp" />
 
-    <Button
-        android:id="@+id/btn_create_room"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/create_room"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite"
-        android:background="@drawable/bg_create_room"
-        android:stateListAnimator="@null"/>
+        <TextView
+            android:id="@+id/txt_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_score_right"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen_20dp"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:textColor="@color/colorScore"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-    <View
-        android:id="@+id/advertisement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/advertisement"/>
-</vn.edu.hcmut.linexo.presentation.view.room.RoomLayout>
+        <View
+            android:id="@+id/score_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_coin" />
+
+        <TextView
+            android:id="@+id/txt_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/network_error"
+            android:textColor="@color/colorPrimary" />
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_search"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="@dimen/dimen_10dp"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/dimen_10dp"
+            android:paddingRight="@dimen/dimen_10dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lst_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_create_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_create_room"
+            android:stateListAnimator="@null"
+            android:text="@string/create_room"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/advertisement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/advertisement" />
+    </vn.edu.hcmut.linexo.presentation.view.room.RoomLayout>
+</layout>

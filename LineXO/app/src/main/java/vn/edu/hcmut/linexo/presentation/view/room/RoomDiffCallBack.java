@@ -1,4 +1,4 @@
-package vn.edu.hcmut.linexo.presentation.custom;
+package vn.edu.hcmut.linexo.presentation.view.room;
 
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
@@ -32,21 +32,32 @@ public class RoomDiffCallBack extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldRoomList.get(oldItemPosition).getId() == newRoomList.get(newItemPosition).getId();
+        return oldRoomList.get(oldItemPosition).getId().equals(newRoomList.get(newItemPosition).getId());
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
         RoomItem oldRoom = oldRoomList.get(oldItemPosition);
         RoomItem newRoom = newRoomList.get(newItemPosition);
-        return (oldRoom.getId() == newRoom.getId()) && (oldRoom.getUrl_host().equals(newRoom.getUrl_host()))
-                && (oldRoom.getUrl_opponent()==newRoom.getUrl_opponent()) && (oldRoom.isPrivate() == newRoom.isPrivate());
+
+        return (oldRoom.getId().equals(newRoom.getId())) && (oldRoom.getUrl_host().equals(newRoom.getUrl_host()))
+                && (equalString(oldRoom.getUrl_opponent(),newRoom.getUrl_opponent())) && (oldRoom.isPrivate() == newRoom.isPrivate());
     }
 
     @Nullable
     @Override
     public Object getChangePayload(int oldItemPosition, int newItemPosition) {
         // Implement method if you're going to use ItemAnimator
-        return super.getChangePayload(oldItemPosition, newItemPosition);
+        return "LineXO";
+    }
+
+    private boolean equalString(String str1, String str2) {
+        if (str2 == str1) {
+            return true;
+        } else if (str1 == null || str2 == null) {
+            return false;
+        } else {
+            return str2.equals(str1);
+        }
     }
 }
