@@ -12,6 +12,7 @@ public class PlayLayout extends FrameLayout {
 
     private int statusBarHeight;
     private int defaultMargin;
+    private int horizontalOffset;
 
     private View txtNetwork;
     private View avatar1;
@@ -77,13 +78,18 @@ public class PlayLayout extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int width  = MeasureSpec.getSize(widthMeasureSpec);
         final int height = MeasureSpec.getSize(heightMeasureSpec);
+        if (height * 16 / 9 < width) {
+            horizontalOffset = (width - height * 16 / 9) / 2;
+        } else {
+            horizontalOffset = 0;
+        }
         txtNetwork.measure(
                 width | MeasureSpec.EXACTLY,
                 statusBarHeight | MeasureSpec.EXACTLY
         );
         board.measure(
-                ((width - 3 * defaultMargin) * 19 / 30) | MeasureSpec.EXACTLY,
-                (((width - 3 * defaultMargin) * 19 / 30) * 5 / 9) | MeasureSpec.EXACTLY
+                ((width - 2 * horizontalOffset - 3 * defaultMargin) * 7 / 10) | MeasureSpec.EXACTLY,
+                (((width - 2 * horizontalOffset - 3 * defaultMargin) * 7 / 10) * 5 / 9) | MeasureSpec.EXACTLY
         );
         avatar1.measure(
                 (height - statusBarHeight - board.getMeasuredHeight() - 3 * defaultMargin) | MeasureSpec.EXACTLY,
@@ -126,11 +132,11 @@ public class PlayLayout extends FrameLayout {
             );
         }
         btnSend.measure(
-                ((width - board.getMeasuredWidth() - 4 * defaultMargin) / 6) | MeasureSpec.EXACTLY,
-                ((width - board.getMeasuredWidth() - 4 * defaultMargin) / 6) | MeasureSpec.EXACTLY
+                ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 4 * defaultMargin) / 5) | MeasureSpec.EXACTLY,
+                ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 4 * defaultMargin) / 5) | MeasureSpec.EXACTLY
         );
         edtMessage.measure(
-                (btnSend.getMeasuredWidth() * 5) | MeasureSpec.EXACTLY,
+                (btnSend.getMeasuredWidth() * 4) | MeasureSpec.EXACTLY,
                 btnSend.getMeasuredWidth() | MeasureSpec.EXACTLY
         );
         lstMessage.measure(
@@ -146,7 +152,7 @@ public class PlayLayout extends FrameLayout {
         int t = top;
         txtNetwork.layout(l, t, l + txtNetwork.getMeasuredWidth(), t + txtNetwork.getMeasuredHeight());
 
-        l = defaultMargin;
+        l = horizontalOffset + defaultMargin;
         t = statusBarHeight + defaultMargin;
         avatar1.layout(l, t, l + avatar1.getMeasuredWidth(), t + avatar1.getMeasuredHeight());
 
@@ -181,7 +187,7 @@ public class PlayLayout extends FrameLayout {
             txtScore2.layout(l, t, l + txtScore2.getMeasuredWidth(), t + txtScore2.getMeasuredHeight());
         }
 
-        l = defaultMargin + (board.getMeasuredWidth() - txtRoom.getMeasuredWidth()) / 2;
+        l = avatar1.getLeft() + (board.getMeasuredWidth() - txtRoom.getMeasuredWidth()) / 2;
         t = avatar1.getTop() + (avatar1.getMeasuredHeight() - txtRoom.getMeasuredHeight()) / 2;
         txtRoom.layout(l, t, l + txtRoom.getMeasuredWidth(), t + txtRoom.getMeasuredHeight());
 
