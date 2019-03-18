@@ -1,0 +1,49 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 5
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 08h00 ngày 17/03/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   3/4 (Anh, Hùng, Trọng).
+	- Vắng mặt: 1/4 (Sang có phép).
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Các thành viên báo cáo kết quả công việc được phân công
+		- Anh
+			+ Demo hiện thực layout item room.
+			+ Demo hiện thực RecyclerView và DiffUtils.
+		- Hùng
+			+ Trình bày các layout đã hiện thực.
+		- Trọng
+			+ Trình bày tìm hiểu về RxJava.
+			+ Trình bày ý tưởng hiện thực AI cho game (Alpha Beta search).
+
+	4.2. Thực hiện một số animation trên RecyclerView và sửa lỗi hành vi
+		- Hiện thực animation khi có sự thay đổi trên mỗi item.
+		- Sửa một số lỗi trong hiện thực RecyclerView đáp ứng hiện thực animation.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Thực hiện search trên RecyclerView.
+		+ Tìm hiểu PopupMenu, chú ý menu có icon.
+	- Hùng
+		+ Tiếp tục làm bài thuyết trình về Window Phone.
+	- Sang
+		+ Thiết kế lại Database Firebase.
+		+ Thực hiện đăng nhập/đăng xuất bằng google/facebook, lấy thông tin đăng nhập.
+	- Trọng
+		+ Hiện thực AI cho game.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 13h30 ngày 19/03/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 12h00 cùng ngày.
