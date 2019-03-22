@@ -1,0 +1,52 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 6
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 13h30 ngày 19/03/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Các thành viên báo cáo kết quả công việc được phân công
+		- Anh
+			+ Demo thực hiện search trên RecyclerView. Cần sử dụng DiffUtils lúc update list.
+			+ Demo hiện thực Menu, chưa có icon.
+		- Hùng
+			+ Hỗ trợ giải đáp thắc mắc trong quá trình thành viên trình bày.
+		- Sang
+			+ Trình bày thiết kế Database.
+			+ Demo đăng nhập google. Chưa đăng nhập được bằng facebook.
+		- Trọng
+			+ Demo chạy AI.
+
+	4.2. Các thành viên tiếp tục hoàn thiện phần công việc
+		- Luôn sử dụng DiffUtils khi update list.
+		- Hoàn thiện đăng nhập Google.
+		- Đánh giá giải thuật AI. Chơi thử.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Thực hiện sự kiện click item trên RecyclerView.
+		+ Show icon trên Menu.
+	- Hùng
+		+ Tiếp tục làm bài thuyết trình về Window Phone.
+	- Sang
+		+ Thiết kế lại Database Firebase.
+		+ Thực hiện đăng nhập/đăng xuất bằng google/facebook, lấy thông tin đăng nhập.
+	- Trọng
+		+ Tối ưu AI, đưa vào app.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 8h00 ngày 24/03/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 17h00 cùng ngày.
