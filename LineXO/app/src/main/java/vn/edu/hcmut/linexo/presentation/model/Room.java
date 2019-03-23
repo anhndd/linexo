@@ -1,6 +1,6 @@
 package vn.edu.hcmut.linexo.presentation.model;
 
-public class RoomItem {
+public class Room {
     String id;
     String url_host;
     String url_opponent;
@@ -38,13 +38,13 @@ public class RoomItem {
         isPrivate = aPrivate;
     }
 
-    public RoomItem(String id, String url_host, String url_opponent, boolean isPrivate) {
+    public Room(String id, String url_host, String url_opponent, boolean isPrivate) {
         this.id = id;
         this.url_host = url_host;
         this.url_opponent = url_opponent;
         this.isPrivate = isPrivate;
     }
-    public RoomItem(String id, String url_host, String url_opponent) {
+    public Room(String id, String url_host, String url_opponent) {
         this.id = id;
         this.url_host = url_host;
         this.url_opponent = url_opponent;

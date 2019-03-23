@@ -4,7 +4,9 @@
     <color name="colorPrimaryDark">#0070c0</color>
     <color name="colorAccent">#4a8522</color>
 
-    <color name="systemBar">#3F000000</color>
+    <color name="colorSystemBar">#3F000000</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorScore">#f7a911</color>
+    <color name="colorLine">#00b050</color>
+    <color name="colorLineBlur">#1f00b050</color>
 </resources>

@@ -26,7 +26,7 @@ public class PlayLayout extends FrameLayout {
     private View txtClock2;
     private View board;
     private View lstMessage;
-    private View edtMessage;
+    private View btnMessage;
     private View btnSend;
 
     public PlayLayout(@NonNull Context context) {
@@ -70,7 +70,7 @@ public class PlayLayout extends FrameLayout {
         txtClock2   = findViewById(R.id.txt_clock_2);
         board       = findViewById(R.id.board);
         lstMessage  = findViewById(R.id.lst_message);
-        edtMessage  = findViewById(R.id.edt_message);
+        btnMessage = findViewById(R.id.btn_message);
         btnSend     = findViewById(R.id.btn_send);
     }
 
@@ -135,13 +135,13 @@ public class PlayLayout extends FrameLayout {
                 ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 4 * defaultMargin) / 5) | MeasureSpec.EXACTLY,
                 ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 4 * defaultMargin) / 5) | MeasureSpec.EXACTLY
         );
-        edtMessage.measure(
+        btnMessage.measure(
                 (btnSend.getMeasuredWidth() * 4) | MeasureSpec.EXACTLY,
                 btnSend.getMeasuredWidth() | MeasureSpec.EXACTLY
         );
         lstMessage.measure(
-                (edtMessage.getMeasuredWidth() + btnSend.getMeasuredWidth() + defaultMargin) | MeasureSpec.EXACTLY,
-                (height - statusBarHeight - 2 * defaultMargin - edtMessage.getMeasuredHeight()) | MeasureSpec.EXACTLY
+                (btnMessage.getMeasuredWidth() + btnSend.getMeasuredWidth() + defaultMargin) | MeasureSpec.EXACTLY,
+                (height - statusBarHeight - 2 * defaultMargin - btnMessage.getMeasuredHeight()) | MeasureSpec.EXACTLY
         );
         setMeasuredDimension(width, height);
     }
@@ -196,9 +196,9 @@ public class PlayLayout extends FrameLayout {
         lstMessage.layout(l, t, l + lstMessage.getMeasuredWidth(), t + lstMessage.getMeasuredHeight());
 
         t += lstMessage.getMeasuredHeight();
-        edtMessage.layout(l, t, l + edtMessage.getMeasuredWidth(), t + edtMessage.getMeasuredHeight());
+        btnMessage.layout(l, t, l + btnMessage.getMeasuredWidth(), t + btnMessage.getMeasuredHeight());
 
-        l += edtMessage.getMeasuredWidth() + defaultMargin;
+        l += btnMessage.getMeasuredWidth() + defaultMargin;
         btnSend.layout(l, t, l + btnSend.getMeasuredWidth(), t + btnSend.getMeasuredHeight());
     }
 }

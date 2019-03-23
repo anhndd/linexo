@@ -85,8 +85,8 @@
         android:textStyle="bold"
         android:textColor="@color/colorWhite"
         android:fontFamily="monospace"
-        android:background="@drawable/bg_clock_2"/>/>
-    <View
+        android:background="@drawable/bg_clock_2"/>
+    <vn.edu.hcmut.linexo.presentation.view.play.BoardView
         android:id="@+id/board"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
@@ -94,16 +94,18 @@
         android:id="@+id/lst_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/edt_message"
+    <Button
+        android:id="@+id/btn_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/dimen_10dp"
         android:paddingRight="@dimen/dimen_10dp"
-        android:hint="@string/message_hint"
-        android:maxLines="1"
-        android:inputType="text"
-        android:background="@color/colorWhite"/>
+        android:text="@string/message_hint"
+        android:textColor="@android:color/darker_gray"
+        android:gravity="start|center_vertical"
+        android:textAllCaps="false"
+        android:background="@color/colorWhite"
+        android:stateListAnimator="@null"/>
     <ImageButton
         android:id="@+id/btn_send"
         android:layout_width="wrap_content"

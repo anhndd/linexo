@@ -5,17 +5,17 @@ import android.support.v7.util.DiffUtil;
 
 import java.util.List;
 
-import vn.edu.hcmut.linexo.presentation.model.RoomItem;
+import vn.edu.hcmut.linexo.presentation.model.Room;
 
 /**
  * Created by Anh on 3/16/2019.
  */
 
 public class RoomDiffCallBack extends DiffUtil.Callback {
-    List<RoomItem> oldRoomList;
-    List<RoomItem> newRoomList;
+    List<Room> oldRoomList;
+    List<Room> newRoomList;
 
-    public RoomDiffCallBack(List<RoomItem> oldRoomList, List<RoomItem> newRoomList) {
+    public RoomDiffCallBack(List<Room> oldRoomList, List<Room> newRoomList) {
         this.oldRoomList = oldRoomList;
         this.newRoomList = newRoomList;
     }
@@ -37,8 +37,8 @@ public class RoomDiffCallBack extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        RoomItem oldRoom = oldRoomList.get(oldItemPosition);
-        RoomItem newRoom = newRoomList.get(newItemPosition);
+        Room oldRoom = oldRoomList.get(oldItemPosition);
+        Room newRoom = newRoomList.get(newItemPosition);
 
         return (oldRoom.getId().equals(newRoom.getId())) && (oldRoom.getUrl_host().equals(newRoom.getUrl_host()))
                 && (equalString(oldRoom.getUrl_opponent(),newRoom.getUrl_opponent())) && (oldRoom.isPrivate() == newRoom.isPrivate());

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vn.edu.hcmut.linexo.R;
-import vn.edu.hcmut.linexo.presentation.model.RoomItem;
+import vn.edu.hcmut.linexo.presentation.model.Room;
 
 /**
  * Created by Anh on 3/13/2019.
@@ -18,9 +18,9 @@ import vn.edu.hcmut.linexo.presentation.model.RoomItem;
 
 public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerViewAdapter.RecyclerViewHolder> {
 
-    private List<RoomItem> roomItems = new ArrayList<>();
+    private List<Room> roomItems = new ArrayList<>();
 
-    public RoomRecyclerViewAdapter(List<RoomItem> roomItems) {
+    public RoomRecyclerViewAdapter(List<Room> roomItems) {
         this.roomItems = roomItems;
     }
 
@@ -51,7 +51,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerVi
         }
     }
 
-    public void updateRoomListItems(List<RoomItem> roomItems) {
+    public void updateRoomListItems(List<Room> roomItems) {
         final RoomDiffCallBack diffCallback = new RoomDiffCallBack(this.roomItems, roomItems);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
@@ -60,7 +60,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerVi
         diffResult.dispatchUpdatesTo(this);
     }
 
-    public void filterList(ArrayList<RoomItem> filteredList) {
+    public void filterList(ArrayList<Room> filteredList) {
         roomItems = filteredList;
         notifyDataSetChanged();
     }
