@@ -175,4 +175,12 @@ public class RoomViewLayout extends FrameLayout {
             animator.start();
         }
     }
+
+    public TextView getTxtRoomId() {
+        return txtRoomId;
+    }
+
+    public void setTxtRoomId(TextView txtRoomId) {
+        this.txtRoomId = txtRoomId;
+    }
 }
