@@ -1,8 +1,12 @@
 package vn.edu.hcmut.linexo.utils;
 
 import android.app.Activity;
+import android.support.v7.widget.PopupMenu;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import java.lang.reflect.Field;
+
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class Tool {
@@ -27,5 +31,22 @@ public class Tool {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
         view.requestFocus();
         inputMethodManager.showSoftInput(view, 0);
+    }
+
+    /**
+     * Force given {@code PopupMenu} show icon.
+     */
+    public static void forcePopupMenuShowIcon(PopupMenu popupMenu) {
+        try {
+            Field mPopup = PopupMenu.class.getDeclaredField("mPopup");
+            mPopup.setAccessible(true);
+            Object menuHelper = mPopup.get(popupMenu);
+            menuHelper
+                    .getClass()
+                    .getDeclaredMethod("setForceShowIcon", boolean.class)
+                    .invoke(menuHelper, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

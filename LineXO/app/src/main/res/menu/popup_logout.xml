@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/it_rating"
+        android:icon="@drawable/ic_star_rating"
+        android:title="Rating" />
+    <item
+        android:id="@+id/it_logout"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout" />
+</menu>
+
