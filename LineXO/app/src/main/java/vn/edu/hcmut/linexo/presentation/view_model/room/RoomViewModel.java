@@ -1,21 +1,25 @@
 package vn.edu.hcmut.linexo.presentation.view_model.room;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.subjects.PublishSubject;
+import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.presentation.model.RoomItem;
+import vn.edu.hcmut.linexo.presentation.view.play.PlayActivity;
 import vn.edu.hcmut.linexo.presentation.view.room.RoomRecyclerViewAdapter;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
+import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.utils.Event;
 
-public class RoomViewModel extends BaseObservable implements ViewModel {
+public class RoomViewModel extends BaseObservable implements ViewModel, ViewModelCallback {
 
     /**
      * Publisher will emit event to view. View listen these event via a observer.
@@ -24,24 +28,27 @@ public class RoomViewModel extends BaseObservable implements ViewModel {
 
     private String strSearch = "";
     private RoomRecyclerViewAdapter adapter = new RoomRecyclerViewAdapter(new ArrayList<>(),this);
+    private String urlAvatar;
     private List<RoomItem> data;
+
     boolean check = false;
 
     public RoomViewModel() {
         // create view list room
         data = new ArrayList<>();
-        data.add(new RoomItem("001", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-        data.add(new RoomItem("002", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-        data.add(new RoomItem("003", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-        data.add(new RoomItem("004", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-        data.add(new RoomItem("005", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-        data.add(new RoomItem("006", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-        data.add(new RoomItem("007", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null, true));
-        data.add(new RoomItem("008", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-        data.add(new RoomItem("009", "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-        data.add(new RoomItem("010", "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", null, true));
-        data.add(new RoomItem("011", "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-        data.add(new RoomItem("012", "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+        int i = 1;
+        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
+        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
+        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null, true));
+        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+        data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+        data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", null, true));
+        data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+        data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
         adapter = new RoomRecyclerViewAdapter(data,this);
         data = new ArrayList<>(data);
 
@@ -64,7 +71,18 @@ public class RoomViewModel extends BaseObservable implements ViewModel {
             if(!strSearch.isEmpty()){
                 ArrayList<RoomItem> filteredList = new ArrayList<>();
                 for (RoomItem item : data) {
-                    if (item.getId().toLowerCase().contains(strSearch.toLowerCase())) {
+                    int number = item.getId();
+                    String strNumber = "";
+                    if (number == 0) {
+//                        strNumber = getResources().getString(R.string.room_ai);
+                    } else if (number < 10) {
+                        strNumber = "00" + number;
+                    } else if (number < 100) {
+                        strNumber = "0" + number;
+                    } else if (number < 1000) {
+                        strNumber += number;
+                    }
+                    if (strNumber.toLowerCase().contains(strSearch.toLowerCase())) {
                         filteredList.add(item);
                     }
                 }
@@ -75,27 +93,28 @@ public class RoomViewModel extends BaseObservable implements ViewModel {
             }
         }
         else if(e.getType()==2){
+            int i = 1;
             if (!check) {
                 data = new ArrayList<>();
-                data.add(new RoomItem("001", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                data.add(new RoomItem("002", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-                data.add(new RoomItem("003", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                data.add(new RoomItem("004", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
                 check = true;
             } else {
                 data = new ArrayList<>();
-                data.add(new RoomItem("001", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                data.add(new RoomItem("002", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                data.add(new RoomItem("003", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                data.add(new RoomItem("004", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-                data.add(new RoomItem("005", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                data.add(new RoomItem("006", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-                data.add(new RoomItem("007", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null, true));
-                data.add(new RoomItem("008", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                data.add(new RoomItem("009", "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                data.add(new RoomItem("010", "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", null, true));
-                data.add(new RoomItem("011", "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                data.add(new RoomItem("012", "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null, true));
+                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+                data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", null, true));
+                data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+                data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
                 check = false;
             }
 
@@ -108,7 +127,18 @@ public class RoomViewModel extends BaseObservable implements ViewModel {
 
         ArrayList<RoomItem> filteredList = new ArrayList<>();
         for (RoomItem item : data) {
-            if (item.getId().toLowerCase().contains(strSearch.toLowerCase())) {
+            int number = item.getId();
+            String strNumber = "";
+            if (number == 0) {
+//                strNumber = getResources().getString(R.string.room_ai);
+            } else if (number < 10) {
+                strNumber = "00" + number;
+            } else if (number < 100) {
+                strNumber = "0" + number;
+            } else if (number < 1000) {
+                strNumber += number;
+            }
+            if (strNumber.toLowerCase().contains(strSearch.toLowerCase())) {
                 filteredList.add(item);
             }
         }
@@ -128,6 +158,19 @@ public class RoomViewModel extends BaseObservable implements ViewModel {
 
     public void setAdapter(RoomRecyclerViewAdapter adapter) {
         this.adapter = adapter;
+    }
+
+    @Bindable
+    public Object getUrlAvatar() {
+        if(urlAvatar == null || urlAvatar.isEmpty())
+            return R.drawable.ic_logo_round;
+        return urlAvatar;
+    }
+
+    public void onClickCreateRoom(View view) {
+        Intent intent = new Intent(view.getContext(), PlayActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        view.getContext().startActivity(intent);
     }
 
     @Override

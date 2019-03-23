@@ -34,40 +34,6 @@ public class RoomActivity extends BaseActivity {
 
         binding.lstRoom.setLayoutManager(new GridLayoutManager(this, 2));
         binding.lstRoom.setHasFixedSize(true);
-
-        // avatar set image
-        // TODO: use databinding
-        binding.avatar.setImageResource(R.drawable.ic_logo_round);
-        //Creating the instance of PopupMenu
-        PopupMenu popup = new PopupMenu(RoomActivity.this, binding.avatar, Gravity.RIGHT);
-        Tool.forcePopupMenuShowIcon(popup);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater()
-                .inflate(R.menu.popup_logout, popup.getMenu());
-
-        //registering popup with OnMenuItemClickListener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                return true;
-            }
-        });
-
-        // TODO: use :onclick in XML
-        binding.avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popup.show(); //showing popup menu
-            }
-        });
-
-        // click create room
-        // TODO: use databinding to ViewModel
-        binding.btnCreateRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewModel.onHelp(Event.create(2));
-            }
-        });
     }
 
     @Override
@@ -91,7 +57,7 @@ public class RoomActivity extends BaseActivity {
             @Override
             public void onNext(Event event) {
                 if(event.getType()==1) {
-                    viewModel.onHelp(event);
+//                    viewModel.onHelp(event);
                 }
             }
 
@@ -120,5 +86,21 @@ public class RoomActivity extends BaseActivity {
     @Override
     public void onEndTaskViewModel() {
 
+    }
+
+    public void onClickAvatar(View view) {
+        //Creating the instance of PopupMenu
+        PopupMenu popup = new PopupMenu(RoomActivity.this, binding.avatar, Gravity.RIGHT);
+        Tool.forcePopupMenuShowIcon(popup);
+        //Inflating the Popup using xml file
+        popup.getMenuInflater().inflate(R.menu.popup_logout, popup.getMenu());
+
+        //registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                return true;
+            }
+        });
+        popup.show(); //showing popup menu
     }
 }

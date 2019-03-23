@@ -6,6 +6,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+import vn.edu.hcmut.linexo.R;
+import vn.edu.hcmut.linexo.utils.GlideApp;
 
 public class CircleImageView extends AppCompatImageView {
 
@@ -41,13 +43,11 @@ public class CircleImageView extends AppCompatImageView {
         }
     }
 
-    /*public void setImageFromObject(Object object) {
+    public void setImageFromObject(Object object) {
         GlideApp
                 .with(getContext())
                 .load(object)
                 .placeholder(R.drawable.img_avatar_holder)
-                //.diskCacheStrategy(DiskCacheStrategy.NONE)
-                //.skipMemoryCache(true)
                 .into(this);
-    }*/
+    }
 }

@@ -7,10 +7,11 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
-import com.bumptech.glide.Glide;
+
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.presentation.custom.CircleImageView;
+import vn.edu.hcmut.linexo.presentation.custom.RoomNumberView;
+import vn.edu.hcmut.linexo.utils.GlideApp;
 
 /**
  * Created by Anh on 3/12/2019.
@@ -23,7 +24,7 @@ public class RoomViewLayout extends FrameLayout {
     private CircleImageView civHost;
     private View lockRoom;
     private View pen;
-    private TextView txtRoomId;
+    private RoomNumberView roomNumberView;
     private int offsetPercent = 0;
 
     public RoomViewLayout(@NonNull Context context) {
@@ -46,7 +47,7 @@ public class RoomViewLayout extends FrameLayout {
         civHost = findViewById(R.id.civ_host);
         lockRoom = findViewById(R.id.lock_room_icon);
         pen = findViewById(R.id.pen_icon);
-        txtRoomId = findViewById(R.id.txt_room_id);
+        roomNumberView = findViewById(R.id.txt_room_id);
     }
 
     @Override
@@ -79,7 +80,7 @@ public class RoomViewLayout extends FrameLayout {
                     (roomBgWitdh / 6 - roomBgWitdh / 18) | MeasureSpec.EXACTLY
             );
         }
-        txtRoomId.measure(
+        roomNumberView.measure(
                 (roomBgWitdh / 6) | MeasureSpec.EXACTLY,
                 (roomBgWitdh / 6 / 2 + roomBgWitdh / 6 / 2 / 2) | MeasureSpec.EXACTLY
         );
@@ -99,9 +100,9 @@ public class RoomViewLayout extends FrameLayout {
         int t = 0;//(getMeasuredHeight() - roomBg.getMeasuredHeight()) / 2;
         roomBg.layout(l, t, l + roomBg.getMeasuredWidth(), t + roomBg.getMeasuredHeight());
 
-        l = (getMeasuredWidth() - space - txtRoomId.getMeasuredWidth()) / 2;
-        t = getMeasuredHeight() - space - space / 2 - txtRoomId.getMeasuredHeight();
-        txtRoomId.layout(l, t, l + txtRoomId.getMeasuredWidth(), t + txtRoomId.getMeasuredHeight());
+        l = (getMeasuredWidth() - space - roomNumberView.getMeasuredWidth()) / 2;
+        t = getMeasuredHeight() - space - space / 2 - roomNumberView.getMeasuredHeight();
+        roomNumberView.layout(l, t, l + roomNumberView.getMeasuredWidth(), t + roomNumberView.getMeasuredHeight());
 
         if (lockRoom.getVisibility() != GONE) {
             l = (space / 2);
@@ -129,10 +130,10 @@ public class RoomViewLayout extends FrameLayout {
         pen.layout(l, t, l + pen.getMeasuredWidth(), t + pen.getMeasuredHeight());
     }
 
-    public void setRoomView(String id, @NonNull String link1, @Nullable String link2, boolean isPrivate) {
-        txtRoomId.setText(id);
+    public void setRoomView(int id, @NonNull String link1, @Nullable String link2, boolean isPrivate) {
+        roomNumberView.setNumber(id);
 
-        Glide.with(getContext()).load(link1).into(civHost);
+        GlideApp.with(getContext()).load(link1).into(civHost);
 
         if (isPrivate) {
             lockRoom.setVisibility(VISIBLE);
@@ -145,7 +146,7 @@ public class RoomViewLayout extends FrameLayout {
             civOpponent.setVisibility(View.GONE);
         } else {
             civOpponent.setVisibility(View.VISIBLE);
-            Glide.with(getContext()).load(link2).into(civOpponent);
+            GlideApp.with(getContext()).load(link2).into(civOpponent);
         }
 
         int afterState = civOpponent.getVisibility();
@@ -176,11 +177,11 @@ public class RoomViewLayout extends FrameLayout {
         }
     }
 
-    public TextView getTxtRoomId() {
-        return txtRoomId;
+    public RoomNumberView getRoomNumberView() {
+        return roomNumberView;
     }
 
-    public void setTxtRoomId(TextView txtRoomId) {
-        this.txtRoomId = txtRoomId;
+    public void setRoomNumberView(RoomNumberView roomNumberView) {
+        this.roomNumberView = roomNumberView;
     }
 }
