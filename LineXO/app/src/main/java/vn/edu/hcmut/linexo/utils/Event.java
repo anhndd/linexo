@@ -11,8 +11,9 @@ public class Event {
      * Used when need to return an event but do nothing or default action.
      */
     public static final int NONE = -1;
-
-    public static final int LSDJFF = 0;
+    public static final int INIT_GAME = 0;
+    public static final int SEND_MOVE = 1;
+    public static final int GET_MOVE = 2;
 
     /***********************************************************************************************
      * Class implementation.
