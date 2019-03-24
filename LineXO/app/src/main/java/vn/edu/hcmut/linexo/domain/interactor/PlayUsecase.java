@@ -2,8 +2,14 @@ package vn.edu.hcmut.linexo.domain.interactor;
 
 import android.support.annotation.Nullable;
 
+import java.util.List;
+import java.util.Random;
+
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableSingleObserver;
 import vn.edu.hcmut.linexo.data.repository.BoardRepository;
 import vn.edu.hcmut.linexo.data.repository.SessionRepository;
 import vn.edu.hcmut.linexo.data.repository.UserRepository;
@@ -12,14 +18,17 @@ import vn.edu.hcmut.linexo.domain.AI.LineXOGame;
 import vn.edu.hcmut.linexo.domain.AI.LineXOMove;
 import vn.edu.hcmut.linexo.domain.AI.LineXOBoard;
 import vn.edu.hcmut.linexo.presentation.model.Board;
+import vn.edu.hcmut.linexo.presentation.model.Session;
 
 public class PlayUsecase extends AbstractUsecase {
 
     private Board board;
+    private List<Board> boards;
     private LineXOBoard state;
     private SessionRepository sessionRepository;
     private BoardRepository boardRepository;
     private UserRepository userRepository;
+    private Session session;
 
     public PlayUsecase(SessionRepository sessionRepository, BoardRepository boardRepository, UserRepository userRepository) {
         this.sessionRepository  = sessionRepository;
@@ -29,37 +38,15 @@ public class PlayUsecase extends AbstractUsecase {
 
     @Override
     public void execute(Object observer, @Nullable int flag, @Nullable Object... params) {
-//        switch (flag) {
-//            case 0:
-//                byte[][] myArray = new byte[][]{
-//                        {0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0}, // 1
-//                        {0,0,0,0,0,0,0,0,3,4,3,0,0,0,0,0,0,0,0}, // 2
-//                        {0,0,0,0,0,0,0,3,0,1,0,3,0,0,0,0,0,0,0}, // 3
-//                        {0,0,0,0,0,0,3,4,1,4,1,4,3,0,0,0,0,0,0}, // 4
-//                        {0,0,0,0,0,3,0,1,0,1,0,1,0,3,0,0,0,0,0}, // 5
-//                        {0,0,0,0,3,4,1,4,1,4,1,4,1,4,3,0,0,0,0}, // 6
-//                        {0,0,0,3,0,1,0,1,0,1,0,1,0,1,0,3,0,0,0}, // 7
-//                        {0,0,3,4,1,4,1,4,1,4,1,4,1,4,1,4,3,0,0}, // 8
-//                        {0,3,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,3,0}, // 9
-//                        {3,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,3}, // 10
-//                        {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}, // 11
-//                };
-//                board = new Board(myArray);
-//                int lastPlayer = 1;
-//                roomNumber = 0;
-//                break;
-//            case 1:
-//                if (roomNumber == 0) {
-//                    Single.create()
-//                    LineXOBoard rootState = new LineXOBoard(board.gerPattern(), board.getPlayerToMove() == 1 ? "X" : "O");
-//                    rootState.mark(new LineXOMove((int) params[0], (int) params[1]));
-//                }
-//                else {
-//                    //choi voi nguoi
-//                }
-//                break;
-//
-//        }
+        switch (flag) {
+            case 0:
+                initGame((DisposableSingleObserver<Board>) observer);
+                break;
+            case 1:
+                
+                break;
+
+        }
 ////        if (flag == 0) {
 //            //load session: lay so phong, kiem tra choi voi nguoi hay choi voi may
 //            //load tat ca ban co
@@ -84,6 +71,43 @@ public class PlayUsecase extends AbstractUsecase {
 //    }
 //    private void userMove(Object observer, @Nullable int flag, @Nullable Object... params) {
 //
+    }
+
+    private void initGame(DisposableSingleObserver<Board> observer) {
+        addTask(
+                sessionRepository
+                        .getCacheSession()
+                        .subscribeOn(this.getSubscribeScheduler())
+                        .observeOn(this.getObserveScheduler())
+                        .subscribeWith(new DisposableSingleObserver<Session>() {
+                            @Override
+                            public void onSuccess(Session session) {
+                                PlayUsecase.this.session = session;
+                                if (session.getRoomNumber() == 0) {
+                                    addTask(
+                                            boardRepository
+                                                    .getLocalBoard()
+                                                    .subscribeOn(getSubscribeScheduler())
+                                                    .observeOn(getObserveScheduler())
+                                                    .map(boards -> {
+                                                        PlayUsecase.this.boards = boards;
+                                                        PlayUsecase.this.board = boards.get(new Random().nextInt(boards.size()))
+                                                                .updateLastPlayer(new Random().nextInt(2) + 1);
+                                                        return PlayUsecase.this.board;
+                                                    })
+                                                    .subscribeWith(observer)
+                                    );
+                                } else {
+                                    //TODO
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+                        })
+        );
     }
 
 }

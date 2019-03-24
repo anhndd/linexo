@@ -12,26 +12,19 @@ public class Board {
 
     private byte[][] pattern;
 
-    private int playerToMove;
-    private int   lastPlayer;
-    private int[] lastMove;
+    private int     playerToMove;
+    private int     lastPlayer;
+    private int[]   lastMove;
 
     public Board(byte[][] pattern) {
-        this(pattern, 0, null);
+        this(pattern, 0, 0, null);
     }
 
-    public Board(byte[][] pattern, int lastPlayer, int[] lastMove) {
-        this.pattern    = pattern;
-        this.lastPlayer = lastPlayer;
-        this.lastMove   = lastMove;
-    }
-
-    public int getPlayerToMove() {
-        return playerToMove;
-    }
-
-    public void setPlayerToMove(int playerToMove) {
-        this.playerToMove = playerToMove;
+    public Board(byte[][] pattern, int lastPlayer, int playerToMove, int[] lastMove) {
+        this.pattern        = pattern;
+        this.lastPlayer     = lastPlayer;
+        this.playerToMove   = playerToMove;
+        this.lastMove       = lastMove;
     }
 
     public int getWidth() {
@@ -60,19 +53,27 @@ public class Board {
         return lastPlayer;
     }
 
+    public int getPlayerToMove() {
+        return playerToMove;
+    }
+
     public int[] getLastMove() {
         return new int[]{lastMove[0], lastMove[1]};
     }
 
     public Board updatePattern(byte[][] pattern) {
-        return new Board(pattern, lastPlayer, lastMove);
+        return new Board(pattern, lastPlayer, playerToMove, lastMove);
     }
 
     public Board updateLastPlayer(int lastPlayer) {
-        return new Board(pattern, lastPlayer, lastMove);
+        return new Board(pattern, lastPlayer, playerToMove, lastMove);
+    }
+
+    public Board updatePlayerToMove(int playerToMove) {
+        return new Board(pattern, lastPlayer, playerToMove, lastMove);
     }
 
     public Board updateLastMove(int[] lastMove) {
-        return new Board(pattern, lastPlayer, lastMove);
+        return new Board(pattern, lastPlayer, playerToMove, lastMove);
     }
 }
