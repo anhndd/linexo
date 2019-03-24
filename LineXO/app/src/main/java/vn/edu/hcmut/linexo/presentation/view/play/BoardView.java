@@ -75,8 +75,11 @@ public class BoardView extends View {
         ((GradientDrawable)stone).setShape(GradientDrawable.RECTANGLE);
         ((GradientDrawable)stone).setColor(getContext().getColor(R.color.colorLine));
         ((GradientDrawable)stone).setCornerRadius(lineStrokeWidth / 2);
+    }
 
-        board = new Board(new byte[11][19]);
+    public void setBoard(Board board) {
+        this.board = board;
+        invalidate();
     }
 
     @Override

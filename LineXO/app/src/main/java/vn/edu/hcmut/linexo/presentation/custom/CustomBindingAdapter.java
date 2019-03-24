@@ -4,6 +4,9 @@ import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import vn.edu.hcmut.linexo.presentation.model.Board;
+import vn.edu.hcmut.linexo.presentation.view.play.BoardView;
+
 /**
  * Class included methods that used in xml file to bind attribute or
  * something else of view.
@@ -40,4 +43,14 @@ public class CustomBindingAdapter {
     public static void setImageFromObject(CircleImageView avatarImageView, Object object) {
         avatarImageView.setImageFromObject(object);
     }
+
+    /**
+     * Add setter for {@code board} in {@code BoardView}.
+     * @param boardView view need to set board.
+     * @param board used to load board to {@code BoardView}.
+     */
+    @BindingAdapter("board")
+    public static void setBoard(BoardView boardView, Board board) {
+        boardView.setBoard(board);
+    };
 }
