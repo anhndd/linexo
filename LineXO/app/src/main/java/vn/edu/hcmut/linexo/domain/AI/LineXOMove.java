@@ -1,10 +1,10 @@
-package vn.edu.hcmut.linexo.domain.interactor.AI;
+package vn.edu.hcmut.linexo.domain.AI;
 
-public class LineXOLocation {
+public class LineXOMove {
     private int x;
     private int y;
 
-    public LineXOLocation(int x, int y) {
+    public LineXOMove(int x, int y) {
         this.x = x;
         this.y = y;
     }

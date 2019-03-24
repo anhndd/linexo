@@ -1,4 +1,4 @@
-package vn.edu.hcmut.linexo.domain.interactor.AI;
+package vn.edu.hcmut.linexo.domain.AI;
 
 public class LineXOAlphaBetaSearch {
     private LineXOGame game;
@@ -7,12 +7,12 @@ public class LineXOAlphaBetaSearch {
         this.game = game;
     }
 
-    public LineXOLocation makeDecision(LineXOState state) {
-        LineXOLocation result = null;
+    public LineXOMove makeDecision(LineXOBoard state) {
+        LineXOMove result = null;
         double resultValue = Double.NEGATIVE_INFINITY;
         String player = game.getPlayer(state);
-        for (LineXOLocation action : game.getActions(state)) {
-            LineXOState resultState = game.getResult(state, action);
+        for (LineXOMove action : game.getActions(state)) {
+            LineXOBoard resultState = game.getResult(state, action);
             double value = game.getUtility(resultState, player) > game.getUtility(state, player)
                     ? maxValue(resultState, player, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1)
                     : minValue(resultState, player, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
@@ -24,13 +24,13 @@ public class LineXOAlphaBetaSearch {
         return result;
     }
 
-    public double maxValue(LineXOState state, String player, double alpha, double beta, int depth) {
+    public double maxValue(LineXOBoard state, String player, double alpha, double beta, int depth) {
         if (game.isTerminal(state) || depth > Math.log(LineXOGame.MAX_NODES) / Math.log(state.getNotDrawnLine().size())) {
             return game.getUtility(state, player);
         }
         double value = Double.NEGATIVE_INFINITY;
-        for (LineXOLocation action : game.getActions(state)) {
-            LineXOState resultState = game.getResult(state, action);
+        for (LineXOMove action : game.getActions(state)) {
+            LineXOBoard resultState = game.getResult(state, action);
             value = resultState.getUtility(player) > state.getUtility(player)
                     ? Math.max(value, maxValue(resultState, player, alpha, beta, depth + 1))
                     : Math.max(value, minValue(resultState, player, alpha, beta, depth + 1));
@@ -42,13 +42,13 @@ public class LineXOAlphaBetaSearch {
         return value;
     }
 
-    public double minValue(LineXOState state, String player, double alpha, double beta, int depth) {
+    public double minValue(LineXOBoard state, String player, double alpha, double beta, int depth) {
         if (game.isTerminal(state) || depth > Math.log(LineXOGame.MAX_NODES) / Math.log(state.getNotDrawnLine().size())) {
             return game.getUtility(state, player);
         }
         double value = Double.POSITIVE_INFINITY;
-        for (LineXOLocation action : game.getActions(state)) {
-            LineXOState resultState = game.getResult(state, action);
+        for (LineXOMove action : game.getActions(state)) {
+            LineXOBoard resultState = game.getResult(state, action);
             value = resultState.getUtility(player) < state.getUtility(player)
                     ? Math.min(value, minValue(resultState, player, alpha, beta, depth + 1))
                     : Math.min(value, maxValue(resultState, player, alpha, beta, depth + 1));
