@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
             type="vn.edu.hcmut.linexo.presentation.view_model.room.RoomViewModel" />
@@ -22,7 +24,9 @@
         <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
             android:id="@+id/avatar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:onClick="onClickAvatar"
+            bind:src_from_object="@{viewModel.urlAvatar}"/>
 
         <TextView
             android:id="@+id/txt_name"
@@ -72,13 +76,13 @@
             android:maxLines="1"
             android:paddingLeft="@dimen/dimen_10dp"
             android:paddingRight="@dimen/dimen_10dp"
-            android:text="@={viewModel.strSearch}"/>
+            android:text="@={viewModel.strSearch}" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lst_room"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            bind:adapter="@{viewModel.adapter}"/>
+            bind:adapter="@{viewModel.adapter}" />
 
         <Button
             android:id="@+id/btn_create_room"
@@ -90,7 +94,8 @@
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:onClick="@{viewModel::onClickCreateRoom}"/>
 
         <View
             android:id="@+id/advertisement"

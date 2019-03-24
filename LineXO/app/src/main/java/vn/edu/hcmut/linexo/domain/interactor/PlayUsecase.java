@@ -4,6 +4,9 @@ import android.support.annotation.Nullable;
 
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
+import vn.edu.hcmut.linexo.data.repository.BoardRepository;
+import vn.edu.hcmut.linexo.data.repository.SessionRepository;
+import vn.edu.hcmut.linexo.data.repository.UserRepository;
 import vn.edu.hcmut.linexo.domain.AI.LineXOAlphaBetaSearch;
 import vn.edu.hcmut.linexo.domain.AI.LineXOGame;
 import vn.edu.hcmut.linexo.domain.AI.LineXOMove;
@@ -14,7 +17,15 @@ public class PlayUsecase extends AbstractUsecase {
 
     private Board board;
     private LineXOBoard state;
-    private int roomNumber;
+    private SessionRepository sessionRepository;
+    private BoardRepository boardRepository;
+    private UserRepository userRepository;
+
+    public PlayUsecase(SessionRepository sessionRepository, BoardRepository boardRepository, UserRepository userRepository) {
+        this.sessionRepository  = sessionRepository;
+        this.boardRepository    = boardRepository;
+        this.userRepository     = userRepository;
+    }
 
     @Override
     public void execute(Object observer, @Nullable int flag, @Nullable Object... params) {

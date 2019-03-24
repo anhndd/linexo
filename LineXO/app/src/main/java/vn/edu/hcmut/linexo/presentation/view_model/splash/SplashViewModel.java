@@ -23,11 +23,6 @@ public class SplashViewModel extends BaseObservable implements ViewModel {
     }
 
     @Override
-    public void onHelp(Event e) {
-
-    }
-
-    @Override
     public void endTask() {
 
     }

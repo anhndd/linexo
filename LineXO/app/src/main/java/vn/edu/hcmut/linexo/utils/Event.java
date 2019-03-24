@@ -8,14 +8,11 @@ package vn.edu.hcmut.linexo.utils;
 public class Event {
 
     /**
-     * Shift flag bit to distinguish between views.
-     */
-    private static final int MODE_SHIFT = 28; //Maximum 16 different views.
-
-    /**
      * Used when need to return an event but do nothing or default action.
      */
     public static final int NONE = -1;
+
+    public static final int LSDJFF = 0;
 
     /***********************************************************************************************
      * Class implementation.

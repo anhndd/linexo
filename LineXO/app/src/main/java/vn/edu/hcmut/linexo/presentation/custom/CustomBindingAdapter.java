@@ -30,4 +30,14 @@ public class CustomBindingAdapter {
     public static void setAdapter(RecyclerView recyclerView, RecyclerView.Adapter adapter) {
         recyclerView.setAdapter(adapter);
     }
+
+    /**
+     * Add setter for {@code src_from_url} in {@code AvatarImageView}.
+     * @param avatarImageView view need to set image.
+     * @param object used to load image to {@code AvatarImageView}.
+     */
+    @BindingAdapter("src_from_object")
+    public static void setImageFromObject(CircleImageView avatarImageView, Object object) {
+        avatarImageView.setImageFromObject(object);
+    }
 }
