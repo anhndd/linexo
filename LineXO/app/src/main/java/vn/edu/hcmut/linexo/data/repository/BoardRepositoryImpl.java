@@ -15,7 +15,7 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public Single<List<Board>> getNetworkBoard() {
+    public Single<List<Board>> getLocalBoard() {
         return networkSource.getBoard();
     }
 }
