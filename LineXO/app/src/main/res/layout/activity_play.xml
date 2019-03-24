@@ -107,7 +107,8 @@
             android:id="@+id/board"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            bind:board="@{viewModel.board}"/>
+            bind:board="@{viewModel.board}"
+            bind:move="@={viewModel.move}"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lst_message"

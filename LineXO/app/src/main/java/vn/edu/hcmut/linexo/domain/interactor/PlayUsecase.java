@@ -1,17 +1,11 @@
 package vn.edu.hcmut.linexo.domain.interactor;
 
 import android.support.annotation.Nullable;
-
 import java.util.List;
-import java.util.Observer;
 import java.util.Random;
-
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
-import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 import vn.edu.hcmut.linexo.data.repository.BoardRepository;
 import vn.edu.hcmut.linexo.data.repository.SessionRepository;
@@ -72,7 +66,7 @@ public class PlayUsecase extends AbstractUsecase {
                                                     .map(boards -> {
                                                         PlayUsecase.this.boards = boards;
                                                         PlayUsecase.this.board = boards.get(new Random().nextInt(boards.size()))
-                                                                .updateLastPlayer(new Random().nextInt(2) + 1);
+                                                                .updatePlayerToMove(2);
                                                         return PlayUsecase.this.board;
                                                     })
                                                     .subscribeWith(observer)
@@ -104,18 +98,15 @@ public class PlayUsecase extends AbstractUsecase {
     }
 
     private void opponentMove(DisposableSingleObserver<Board> observer) {
-        addTask(Single.create(new SingleOnSubscribe<Board>() {
-            @Override
-            public void subscribe(SingleEmitter<Board> emitter) throws Exception {
-                LineXOBoard state = new LineXOBoard(board.gerPattern(), board.getPlayerToMove() == 1 ? "X" : "O");
-                LineXOGame game = new LineXOGame();
-                LineXOAlphaBetaSearch search = new LineXOAlphaBetaSearch(game);
-                LineXOMove move = search.makeDecision(state);
-                state.mark(move);
-                board = board.updatePattern(state.getBoard());
-                board = board.updatePlayerToMove(state.getPlayerToMove() == "X" ? 1 : 2);
-                emitter.onSuccess(board);
-            }
+        addTask(Single.create((SingleOnSubscribe<Board>) emitter -> {
+            LineXOBoard state = new LineXOBoard(board.gerPattern(), board.getPlayerToMove() == 1 ? "X" : "O");
+            LineXOGame game = new LineXOGame();
+            LineXOAlphaBetaSearch search = new LineXOAlphaBetaSearch(game);
+            LineXOMove move = search.makeDecision(state);
+            state.mark(move);
+            board = board.updatePattern(state.getBoard());
+            board = board.updatePlayerToMove(state.getPlayerToMove() == "X" ? 1 : 2);
+            emitter.onSuccess(board);
         }).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribeWith(observer));
     }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 
 public class LineXOGame {
-    public final static int MAX_NODES = 100000;
+    public final static int MAX_NODES = 50000;
 
     public List<LineXOMove> getActions(LineXOBoard state) {
         return state.getNotDrawnLine();

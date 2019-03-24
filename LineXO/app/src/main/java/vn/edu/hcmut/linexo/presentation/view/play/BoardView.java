@@ -34,6 +34,13 @@ public class BoardView extends View {
 
     private Board board;
 
+    private int[] move;
+
+    /**
+     * Used to notify attribute change in Databinding.
+     */
+    private Callback callback;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     public BoardView(Context context) {
         super(context);
@@ -82,6 +89,18 @@ public class BoardView extends View {
         invalidate();
     }
 
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    public void setMove(int[] move) {
+        this.move = move;
+    }
+
+    public int[] getMove() {
+        return move;
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -91,54 +110,67 @@ public class BoardView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            if (event.getX() > 0 && event.getX() < getMeasuredWidth()
-                    && event.getY() > 0 && event.getY() < getMeasuredHeight()) {
-                // get touch coordinates
-                float x = event.getX() - lineStrokeWidth;
-                float y = event.getY() - lineStrokeWidth;
-                // convert to board coordinates
-                x = x * (board.getWidth() - 1) / width;
-                y = y * (board.getHeight() - 1) / height;
-                // change coordinate systems - rotate 45 degrees
-                // M = [[.5 -.5],[.5 .5]]
-                // b = (M^T)^-1 * a
-                float u = x - y;
-                float v = x + y;
-                // find the line coordinates
-                u = (int)Math.abs(u) % 2 == 1
-                        ? (int)u
-                        : (u > 0) ? (int)u + 1 : (int)u - 1;
-                v = (int)Math.abs(v) % 2 == 1
-                        ? (int)v
-                        : (v > 0) ? (int)v + 1 : (int)v - 1;
-                // restore coordinate systems
-                // a = (M^T) * b
-                x = (u + v) / 2;
-                y = (v - u) / 2;
-                this.x = (int)x;
-                this.y = (int)y;
-                invalidate();
+        if (board != null) {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getX() > 0 && event.getX() < getMeasuredWidth()
+                        && event.getY() > 0 && event.getY() < getMeasuredHeight()) {
+                    // get touch coordinates
+                    float x = event.getX() - lineStrokeWidth;
+                    float y = event.getY() - lineStrokeWidth;
+                    // convert to board coordinates
+                    x = x * (board.getWidth() - 1) / width;
+                    y = y * (board.getHeight() - 1) / height;
+                    // change coordinate systems - rotate 45 degrees
+                    // M = [[.5 -.5],[.5 .5]]
+                    // b = (M^T)^-1 * a
+                    float u = x - y;
+                    float v = x + y;
+                    // find the line coordinates
+                    u = (int) Math.abs(u) % 2 == 1
+                            ? (int) u
+                            : (u > 0) ? (int) u + 1 : (int) u - 1;
+                    v = (int) Math.abs(v) % 2 == 1
+                            ? (int) v
+                            : (v > 0) ? (int) v + 1 : (int) v - 1;
+                    // restore coordinate systems
+                    // a = (M^T) * b
+                    x = (u + v) / 2;
+                    y = (v - u) / 2;
+                    move = new int[]{(int)x, (int)y};
+                    callback.onChange();
+                }
             }
         }
         return true;
     }
 
-    int x = 0, y = 0;
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (int y = 0; y <= 10; ++y) {
-            for (int x = 1 - (y % 2); x <= 18; x+=2) {
-                drawLine(x, y, canvas, lineBlur);
+        if (board != null) {
+            // draw line
+            for (int y = 0; y < board.getHeight(); ++y) {
+                for (int x = 1 - (y % 2); x < board.getWidth(); x += 2) {
+                    if (board.getValueAt(x, y) == Board.LINE_DRAWN) {
+                        drawLine(x, y, canvas, line);
+                    } else if (board.getValueAt(x, y) == Board.LINE_NOT_DRAWN) {
+                        drawLine(x, y, canvas, lineBlur);
+                    }
+                }
+            }
+            // draw sign
+            for (int y = 1; y < board.getHeight(); y += 2) {
+                for (int x = 1; x < board.getWidth(); x += 2) {
+                    if (board.getValueAt(x, y) == Board.CELL_X) {
+                        drawSign(x, y, canvas, signX);
+                    } else if (board.getValueAt(x, y) == Board.CELL_O) {
+                        drawSign(x, y, canvas, signO);
+                    } else if (board.getValueAt(x, y) == Board.IMPEDIMENT) {
+                        drawStone(x, y, canvas, stone);
+                    }
+                }
             }
         }
-        drawSign(3, 3, canvas, signX);
-
-        drawSign(5, 5, canvas, signO);
-        drawLine(x, y, canvas, line);
-        drawStone(5, 7, canvas, stone);
     }
 
     private void drawLine(int x, int y, Canvas canvas, Paint line) {
@@ -180,5 +212,9 @@ public class BoardView extends View {
                 lineStrokeWidth + (y + 1) * height / (board.getHeight() - 1) + lineStrokeWidth / 2
         );
         stone.draw(canvas);
+    }
+
+    public interface Callback {
+        void onChange();
     }
  }

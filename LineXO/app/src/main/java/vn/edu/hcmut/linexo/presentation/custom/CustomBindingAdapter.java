@@ -1,6 +1,8 @@
 package vn.edu.hcmut.linexo.presentation.custom;
 
 import android.databinding.BindingAdapter;
+import android.databinding.InverseBindingAdapter;
+import android.databinding.InverseBindingListener;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -52,5 +54,31 @@ public class CustomBindingAdapter {
     @BindingAdapter("board")
     public static void setBoard(BoardView boardView, Board board) {
         boardView.setBoard(board);
+    };
+
+    /**
+     * Add getter for {@code user_move} in {@code BoardView}.
+     * @param boardView view need to set board.
+     */
+    @BindingAdapter("move")
+    public static void setMove(BoardView boardView, int[] move) {
+        boardView.setMove(move);
+    }
+
+    /**
+     * Add getter for {@code user_move} in {@code BoardView}.
+     * @param boardView view need to set board.
+     */
+    @InverseBindingAdapter(attribute = "move")
+    public static int[] getMove(BoardView boardView) {
+        return boardView.getMove();
+    }
+
+
+    @BindingAdapter("moveAttrChanged")
+    public static void setMoveListener(BoardView boardView, final InverseBindingListener listener) {
+        boardView.setCallback(() -> {
+            listener.onChange();
+        });
     };
 }

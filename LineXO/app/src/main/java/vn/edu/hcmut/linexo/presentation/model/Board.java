@@ -10,11 +10,13 @@ public class Board {
     public static final byte CELL_O             = 20;
     public static final byte IMPEDIMENT         = 28;
 
+
     private byte[][] pattern;
 
-    private int     playerToMove;
     private int     lastPlayer;
     private int[]   lastMove;
+
+    private int     playerToMove;
 
     public Board(byte[][] pattern) {
         this(pattern, 0, 0, null);
