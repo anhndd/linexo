@@ -1,6 +1,7 @@
 package vn.edu.hcmut.linexo.presentation.custom;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
@@ -30,6 +31,14 @@ public class CircleImageView extends AppCompatImageView {
         setBackground(shape);
         setScaleType(ScaleType.CENTER_CROP);
         setClipToOutline(true);
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (getPaddingTop() > 0) {
+
+        }
     }
 
     /*public void setImageFromObject(Object object) {

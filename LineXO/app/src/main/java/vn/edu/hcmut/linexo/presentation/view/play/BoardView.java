@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -29,6 +30,7 @@ public class BoardView extends View {
 
     private Drawable signX;
     private Drawable signO;
+    private Drawable stone;
 
     private Board board;
 
@@ -69,6 +71,10 @@ public class BoardView extends View {
 
         signX = getContext().getDrawable(R.drawable.ic_x);
         signO = getContext().getDrawable(R.drawable.ic_o);
+        stone = new GradientDrawable();
+        ((GradientDrawable)stone).setShape(GradientDrawable.RECTANGLE);
+        ((GradientDrawable)stone).setColor(getContext().getColor(R.color.colorLine));
+        ((GradientDrawable)stone).setCornerRadius(lineStrokeWidth / 2);
 
         board = new Board();
     }
@@ -89,8 +95,8 @@ public class BoardView extends View {
                 float x = event.getX() - lineStrokeWidth;
                 float y = event.getY() - lineStrokeWidth;
                 // convert to board coordinates
-                x = x * board.getWidth() / width;
-                y = y * board.getHeight() / height;
+                x = x * (board.getWidth() - 1) / width;
+                y = y * (board.getHeight() - 1) / height;
                 // change coordinate systems - rotate 45 degrees
                 // M = [[.5 -.5],[.5 .5]]
                 // b = (M^T)^-1 * a
@@ -129,6 +135,7 @@ public class BoardView extends View {
 
         drawSign(5, 5, canvas, signO);
         drawLine(x, y, canvas, line);
+        drawStone(5, 7, canvas, stone);
     }
 
     private void drawLine(int x, int y, Canvas canvas, Paint line) {
@@ -144,21 +151,31 @@ public class BoardView extends View {
             ++stopX;
         }
         canvas.drawLine(
-                (float)(lineStrokeWidth + startX * width / board.getWidth()),
-                (float)(lineStrokeWidth + startY * height / board.getHeight()),
-                (float)(lineStrokeWidth + stopX * width / board.getWidth()),
-                (float)(lineStrokeWidth + stopY * height / board.getHeight()),
+                (float)(lineStrokeWidth + startX * width / (board.getWidth() - 1)),
+                (float)(lineStrokeWidth + startY * height / (board.getHeight() - 1)),
+                (float)(lineStrokeWidth + stopX * width / (board.getWidth() - 1)),
+                (float)(lineStrokeWidth + stopY * height / (board.getHeight() - 1)),
                 line
         );
     }
 
     private void drawSign(int x, int y, Canvas canvas, Drawable sign) {
         sign.setBounds(
-                (int)(lineStrokeWidth + (x - 0.65) * width / board.getWidth()),
-                (int)(lineStrokeWidth + (y - 0.65) * height / board.getHeight()),
-                (int)(lineStrokeWidth + (x + 0.65) * width / board.getWidth()),
-                (int)(lineStrokeWidth + (y + 0.65) * height / board.getHeight())
+                (int)(lineStrokeWidth + (x - 0.65) * width / (board.getWidth() - 1)),
+                (int)(lineStrokeWidth + (y - 0.65) * height / (board.getHeight() - 1)),
+                (int)(lineStrokeWidth + (x + 0.65) * width / (board.getWidth() - 1)),
+                (int)(lineStrokeWidth + (y + 0.65) * height / (board.getHeight() - 1))
         );
         sign.draw(canvas);
+    }
+
+    private void drawStone(int x, int y, Canvas canvas, Drawable stone) {
+        stone.setBounds(
+                lineStrokeWidth + (x - 1) * width / (board.getWidth() - 1) - lineStrokeWidth / 2,
+                lineStrokeWidth + (y - 1) * height / (board.getHeight() - 1) - lineStrokeWidth / 2,
+                lineStrokeWidth + (x + 1) * width / (board.getWidth() - 1) + lineStrokeWidth / 2,
+                lineStrokeWidth + (y + 1) * height / (board.getHeight() - 1) + lineStrokeWidth / 2
+        );
+        stone.draw(canvas);
     }
  }
