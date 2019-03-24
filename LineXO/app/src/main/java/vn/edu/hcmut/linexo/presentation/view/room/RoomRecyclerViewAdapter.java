@@ -9,22 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.presentation.model.RoomItem;
-import vn.edu.hcmut.linexo.presentation.view_model.room.RoomViewModel;
+import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.utils.Event;
 
 /**
  * Created by Anh on 3/13/2019.
  */
 
-public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerViewAdapter.RecyclerViewHolder> {
+public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerViewAdapter.RecyclerViewHolder>{
 
     private List<RoomItem> roomItems = new ArrayList<>();
-    RoomViewModel viewModel;
+    ViewModelCallback viewModelCallback;
 
     // TODO: use Callback, not a viewModel
-    public RoomRecyclerViewAdapter(List<RoomItem> roomItems, RoomViewModel viewModel) {
+    public RoomRecyclerViewAdapter(List<RoomItem> roomItems, ViewModelCallback viewModelCallback) {
         this.roomItems = roomItems;
-        this.viewModel = viewModel;
+        this.viewModelCallback = viewModelCallback;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View view) {
-                    viewModel.onHelp(Event.create(0, holder.itemView.getTxtRoomId().getText().toString()));
+                    viewModelCallback.onHelp(Event.create(0, holder.itemView.getRoomNumberView().getText().toString()));
                 }
             }
         );
