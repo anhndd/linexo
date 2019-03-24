@@ -1,115 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vn.edu.hcmut.linexo.presentation.view.play.PlayLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#e2e9f1"
-    tools:context=".presentation.view.play.PlayActivity">
-    <TextView
-        android:id="@+id/txt_network"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/network_error"
-        android:textColor="@color/colorWhite"
-        android:gravity="center"
-        android:background="@color/colorPrimary"/>
-    <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
-        android:id="@+id/avatar_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/txt_score1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dimen_20dp"
-        android:paddingRight="@dimen/dimen_10dp"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorScore"
-        android:background="@drawable/bg_score_right"/>
-    <View
-        android:id="@+id/score_icon_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_coin"/>
-    <vn.edu.hcmut.linexo.presentation.custom.ClockView
-        android:id="@+id/txt_clock_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dimen_10dp"
-        android:paddingRight="@dimen/dimen_10dp"
-        android:gravity="center_vertical"
-        android:textStyle="bold"
-        android:textColor="@color/colorWhite"
-        android:fontFamily="monospace"
-        android:background="@drawable/bg_clock_1"/>
-    <TextView
-        android:id="@+id/txt_room"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorScore"
-        android:background="@drawable/ic_medal"/>
-    <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
-        android:id="@+id/avatar_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/txt_score2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dimen_10dp"
-        android:paddingRight="@dimen/dimen_20dp"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorScore"
-        android:background="@drawable/bg_score_left"/>
-    <View
-        android:id="@+id/score_icon_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_coin"/>
-    <vn.edu.hcmut.linexo.presentation.custom.ClockView
-        android:id="@+id/txt_clock_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dimen_10dp"
-        android:paddingRight="@dimen/dimen_10dp"
-        android:gravity="center_vertical"
-        android:textStyle="bold"
-        android:textColor="@color/colorWhite"
-        android:fontFamily="monospace"
-        android:background="@drawable/bg_clock_2"/>
-    <vn.edu.hcmut.linexo.presentation.view.play.BoardView
-        android:id="@+id/board"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/lst_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btn_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dimen_10dp"
-        android:paddingRight="@dimen/dimen_10dp"
-        android:text="@string/message_hint"
-        android:textColor="@android:color/darker_gray"
-        android:gravity="start|center_vertical"
-        android:textAllCaps="false"
-        android:background="@color/colorWhite"
-        android:stateListAnimator="@null"/>
-    <ImageButton
-        android:id="@+id/btn_send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_send"
-        android:background="@drawable/bg_send"/>
-</vn.edu.hcmut.linexo.presentation.view.play.PlayLayout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="vn.edu.hcmut.linexo.presentation.view_model.play.PlayViewModel" />
+    </data>
+
+    <vn.edu.hcmut.linexo.presentation.view.play.PlayLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e2e9f1">
+
+        <TextView
+            android:id="@+id/txt_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/network_error"
+            android:textColor="@color/colorWhite" />
+
+        <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
+            android:id="@+id/avatar_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/txt_score1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_score_right"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen_20dp"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:textColor="@color/colorScore"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/score_icon_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_coin" />
+
+        <vn.edu.hcmut.linexo.presentation.custom.ClockView
+            android:id="@+id/txt_clock_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_clock_1"
+            android:fontFamily="monospace"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen_10dp"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_medal"
+            android:gravity="center"
+            android:textColor="@color/colorScore"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
+            android:id="@+id/avatar_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/txt_score2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_score_left"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen_10dp"
+            android:paddingRight="@dimen/dimen_20dp"
+            android:textColor="@color/colorScore"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/score_icon_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_coin" />
+
+        <vn.edu.hcmut.linexo.presentation.custom.ClockView
+            android:id="@+id/txt_clock_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_clock_2"
+            android:fontFamily="monospace"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen_10dp"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
+
+        <vn.edu.hcmut.linexo.presentation.view.play.BoardView
+            android:id="@+id/board"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            bind:board="@{viewModel.board}"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lst_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:gravity="start|center_vertical"
+            android:paddingLeft="@dimen/dimen_10dp"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:stateListAnimator="@null"
+            android:text="@string/message_hint"
+            android:textAllCaps="false"
+            android:textColor="@android:color/darker_gray" />
+
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_send"
+            android:src="@drawable/ic_send" />
+    </vn.edu.hcmut.linexo.presentation.view.play.PlayLayout>
+</layout>
