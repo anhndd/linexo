@@ -34,7 +34,10 @@ public class BoardView extends View {
 
     private Board board;
 
-    private int[] move;
+    /**
+     * Store coordinate of touch when user choose a move.
+     */
+    private int[] touch;
 
     /**
      * Used to notify attribute change in Databinding.
@@ -93,12 +96,12 @@ public class BoardView extends View {
         this.callback = callback;
     }
 
-    public void setMove(int[] move) {
-        this.move = move;
+    public void setTouch(int[] touch) {
+        this.touch = touch;
     }
 
-    public int[] getMove() {
-        return move;
+    public int[] getTouch() {
+        return touch;
     }
 
     @Override
@@ -136,7 +139,7 @@ public class BoardView extends View {
                     // a = (M^T) * b
                     x = (u + v) / 2;
                     y = (v - u) / 2;
-                    move = new int[]{(int)x, (int)y};
+                    touch = new int[]{(int)x, (int)y};
                     callback.onChange();
                 }
             }

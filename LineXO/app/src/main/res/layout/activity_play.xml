@@ -26,7 +26,7 @@
         <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
             android:id="@+id/avatar_1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/txt_score1"
@@ -58,7 +58,7 @@
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />
 
-        <TextView
+        <vn.edu.hcmut.linexo.presentation.custom.RoomNumberView
             android:id="@+id/txt_room"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             bind:board="@{viewModel.board}"
-            bind:move="@={viewModel.move}"/>
+            bind:touch="@={viewModel.touch}"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lst_message"

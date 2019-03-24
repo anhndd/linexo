@@ -1,0 +1,52 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 7
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 08h00 ngày 24/03/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Các thành viên báo cáo kết quả công việc được phân công
+		- Anh
+			+ Demo thực hiện click item trên RecyclerView.
+			+ Demo hiện thực Menu có icon.
+		- Hùng
+			+ Hỗ trợ giải đáp thắc mắc trong quá trình thành viên trình bày.
+		- Sang
+			+ Demo đăng nhập Google/Facebook.
+		- Trọng
+			+ Demo chạy AI trong app.
+
+	4.2. Các thành viên cùng nhau hoàn thành chức năng đánh với máy
+		- Chuẩn bị tầng data cung cấp bàn cờ.
+		- Điều khiển chơi tại tầng Domain.
+		- Điều khiển View vẽ và nhận sự kiện user.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Tạo padding cho PopupMenu (xem: eTalk\app\src\main\res\values\styles.xml).
+		+ Thêm viền trắng cho avatar bằng cách thêm android:padding vào CircleImageView trong XML. Có thể sử dụng dimen_avatar_stroke trong file dimen.
+		+ Tìm hiểu lấy Soft Keyboard Height để bố trí EditText nhập Message tương tự Zalo (xem: eTalk\app\src\main\java\com\example\cpu11398_local\etalk\utils\keyboard_height).
+	- Hùng
+		+ Tiếp tục làm bài thuyết trình về Window Phone.
+	- Sang
+		+ Tìm hiểu thật kỹ cách tổ chức tầng Data.
+		+ Suy nghĩ tổ chức database lưu trữ dữ liệu trong quá trình chơi.
+	- Trọng
+		+ Tìm hiểu Logic cho việc gửi nhận chat. Xem E-Talk :)
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 13h30 ngày 26/03/2019.
+	- Địa điểm: Hành lang tầng 3 nhà H6 CS2 BK.
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 18h00 cùng ngày.

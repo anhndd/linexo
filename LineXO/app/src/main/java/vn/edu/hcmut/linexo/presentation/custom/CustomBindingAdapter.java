@@ -4,8 +4,6 @@ import android.databinding.BindingAdapter;
 import android.databinding.InverseBindingAdapter;
 import android.databinding.InverseBindingListener;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.view.play.BoardView;
 
@@ -15,16 +13,6 @@ import vn.edu.hcmut.linexo.presentation.view.play.BoardView;
  */
 
 public class CustomBindingAdapter {
-
-    /**
-     * Add setter to bind {@code View.OnTouchListener} to a {@code View}.
-     * @param view view need to set listener.
-     * @param listener used to set into view.
-     */
-    @BindingAdapter("onTouch")
-    public static void setOnTouchListener(View view, View.OnTouchListener listener) {
-        view.setOnTouchListener(listener);
-    }
 
     /**
      * Add setter to bind {@code RecyclerView.Adapter} to a {@code RecyclerView}.
@@ -38,12 +26,12 @@ public class CustomBindingAdapter {
 
     /**
      * Add setter for {@code src_from_url} in {@code AvatarImageView}.
-     * @param avatarImageView view need to set image.
+     * @param circleImageView view need to set image.
      * @param object used to load image to {@code AvatarImageView}.
      */
     @BindingAdapter("src_from_object")
-    public static void setImageFromObject(CircleImageView avatarImageView, Object object) {
-        avatarImageView.setImageFromObject(object);
+    public static void setImageFromObject(CircleImageView circleImageView, Object object) {
+        circleImageView.setImageFromObject(object);
     }
 
     /**
@@ -54,31 +42,34 @@ public class CustomBindingAdapter {
     @BindingAdapter("board")
     public static void setBoard(BoardView boardView, Board board) {
         boardView.setBoard(board);
-    };
-
-    /**
-     * Add getter for {@code user_move} in {@code BoardView}.
-     * @param boardView view need to set board.
-     */
-    @BindingAdapter("move")
-    public static void setMove(BoardView boardView, int[] move) {
-        boardView.setMove(move);
     }
 
     /**
-     * Add getter for {@code user_move} in {@code BoardView}.
-     * @param boardView view need to set board.
+     * Add setter for {@code touch} in {@code BoardView}.
+     * @param boardView view need to set touch.
+     * @param touch used to load touch to {@code BoardView}.
      */
-    @InverseBindingAdapter(attribute = "move")
-    public static int[] getMove(BoardView boardView) {
-        return boardView.getMove();
+    @BindingAdapter("touch")
+    public static void setTouch(BoardView boardView, int[] touch) {
+        boardView.setTouch(touch);
     }
 
+    /**
+     * Add getter for {@code touch} in {@code BoardView}.
+     * @param boardView view need to get touch.
+     */
+    @InverseBindingAdapter(attribute = "touch")
+    public static int[] getTouch(BoardView boardView) {
+        return boardView.getTouch();
+    }
 
-    @BindingAdapter("moveAttrChanged")
-    public static void setMoveListener(BoardView boardView, final InverseBindingListener listener) {
-        boardView.setCallback(() -> {
-            listener.onChange();
-        });
-    };
+    /**
+     * Add listener to know when attribute {@code touch} change value.
+     * @param boardView View need to listen an attribute changing.
+     * @param listener used to notify attribute change.
+     */
+    @BindingAdapter("touchAttrChanged")
+    public static void setTouchListener(BoardView boardView, final InverseBindingListener listener) {
+        boardView.setCallback(() -> listener.onChange());
+    }
 }

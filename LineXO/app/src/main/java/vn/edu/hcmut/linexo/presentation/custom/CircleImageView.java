@@ -2,6 +2,7 @@ package vn.edu.hcmut.linexo.presentation.custom;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
@@ -10,6 +11,8 @@ import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.utils.GlideApp;
 
 public class CircleImageView extends AppCompatImageView {
+
+    private GradientDrawable drawable;
 
     public CircleImageView(Context context) {
         super(context);
@@ -27,19 +30,26 @@ public class CircleImageView extends AppCompatImageView {
     }
 
     private void init() {
-        GradientDrawable shape = new GradientDrawable();
-        shape.setShape(GradientDrawable.RECTANGLE);
-        shape.setCornerRadius(Float.MAX_VALUE);
-        setBackground(shape);
+        //background
+        drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setCornerRadius(Float.MAX_VALUE);
+        setBackground(drawable);
         setScaleType(ScaleType.CENTER_CROP);
         setClipToOutline(true);
+        //Outline
+        drawable = new GradientDrawable();
+        drawable.setShape(GradientDrawable.RECTANGLE);
+        drawable.setCornerRadius(Float.MAX_VALUE);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (getPaddingTop() > 0) {
-
+            drawable.setStroke(getPaddingTop(), Color.WHITE);
+            drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+            drawable.draw(canvas);
         }
     }
 

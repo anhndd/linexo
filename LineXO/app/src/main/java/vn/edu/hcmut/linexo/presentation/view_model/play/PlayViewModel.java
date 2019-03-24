@@ -2,8 +2,6 @@ package vn.edu.hcmut.linexo.presentation.view_model.play;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.util.Log;
-
 import io.reactivex.Observer;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.subjects.PublishSubject;
@@ -24,8 +22,6 @@ public class PlayViewModel extends BaseObservable implements ViewModel {
 
     private Board board;
 
-    private int[] move;
-
     public PlayViewModel(Usecase playUsecase) {
         this.playUsecase = playUsecase;
     }
@@ -44,19 +40,16 @@ public class PlayViewModel extends BaseObservable implements ViewModel {
     }
 
     @Bindable
-    public int[] getMove() {
-        return move;
+    public int[] getTouch() {
+        return null;
     }
 
-    public void setMove(int[] move) {
-        this.move = move;
+    public void setTouch(int[] touch) {
         if (board.getPlayerToMove() == 2) {
-            Log.e("Test", "move");
             playUsecase.execute(
                     new DisposableSingleObserver<Board>() {
                         @Override
                         public void onSuccess(Board board) {
-                            Log.e("Test", "onSuccess");
                             PlayViewModel.this.board = board;
                             notifyPropertyChanged(BR.board);
                             if (board.getPlayerToMove() == 1) {
@@ -66,12 +59,10 @@ public class PlayViewModel extends BaseObservable implements ViewModel {
 
                         @Override
                         public void onError(Throwable e) {
-
-                            Log.e("Test", "onError");
                         }
                     },
                     Event.SEND_MOVE,
-                    move[0], move[1]
+                    touch[0], touch[1]
             );
         }
     }
