@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickAvatar"
+            android:padding="@dimen/dimen_avatar_stroke"
             bind:src_from_object="@{viewModel.urlAvatar}"/>
 
         <TextView

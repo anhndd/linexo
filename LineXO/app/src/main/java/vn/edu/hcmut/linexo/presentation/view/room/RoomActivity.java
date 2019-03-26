@@ -1,7 +1,9 @@
 package vn.edu.hcmut.linexo.presentation.view.room;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.view.Gravity;
@@ -89,8 +91,9 @@ public class RoomActivity extends BaseActivity {
     }
 
     public void onClickAvatar(View view) {
+        Context wrapper = new ContextThemeWrapper(this, R.style.AppTheme_PopupMenu);
         //Creating the instance of PopupMenu
-        PopupMenu popup = new PopupMenu(RoomActivity.this, binding.avatar, Gravity.RIGHT);
+        PopupMenu popup = new PopupMenu(wrapper, binding.avatar);
         Tool.forcePopupMenuShowIcon(popup);
         //Inflating the Popup using xml file
         popup.getMenuInflater().inflate(R.menu.popup_logout, popup.getMenu());
