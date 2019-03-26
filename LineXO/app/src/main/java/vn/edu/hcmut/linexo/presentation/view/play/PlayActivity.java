@@ -2,6 +2,8 @@ package vn.edu.hcmut.linexo.presentation.view.play;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.view.WindowManager;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -28,6 +30,7 @@ public class PlayActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
