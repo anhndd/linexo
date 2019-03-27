@@ -29,7 +29,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(this, RoomActivity.class));
+        startActivity(new Intent(this, PlayActivity.class));
     }
 
     @Override

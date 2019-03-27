@@ -2,6 +2,7 @@ package vn.edu.hcmut.linexo.presentation.view.play;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.WindowManager;
 
 import javax.inject.Inject;
@@ -30,7 +31,9 @@ public class PlayActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        binding.lstMessage.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        binding.lstMessage.setHasFixedSize(true);
     }
 
     @Override
@@ -40,7 +43,7 @@ public class PlayActivity extends BaseActivity {
         if (viewModel == null) {
             SplashActivity.getAppComponent(this).inject(this);
         }
-        binding.setViewModel((PlayViewModel)viewModel);
+        binding.setViewModel((PlayViewModel) viewModel);
     }
 
     @Override

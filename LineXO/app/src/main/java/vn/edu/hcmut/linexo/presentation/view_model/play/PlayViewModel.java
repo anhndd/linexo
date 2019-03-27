@@ -2,12 +2,18 @@ package vn.edu.hcmut.linexo.presentation.view_model.play;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.Observer;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.subjects.PublishSubject;
 import vn.edu.hcmut.linexo.BR;
 import vn.edu.hcmut.linexo.domain.interactor.Usecase;
 import vn.edu.hcmut.linexo.presentation.model.Board;
+import vn.edu.hcmut.linexo.presentation.model.Message;
+import vn.edu.hcmut.linexo.presentation.view.play.ChatRecyclerViewAdapter;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.utils.Event;
 
@@ -22,8 +28,19 @@ public class PlayViewModel extends BaseObservable implements ViewModel {
 
     private Board board;
 
+    private ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter(new ArrayList<>());
+    private List<Message> messages;
+
     public PlayViewModel(Usecase playUsecase) {
         this.playUsecase = playUsecase;
+        messages = new ArrayList<>();
+        messages.add(new Message(1,"1",null,null,"1"));
+        messages.add(new Message(2,"2","khuong tu nha","https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg","hinh nhu la chet roi do hahaha hahaha"));
+        messages.add(new Message(2,"5","gii gii gii gii gii gii gii gii gii gii gii gii","https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg","hinh nhu la chet roi do hahaha hahaha hahaha hahaha hahaha hahaha hahaha"));
+        messages.add(new Message(1,"3",null,null,"111"));
+        messages.add(new Message(1,"4",null,null,"hinh nhu la chet roi do hahaha hahaha hahaha hahaha hahaha hahaha hahaha"));
+        adapter = new ChatRecyclerViewAdapter(messages);
+        messages = new ArrayList<>(messages);
     }
 
     @Override
@@ -110,6 +127,15 @@ public class PlayViewModel extends BaseObservable implements ViewModel {
                 Event.GET_MOVE,
                 null
         );
+    }
+
+    @Bindable
+    public ChatRecyclerViewAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void setAdapter(ChatRecyclerViewAdapter adapter) {
+        this.adapter = adapter;
     }
 
     @Override
