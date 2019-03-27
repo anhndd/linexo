@@ -1,0 +1,41 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 8
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 13h30 ngày 26/03/2019.
+	- Địa điểm: Hành lang tầng 3 nhà H6 CS2 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Trình bày và thảo luận thiết kế database cho ứng dụng.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Layout các cell trong lúc chat gồm tin nhắn của chính mình, tin nhắn của bạn bè và tin nhắn hệ thống.
+		+ Tìm hiểu lấy Soft Keyboard Height để bố trí EditText nhập Message tương tự Zalo (xem: eTalk\app\src\main\java\com\example\cpu11398_local\etalk\utils\keyboard_height).
+		+ Chuẩn bị cấu trúc bài thuyết trình về DialogBox (Deadline 21h00 29/03). Chuẩn bị bài thuyết trình (Deadline 21h00 31/03).
+		+ Hỗ trợ Sang phần backend.
+	- Hùng
+		+ Tiếp tục làm bài thuyết trình về Window Phone.
+	- Sang
+		+ Đưa toàn bộ các bàn cờ lên Firebase theo cấu trúc đã cập nhật.
+		+ Chuẩn bị phần Mapper để chuyển đổi dữ liệu trong app (xem: eTalk/app/src/main/java/com/example/cpu11398_local/etalk/data/local/Mapper.java)
+		+ Tìm hiểu làm backend với Firebase.
+	- Trọng
+		+ Thay đổi code phần AI phù hợp với thiết kế các class mới.
+		+ Tìm hiểu logic chat cho ứng dụng.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 13h30 ngày 02/04/2019.
+	- Địa điểm: Hành lang tầng 3 nhà H6 CS2 BK.
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 15h00 cùng ngày.
