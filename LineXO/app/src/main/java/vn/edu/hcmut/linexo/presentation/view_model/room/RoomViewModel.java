@@ -27,7 +27,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     private PublishSubject<Event> publisher = PublishSubject.create();
 
     private String strSearch = "";
-    private RoomRecyclerViewAdapter adapter = new RoomRecyclerViewAdapter(new ArrayList<>(),this);
+    private RoomRecyclerViewAdapter adapter = new RoomRecyclerViewAdapter(new ArrayList<>(), this);
     private String urlAvatar;
     private List<RoomItem> data;
 
@@ -49,7 +49,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", null, true));
         data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
         data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-        adapter = new RoomRecyclerViewAdapter(data,this);
+        adapter = new RoomRecyclerViewAdapter(data, this);
         data = new ArrayList<>(data);
 
     }
@@ -61,64 +61,68 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
     @Override
     public void onHelp(Event e) {
-        if(e.getType()==0){
-            Object[] data = e.getData();
-            String roomId = (String) data[0];
-        }
-        else if(e.getType()==1){
-            data = new ArrayList<>((List<RoomItem>) e.getData()[0]);
+        switch (e.getType()) {
+            case Event.CLICK_ROOM: {
+                Object[] data = e.getData();
+                String roomId = (String) data[0];
+                break;
+            }
+            case Event.LOAD_LIST_ROOM: {
+                data = new ArrayList<>((List<RoomItem>) e.getData()[0]);
 
-            if(!strSearch.isEmpty()){
-                ArrayList<RoomItem> filteredList = new ArrayList<>();
-                for (RoomItem item : data) {
-                    int number = item.getId();
-                    String strNumber = "";
-                    if (number == 0) {
+                if (!strSearch.isEmpty()) {
+                    ArrayList<RoomItem> filteredList = new ArrayList<>();
+                    for (RoomItem item : data) {
+                        int number = item.getId();
+                        String strNumber = "";
+                        if (number == 0) {
 //                        strNumber = getResources().getString(R.string.room_ai);
-                    } else if (number < 10) {
-                        strNumber = "00" + number;
-                    } else if (number < 100) {
-                        strNumber = "0" + number;
-                    } else if (number < 1000) {
-                        strNumber += number;
+                        } else if (number < 10) {
+                            strNumber = "00" + number;
+                        } else if (number < 100) {
+                            strNumber = "0" + number;
+                        } else if (number < 1000) {
+                            strNumber += number;
+                        }
+                        if (strNumber.toLowerCase().contains(strSearch.toLowerCase())) {
+                            filteredList.add(item);
+                        }
                     }
-                    if (strNumber.toLowerCase().contains(strSearch.toLowerCase())) {
-                        filteredList.add(item);
-                    }
+                    adapter.updateRoomListItems(filteredList);
+                } else {
+                    adapter.updateRoomListItems(data);
                 }
-                adapter.updateRoomListItems(filteredList);
+                break;
             }
-            else {
-                adapter.updateRoomListItems(data);
-            }
-        }
-        else if(e.getType()==2){
-            int i = 1;
-            if (!check) {
-                data = new ArrayList<>();
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                check = true;
-            } else {
-                data = new ArrayList<>();
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null, true));
-                data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", null, true));
-                data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                check = false;
-            }
+            case 3: {
+                int i = 1;
+                if (!check) {
+                    data = new ArrayList<>();
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+                    check = true;
+                } else {
+                    data = new ArrayList<>();
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null, true));
+                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+                    data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                    data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", null, true));
+                    data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
+                    data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
+                    check = false;
+                }
 
-            onHelp(Event.create(1,data));
+                onHelp(Event.create(Event.LOAD_LIST_ROOM, data));
+                break;
+            }
         }
     }
 
@@ -162,7 +166,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
     @Bindable
     public Object getUrlAvatar() {
-        if(urlAvatar == null || urlAvatar.isEmpty())
+        if (urlAvatar == null || urlAvatar.isEmpty())
             return R.drawable.ic_logo_round;
         return urlAvatar;
     }

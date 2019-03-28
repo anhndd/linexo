@@ -2,6 +2,7 @@ package vn.edu.hcmut.linexo.presentation.view_model.play;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,10 @@ import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.model.Message;
 import vn.edu.hcmut.linexo.presentation.view.play.ChatRecyclerViewAdapter;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
+import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.utils.Event;
 
-public class PlayViewModel extends BaseObservable implements ViewModel {
+public class PlayViewModel extends BaseObservable implements ViewModel, ViewModelCallback {
 
     /**
      * Publisher will emit event to view. View listen these event via a observer.
@@ -30,15 +32,19 @@ public class PlayViewModel extends BaseObservable implements ViewModel {
 
     private ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter(new ArrayList<>());
     private List<Message> messages;
+    int j = 8;
 
     public PlayViewModel(Usecase playUsecase) {
         this.playUsecase = playUsecase;
+
         messages = new ArrayList<>();
-        messages.add(new Message(1,"1",null,null,"1"));
-        messages.add(new Message(2,"2","khuong tu nha","https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg","hinh nhu la chet roi do hahaha hahaha"));
-        messages.add(new Message(2,"5","gii gii gii gii gii gii gii gii gii gii gii gii","https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg","hinh nhu la chet roi do hahaha hahaha hahaha hahaha hahaha hahaha hahaha"));
-        messages.add(new Message(1,"3",null,null,"111"));
-        messages.add(new Message(1,"4",null,null,"hinh nhu la chet roi do hahaha hahaha hahaha hahaha hahaha hahaha hahaha"));
+        messages.add(new Message(1, "1", null, null, "alo"));
+        messages.add(new Message(2, "2", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+        messages.add(new Message(2, "3", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+        messages.add(new Message(3, "4", null, null, "Lâm Nguyễn đang theo dõi"));
+        messages.add(new Message(1, "5", null, null, "111"));
+        messages.add(new Message(1, "6", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
+        messages.add(new Message(3, "7", null, null, "Lâm Nguyễn đã thoát"));
         adapter = new ChatRecyclerViewAdapter(messages);
         messages = new ArrayList<>(messages);
     }
@@ -48,6 +54,27 @@ public class PlayViewModel extends BaseObservable implements ViewModel {
         publisher.subscribe(observer);
         if (board == null) {
             loadBoard();
+        }
+    }
+
+    @Override
+    public void onHelp(Event e) {
+        switch (e.getType()) {
+            case 1: {
+                messages = new ArrayList<>((List<Message>) e.getData()[0]);
+                adapter.updateMessageListItems(messages);
+                break;
+            }
+            case 2: {
+                RecyclerView recyclerView = (RecyclerView) e.getData()[0];
+
+                messages = new ArrayList<>(messages);
+                messages.add(new Message(1, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+
+                onHelp(Event.create(1, messages));
+                recyclerView.smoothScrollToPosition(messages.size() - 1);
+                break;
+            }
         }
     }
 

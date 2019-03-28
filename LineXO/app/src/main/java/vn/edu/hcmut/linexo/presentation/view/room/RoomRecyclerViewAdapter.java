@@ -42,7 +42,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View view) {
-                    viewModelCallback.onHelp(Event.create(0, holder.itemView.getRoomNumberView().getText().toString()));
+                    viewModelCallback.onHelp(Event.create(Event.CLICK_ROOM, holder.itemView.getRoomNumberView().getText().toString()));
                 }
             }
         );

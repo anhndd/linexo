@@ -55,7 +55,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         }
     }
 
-    public void updateRoomListItems(List<Message> messages) {
+    public void updateMessageListItems(List<Message> messages) {
         final MessageDiffCallBack diffCallback = new MessageDiffCallBack(this.messages, messages);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 

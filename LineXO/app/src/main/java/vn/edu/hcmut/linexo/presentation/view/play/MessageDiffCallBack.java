@@ -32,7 +32,7 @@ public class MessageDiffCallBack extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldMessageList.get(oldItemPosition).getId() == newMessageList.get(newItemPosition).getId();
+        return oldMessageList.get(oldItemPosition).getId().equals(newMessageList.get(newItemPosition).getId());
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MessageDiffCallBack extends DiffUtil.Callback {
         Message oldMessage = oldMessageList.get(oldItemPosition);
         Message newMessage = newMessageList.get(newItemPosition);
 
-        return (oldMessage.getId() == newMessage.getId()) && equalString(oldMessage.getAvatarURL(),newMessage.getAvatarURL())
+        return equalString(oldMessage.getAvatarURL(),newMessage.getAvatarURL())
                 && (equalString(oldMessage.getName(), newMessage.getName())) && (equalString(oldMessage.getMessage(),newMessage.getMessage()));
     }
 
@@ -52,12 +52,12 @@ public class MessageDiffCallBack extends DiffUtil.Callback {
     }
 
     private boolean equalString(String str1, String str2) {
-//        if (str2 == str1) {
-//            return true;
-//        } else if (str1 == null || str2 == null) {
-//            return false;
-//        } else {
+        if (str2 == str1) {
+            return true;
+        } else if (str1 == null || str2 == null) {
+            return false;
+        } else {
             return str2.equals(str1);
-//        }
+        }
     }
 }

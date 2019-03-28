@@ -7,7 +7,7 @@
         android:id="@+id/txt_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dimen_10dp"
+        android:padding="5dp"
         android:background="@drawable/bg_message"/>
     <TextView
         android:id="@+id/txt_message_system"

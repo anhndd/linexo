@@ -3,7 +3,7 @@ package vn.edu.hcmut.linexo.presentation.view.play;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.WindowManager;
+import android.view.View;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -12,6 +12,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.databinding.ActivityPlayBinding;
+import vn.edu.hcmut.linexo.presentation.model.Message;
 import vn.edu.hcmut.linexo.presentation.view.BaseActivity;
 import vn.edu.hcmut.linexo.presentation.view.splash.SplashActivity;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
@@ -88,5 +89,10 @@ public class PlayActivity extends BaseActivity {
         public void onComplete() {
 
         }
+    }
+
+    public void onClickSend(View view) {
+        PlayViewModel playViewModel =(PlayViewModel) viewModel;
+        playViewModel.onHelp(Event.create(2,binding.lstMessage));
     }
 }
