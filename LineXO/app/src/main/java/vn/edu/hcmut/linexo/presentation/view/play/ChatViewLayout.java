@@ -133,6 +133,7 @@ public class ChatViewLayout extends FrameLayout {
             case 1:
                 txtMessage.setBackgroundResource(R.drawable.bg_message);
                 txtMessage.setText(message);
+                txtMessage.setTextSize(14);
                 civAvatar.setVisibility(GONE);
                 txtMessageName.setVisibility(GONE);
                 break;
@@ -141,6 +142,9 @@ public class ChatViewLayout extends FrameLayout {
                 txtMessage.setText(message);
                 GlideApp.with(getContext()).load(link).into(civAvatar);
                 txtMessageName.setText(name);
+                txtMessage.setTextSize(14);
+                civAvatar.setVisibility(VISIBLE);
+                txtMessageName.setVisibility(VISIBLE);
                 break;
             case 3:
                 txtMessage.setBackgroundResource(R.drawable.bg_message_system);

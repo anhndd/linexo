@@ -31,12 +31,11 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     private String urlAvatar;
     private List<RoomItem> data;
 
-    boolean check = false;
-
+    int i = 1;
     public RoomViewModel() {
         // create view list room
         data = new ArrayList<>();
-        int i = 1;
+
         data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
         data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
         data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
@@ -92,35 +91,6 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 } else {
                     adapter.updateRoomListItems(data);
                 }
-                break;
-            }
-            case 3: {
-                int i = 1;
-                if (!check) {
-                    data = new ArrayList<>();
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                    check = true;
-                } else {
-                    data = new ArrayList<>();
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null, true));
-                    data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                    data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                    data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", null, true));
-                    data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-                    data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-                    check = false;
-                }
-
-                onHelp(Event.create(Event.LOAD_LIST_ROOM, data));
                 break;
             }
         }

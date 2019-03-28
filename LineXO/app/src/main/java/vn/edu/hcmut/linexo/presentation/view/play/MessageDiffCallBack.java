@@ -40,7 +40,7 @@ public class MessageDiffCallBack extends DiffUtil.Callback {
         Message oldMessage = oldMessageList.get(oldItemPosition);
         Message newMessage = newMessageList.get(newItemPosition);
 
-        return equalString(oldMessage.getAvatarURL(),newMessage.getAvatarURL())
+        return (oldMessage.getType() == newMessage.getType()) && equalString(oldMessage.getAvatarURL(),newMessage.getAvatarURL())
                 && (equalString(oldMessage.getName(), newMessage.getName())) && (equalString(oldMessage.getMessage(),newMessage.getMessage()));
     }
 

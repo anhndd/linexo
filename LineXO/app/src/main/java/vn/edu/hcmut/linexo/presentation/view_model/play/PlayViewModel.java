@@ -32,19 +32,19 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
     private ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter(new ArrayList<>());
     private List<Message> messages;
-    int j = 8;
+    int j = 0;
 
     public PlayViewModel(Usecase playUsecase) {
         this.playUsecase = playUsecase;
 
         messages = new ArrayList<>();
-        messages.add(new Message(1, "1", null, null, "alo"));
-        messages.add(new Message(2, "2", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
-        messages.add(new Message(2, "3", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
-        messages.add(new Message(3, "4", null, null, "Lâm Nguyễn đang theo dõi"));
-        messages.add(new Message(1, "5", null, null, "111"));
-        messages.add(new Message(1, "6", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
-        messages.add(new Message(3, "7", null, null, "Lâm Nguyễn đã thoát"));
+        messages.add(new Message(1, j+++"", null, null, "alo"));
+        messages.add(new Message(2, j+++"", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+        messages.add(new Message(2, j+++"", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+        messages.add(new Message(3, j+++"", null, null, "Lâm Nguyễn đang theo dõi"));
+        messages.add(new Message(1, j+++"", null, null, "111"));
+        messages.add(new Message(1, j+++"", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
+        messages.add(new Message(3, j+++"", null, null, "Lâm Nguyễn đã thoát"));
         adapter = new ChatRecyclerViewAdapter(messages);
         messages = new ArrayList<>(messages);
     }
@@ -69,7 +69,10 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                 RecyclerView recyclerView = (RecyclerView) e.getData()[0];
 
                 messages = new ArrayList<>(messages);
-                messages.add(new Message(1, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+
+                messages.add(new Message(2, j+++"", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+                messages.add(new Message(3, j+++"", null, null, "Lâm Nguyễn đang theo dõi"));
+                messages.add(new Message(1, j+++"", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
 
                 onHelp(Event.create(1, messages));
                 recyclerView.smoothScrollToPosition(messages.size() - 1);
