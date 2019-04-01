@@ -5,35 +5,34 @@ import java.util.List;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 
 public class LineXOGame {
-    public final static int MAX_NODES = 50000;
+    public final static int MAX_NODES = 5000;
 
-    public List<LineXOMove> getActions(LineXOBoard state) {
+    public List<LineXOMove> getActions(Board state) {
         return state.getNotDrawnLine();
     }
 
-    public LineXOBoard getRootState(byte[][] rootBoard, String playerToMove) {
-        return new LineXOBoard(rootBoard, playerToMove);
+    public Board getRootState(byte[][] rootBoard, int playerToMove) {
+        return new Board(rootBoard, 0, playerToMove, null);
     }
 
-    public String getPlayer(LineXOBoard state) {
+    public int getPlayer(Board state) {
         return state.getPlayerToMove();
     }
 
-    public LineXOBoard getResult(LineXOBoard state, LineXOMove location) {
-        LineXOBoard result = state.clone();
+    public Board getResult(Board state, LineXOMove location) {
+        Board result = state.duplicate();
         result.mark(location);
         return result;
     }
 
-    public double getUtility(LineXOBoard state, String player) {
+    public double getUtility(Board state, int player) {
         return state.getUtility(player);
     }
 
-    public boolean isTerminal(LineXOBoard state) {
-        for (int i = 0; i < state.getBoard().length; ++i) {
-            byte[] row = state.getBoard()[i];
-            for (int j = 0; j < row.length; ++j) {
-                if (row[j] == Board.LINE_NOT_DRAWN) {
+    public boolean isTerminal(Board state) {
+        for (int i = 0; i < state.getHeight(); ++i) {
+            for (int j = 0; j < state.getWidth(); ++j) {
+                if (state.getValueAt(j, i) == Board.LINE_NOT_DRAWN) {
                     return false;
                 }
             }
