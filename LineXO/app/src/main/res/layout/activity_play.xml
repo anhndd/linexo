@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -128,7 +129,8 @@
             android:stateListAnimator="@null"
             android:text="@string/message_hint"
             android:textAllCaps="false"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@android:color/darker_gray"
+            android:onClick="onClickBtnMessage"/>
 
         <ImageButton
             android:id="@+id/btn_send"
