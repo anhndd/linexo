@@ -13,7 +13,6 @@ import vn.edu.hcmut.linexo.data.repository.UserRepository;
 import vn.edu.hcmut.linexo.domain.AI.LineXOAlphaBetaSearch;
 import vn.edu.hcmut.linexo.domain.AI.LineXOGame;
 import vn.edu.hcmut.linexo.domain.AI.LineXOMove;
-import vn.edu.hcmut.linexo.domain.AI.LineXOBoard;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.model.Session;
 import vn.edu.hcmut.linexo.utils.Event;
@@ -88,10 +87,9 @@ public class PlayUsecase extends AbstractUsecase {
         addTask(Single.create(new SingleOnSubscribe<Board>() {
             @Override
             public void subscribe(SingleEmitter<Board> emitter) throws Exception {
-                LineXOBoard state = new LineXOBoard(board.gerPattern(), board.getPlayerToMove() == 1 ? "X" : "O");
+                Board state = board.duplicate();
                 state.mark(new LineXOMove(x, y));
-                board = board.updatePattern(state.getBoard());
-                board = board.updatePlayerToMove(state.getPlayerToMove() == "X" ? 1 : 2);
+                board = state.duplicate();
                 emitter.onSuccess(board);
             }
         }).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribeWith(observer));
@@ -99,13 +97,12 @@ public class PlayUsecase extends AbstractUsecase {
 
     private void opponentMove(DisposableSingleObserver<Board> observer) {
         addTask(Single.create((SingleOnSubscribe<Board>) emitter -> {
-            LineXOBoard state = new LineXOBoard(board.gerPattern(), board.getPlayerToMove() == 1 ? "X" : "O");
+            Board state = board.duplicate();
             LineXOGame game = new LineXOGame();
             LineXOAlphaBetaSearch search = new LineXOAlphaBetaSearch(game);
             LineXOMove move = search.makeDecision(state);
             state.mark(move);
-            board = board.updatePattern(state.getBoard());
-            board = board.updatePlayerToMove(state.getPlayerToMove() == "X" ? 1 : 2);
+            board = state.duplicate();
             emitter.onSuccess(board);
         }).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribeWith(observer));
     }
