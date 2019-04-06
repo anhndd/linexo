@@ -6,10 +6,11 @@ import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 
-import java.util.Observer;
-
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.databinding.ActivitySplashBinding;
 import vn.edu.hcmut.linexo.presentation.di.AppComponent;
@@ -32,13 +33,12 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding.root.postDelayed(() -> startActivity(new Intent(SplashActivity.this, RoomActivity.class)), 1200);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        AnimationDrawable animationDrawable = (AnimationDrawable)binding.loading.getBackground();
+        AnimationDrawable animationDrawable = (AnimationDrawable) binding.loading.getBackground();
         animationDrawable.start();
     }
 
@@ -49,12 +49,12 @@ public class SplashActivity extends BaseActivity {
         if (viewModel == null) {
             SplashActivity.getAppComponent(this).inject(this);
         }
-        binding.setViewModel((SplashViewModel)viewModel);
+        binding.setViewModel((SplashViewModel) viewModel);
     }
 
     @Override
     public void onSubscribeViewModel() {
-
+        viewModel.subscribeObserver(new EndActivityObserver());
     }
 
     @Override
@@ -79,6 +79,7 @@ public class SplashActivity extends BaseActivity {
 
     /**
      * create a new {@code AppComponent} if it does not exist.
+     *
      * @param context parameter is used create a new {@code AppComponent}.
      * @return {@code AppComponent}.
      */
@@ -90,5 +91,28 @@ public class SplashActivity extends BaseActivity {
                     .build();
         }
         return appComponent;
+    }
+
+    class EndActivityObserver implements Observer {
+
+        @Override
+        public void onSubscribe(Disposable d) {
+
+        }
+
+        @Override
+        public void onNext(Object o) {
+            startActivity(new Intent(SplashActivity.this, RoomActivity.class));
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
     }
 }
