@@ -42,7 +42,10 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding.lstMessage.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        binding.lstMessage.setLayoutManager(linearLayoutManager);
         binding.lstMessage.setHasFixedSize(true);
 
         keyboardHeightProvider = new KeyboardHeightProvider(this);
@@ -107,11 +110,6 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
         }
     }
 
-    public void onClickSend(View view) {
-        PlayViewModel playViewModel = (PlayViewModel) viewModel;
-        playViewModel.onHelp(Event.create(2, binding.lstMessage));
-    }
-
     private Rect oldRect;
 
     public void onClickBtnMessage(View view) {
@@ -126,7 +124,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     public void onPause() {
         super.onPause();
         keyboardHeightProvider.setKeyboardHeightObserver(null);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        if(imm != null) imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
     /**
@@ -145,7 +143,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     public void onDestroy() {
         super.onDestroy();
         keyboardHeightProvider.close();
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        if(imm != null) imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
     /**

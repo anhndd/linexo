@@ -12,11 +12,13 @@
         android:id="@+id/civ_opponent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_avatar_stroke"
         android:visibility="gone"/>
     <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
         android:id="@+id/civ_host"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_avatar_stroke"/>
     <View
         android:id="@+id/lock_room_icon"
         android:layout_width="wrap_content"

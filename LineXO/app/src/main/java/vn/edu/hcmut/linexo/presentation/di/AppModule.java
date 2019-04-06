@@ -87,8 +87,8 @@ public class AppModule {
 
     @Provides
     @Named("RoomViewModel")
-    public ViewModel provideRoomViewModel() {
-        return new RoomViewModel();
+    public ViewModel provideRoomViewModel(Context context) {
+        return new RoomViewModel(context);
     }
 
     @Provides

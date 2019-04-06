@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+
+import java.util.Observer;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import vn.edu.hcmut.linexo.R;
@@ -29,7 +32,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(this, PlayActivity.class));
+        startActivity(new Intent(this, RoomActivity.class));
     }
 
     @Override

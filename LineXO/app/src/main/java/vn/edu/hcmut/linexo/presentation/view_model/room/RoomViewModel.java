@@ -10,14 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.subjects.PublishSubject;
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.presentation.model.RoomItem;
+import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.presentation.view.play.PlayActivity;
 import vn.edu.hcmut.linexo.presentation.view.room.RoomRecyclerViewAdapter;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.utils.Event;
+import vn.edu.hcmut.linexo.utils.Optional;
 
 public class RoomViewModel extends BaseObservable implements ViewModel, ViewModelCallback {
 
@@ -28,11 +32,14 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
     private String strSearch = "";
     private RoomRecyclerViewAdapter adapter = new RoomRecyclerViewAdapter(new ArrayList<>(), this);
-    private String urlAvatar;
+    private User user = new User();
     private List<RoomItem> data;
+    private Context context;
 
     int i = 1;
-    public RoomViewModel() {
+
+    public RoomViewModel(Context context) {
+        this.context = context;
         // create view list room
         data = new ArrayList<>();
 
@@ -136,9 +143,9 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
     @Bindable
     public Object getUrlAvatar() {
-        if (urlAvatar == null || urlAvatar.isEmpty())
+        if (user == null)
             return R.drawable.ic_logo_round;
-        return urlAvatar;
+        return "";
     }
 
     public void onClickCreateRoom(View view) {
@@ -147,8 +154,43 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         view.getContext().startActivity(intent);
     }
 
+    @Bindable
+    public String getScore(){
+        return 10000+"";
+    }
+
+    @Bindable
+    public String getUserName(){
+        if(user == null){
+            return context.getString(R.string.app_name);
+        }
+        return "";
+    }
+
+    @Bindable
+    public int getUserVisibility() {
+        if (user == null)
+            return View.GONE;
+        else return View.VISIBLE;
+    }
+
     @Override
     public void endTask() {
 
+    }
+
+    class UserInfoObserver extends DisposableSingleObserver<Optional<User>>{
+        @Override
+        public void onSuccess(Optional<User> userOptional) {
+            if(userOptional.isPresent()){
+                user = userOptional.get();
+
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
     }
 }

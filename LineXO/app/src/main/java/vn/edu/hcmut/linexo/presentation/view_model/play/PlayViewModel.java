@@ -3,6 +3,7 @@ package vn.edu.hcmut.linexo.presentation.view_model.play;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,19 +64,6 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
             case 1: {
                 messages = new ArrayList<>((List<Message>) e.getData()[0]);
                 adapter.updateMessageListItems(messages);
-                break;
-            }
-            case 2: {
-                RecyclerView recyclerView = (RecyclerView) e.getData()[0];
-
-                messages = new ArrayList<>(messages);
-
-                messages.add(new Message(2, j+++"", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
-                messages.add(new Message(3, j+++"", null, null, "Lâm Nguyễn đang theo dõi"));
-                messages.add(new Message(1, j+++"", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
-
-                onHelp(Event.create(1, messages));
-                recyclerView.smoothScrollToPosition(messages.size() - 1);
                 break;
             }
         }
@@ -157,6 +145,16 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                 Event.GET_MOVE,
                 null
         );
+    }
+
+    public void onClickSend(View view) {
+        messages = new ArrayList<>(messages);
+
+        messages.add(new Message(2, j+++"", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+        messages.add(new Message(3, j+++"", null, null, "Lâm Nguyễn đang theo dõi"));
+        messages.add(new Message(1, j+++"", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
+
+        onHelp(Event.create(1, messages));
     }
 
     @Bindable

@@ -26,7 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickAvatar"
-            android:padding="@dimen/dimen_avatar_stroke"
             bind:src_from_object="@{viewModel.urlAvatar}"/>
 
         <TextView
@@ -37,7 +36,8 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             android:textColor="@color/colorWhite"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:text="@{viewModel.userName}"/>
 
         <TextView
             android:id="@+id/txt_score"
@@ -49,13 +49,16 @@
             android:paddingRight="@dimen/dimen_10dp"
             android:textColor="@color/colorScore"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text="@{viewModel.score}"
+            android:visibility="@{viewModel.userVisibility}"/>
 
         <View
             android:id="@+id/score_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_coin" />
+            android:background="@drawable/ic_coin"
+            android:visibility="@{viewModel.userVisibility}"/>
 
         <TextView
             android:id="@+id/txt_network"
