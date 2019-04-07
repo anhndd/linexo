@@ -18,6 +18,7 @@ public class Event {
     public static final int LOAD_LIST_ROOM = 4;
     public static final int LOGIN_INFO = 5;
     public static final int LOGOUT = 6;
+    public static final int END_SPLASH = 7;
 
     /***********************************************************************************************
      * Class implementation.
