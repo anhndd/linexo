@@ -26,12 +26,12 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    public Single<User> getCacheUser() {
-        return cacheSource.g;
+    public Single<Optional<User>> getCacheUser() {
+        return null;
     }
 
     @Override
     public void setCacheUser(User user) {
-
+        cacheSource.setUser(user);
     }
 }
