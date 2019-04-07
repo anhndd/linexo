@@ -1,6 +1,7 @@
 package vn.edu.hcmut.linexo.data.network;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import io.reactivex.Single;
+import io.reactivex.observers.DisposableObserver;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.model.Room;
 
@@ -47,9 +49,23 @@ public class FirebaseDB implements NetworkSource {
     }
 
     @Override
-    public Single<Optional<List<Room>>> getRoom() {
-        return null;
+    public DisposableObserver<Optional<List<Room>>> getRoom() {
+        DatabaseReference myRef = database.getReference("room");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                    Room post = postSnapshot.getValue(Room.class);
 
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Log.e("Reading failed: ")
+            }
+        });
+        return null;
     }
 
     @Override

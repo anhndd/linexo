@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import io.reactivex.Single;
+import io.reactivex.observers.DisposableObserver;
 import vn.edu.hcmut.linexo.data.cache.CacheSource;
 import vn.edu.hcmut.linexo.data.local.LocalSource;
 import vn.edu.hcmut.linexo.data.network.NetworkSource;
@@ -13,8 +14,8 @@ public class RoomRepositoryImpl implements RoomRepository{
     private NetworkSource networkSource;
 
     @Override
-    public Single<Optional<List<Room>>> getListRooms() {
-        return null;
+    public DisposableObserver<Optional<List<Room>>> getListRooms() {
+        return networkSource.getRoom();
     }
 
     @Override
