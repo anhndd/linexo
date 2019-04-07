@@ -11,5 +11,5 @@ public interface UserRepository {
     Single<Optional<User>> getCacheUser();
 
     void setCacheUser(User user);
-    
+
 }
