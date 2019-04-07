@@ -32,7 +32,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(this, RoomActivity.class));
+        binding.root.postDelayed(() -> startActivity(new Intent(SplashActivity.this, RoomActivity.class)), 1200);
     }
 
     @Override

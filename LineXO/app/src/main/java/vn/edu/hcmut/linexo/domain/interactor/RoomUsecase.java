@@ -27,6 +27,9 @@ public class RoomUsecase extends AbstractUsecase {
                         .observeOn(getObserveScheduler())
                         .subscribeWith((DisposableSingleObserver<Optional<User>>) observer));
                 break;
+            case Event.LOGOUT:
+                userRepository.setCacheUser(null);
+                break;
         }
     }
 }

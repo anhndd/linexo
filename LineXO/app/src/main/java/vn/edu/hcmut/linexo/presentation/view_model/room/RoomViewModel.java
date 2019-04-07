@@ -68,7 +68,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     public void subscribeObserver(Observer<Event> observer) {
         publisher.subscribe(observer);
 
-        roomUsecase.execute(new UserInfoObserver(),Event.LOGIN_INFO);
+        roomUsecase.execute(new UserInfoObserver(), Event.LOGIN_INFO);
     }
 
     @Override
@@ -105,6 +105,9 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                     adapter.updateRoomListItems(data);
                 }
                 break;
+            }
+            case Event.LOGOUT: {
+                roomUsecase.execute(null,Event.LOGOUT);
             }
         }
     }
@@ -161,16 +164,16 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     }
 
     @Bindable
-    public String getScore(){
-        if(user == null){
+    public String getScore() {
+        if (user == null) {
             return "";
         }
         return String.valueOf(user.getScore());
     }
 
     @Bindable
-    public String getUserName(){
-        if(user == null){
+    public String getUserName() {
+        if (user == null) {
             return context.getString(R.string.app_name);
         }
         return user.getName();
@@ -188,10 +191,10 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
     }
 
-    class UserInfoObserver extends DisposableSingleObserver<Optional<User>>{
+    class UserInfoObserver extends DisposableSingleObserver<Optional<User>> {
         @Override
         public void onSuccess(Optional<User> userOptional) {
-            if(userOptional.isPresent()){
+            if (userOptional.isPresent()) {
                 user = userOptional.get();
                 notifyPropertyChanged(BR.urlAvatar);
                 notifyPropertyChanged(BR.userName);

@@ -14,10 +14,10 @@ public class Event {
     public static final int INIT_GAME = 0;
     public static final int SEND_MOVE = 1;
     public static final int GET_MOVE = 2;
-    public static final int CLICK_ROOM = 0;
-    public static final int LOAD_LIST_ROOM = 1;
-//    public static final int CLICK_ROOM = 0;
-    public static final int LOGIN_INFO = 0;
+    public static final int CLICK_ROOM = 3;
+    public static final int LOAD_LIST_ROOM = 4;
+    public static final int LOGIN_INFO = 5;
+    public static final int LOGOUT = 6;
 
     /***********************************************************************************************
      * Class implementation.
