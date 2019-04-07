@@ -12,12 +12,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.observers.DisposableObserver;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.model.Room;
+import vn.edu.hcmut.linexo.utils.Optional;
 
 public class FirebaseDB implements NetworkSource {
 
@@ -49,7 +50,7 @@ public class FirebaseDB implements NetworkSource {
     }
 
     @Override
-    public DisposableObserver<Optional<List<Room>>> getRoom() {
+    public Observable<Optional<List<Room>>> getRoom() {
         DatabaseReference myRef = database.getReference("room");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

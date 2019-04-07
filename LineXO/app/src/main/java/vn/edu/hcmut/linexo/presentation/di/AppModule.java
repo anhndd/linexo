@@ -13,6 +13,8 @@ import vn.edu.hcmut.linexo.data.network.FirebaseDB;
 import vn.edu.hcmut.linexo.data.network.NetworkSource;
 import vn.edu.hcmut.linexo.data.repository.BoardRepository;
 import vn.edu.hcmut.linexo.data.repository.BoardRepositoryImpl;
+import vn.edu.hcmut.linexo.data.repository.RoomRepository;
+import vn.edu.hcmut.linexo.data.repository.RoomRepositoryImpl;
 import vn.edu.hcmut.linexo.data.repository.SessionRepository;
 import vn.edu.hcmut.linexo.data.repository.SessionRepositoryImpl;
 import vn.edu.hcmut.linexo.data.repository.UserRepository;
@@ -73,6 +75,12 @@ public class AppModule {
     }
 
     @Provides
+    @Singleton
+    public RoomRepository provideRoomRepository(NetworkSource networkSource) {
+        return new RoomRepositoryImpl(networkSource);
+    }
+
+    @Provides
     @Named("PlayUsecase")
     public Usecase providePlayUsecase(SessionRepository sessionRepository,
                                       BoardRepository boardRepository,
@@ -82,8 +90,8 @@ public class AppModule {
 
     @Provides
     @Named("RoomUsecase")
-    public Usecase provideRoomUsecase(UserRepository userRepository) {
-        return new RoomUsecase(userRepository);
+    public Usecase provideRoomUsecase(UserRepository userRepository, RoomRepository roomRepository) {
+        return new RoomUsecase(userRepository, roomRepository);
     }
 
     @Provides
