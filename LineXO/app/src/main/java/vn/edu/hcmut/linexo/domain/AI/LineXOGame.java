@@ -6,7 +6,7 @@ import vn.edu.hcmut.linexo.presentation.model.Board;
 
 public class LineXOGame {
     public final static int MAX_NODES = 50000;
-    public final static int MAX_DEPTH = 5;
+    public final static int MAX_DEPTH = 3;
     public List<LineXOMove> getActions(Board state) {
         return state.getNotDrawnLine();
     }
