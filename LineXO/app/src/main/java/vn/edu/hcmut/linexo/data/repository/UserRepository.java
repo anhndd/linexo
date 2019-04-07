@@ -8,9 +8,8 @@ import vn.edu.hcmut.linexo.utils.Optional;
 public interface UserRepository {
     Single<Optional<User>> getNetworkUser(String username);
 
-    Single<User> getCacheUser();
+    Single<Optional<User>> getCacheUser();
 
     void setCacheUser(User user);
-
-
+    
 }
