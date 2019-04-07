@@ -8,6 +8,7 @@ import io.reactivex.observers.DisposableSingleObserver;
 import vn.edu.hcmut.linexo.data.repository.UserRepository;
 import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.utils.Event;
+import vn.edu.hcmut.linexo.utils.Optional;
 
 public class RoomUsecase extends AbstractUsecase {
     private UserRepository userRepository;
@@ -20,7 +21,7 @@ public class RoomUsecase extends AbstractUsecase {
                         .getCacheUser()
                         .subscribeOn(getSubscribeScheduler())
                         .observeOn(getObserveScheduler())
-                        .subscribeWith((DisposableSingleObserver<User>) observer));
+                        .subscribeWith((DisposableSingleObserver<Optional<User>>) observer));
                 break;
         }
     }
