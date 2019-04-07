@@ -27,7 +27,7 @@ public class LineXOAlphaBetaSearch {
     }
 
     public double maxValue(Board state, int player, double alpha, double beta, int depth) {
-        if (game.isTerminal(state) || depth > Math.log(LineXOGame.MAX_NODES) / Math.log(state.getNotDrawnLine().size())) {
+        if (game.isTerminal(state) || depth > LineXOGame.MAX_DEPTH || depth > Math.log(LineXOGame.MAX_NODES) / Math.log(state.getNotDrawnLine().size())) {
             return game.getUtility(state, player);
         }
         double value = Double.NEGATIVE_INFINITY;
@@ -45,7 +45,7 @@ public class LineXOAlphaBetaSearch {
     }
 
     public double minValue(Board state, int player, double alpha, double beta, int depth) {
-        if (game.isTerminal(state) || depth > Math.log(LineXOGame.MAX_NODES) / Math.log(state.getNotDrawnLine().size())) {
+        if (game.isTerminal(state) || depth > LineXOGame.MAX_DEPTH || depth > Math.log(LineXOGame.MAX_NODES) / Math.log(state.getNotDrawnLine().size())) {
             return game.getUtility(state, player);
         }
         double value = Double.POSITIVE_INFINITY;
