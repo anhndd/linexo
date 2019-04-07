@@ -17,6 +17,7 @@ public class Event {
     public static final int CLICK_ROOM = 0;
     public static final int LOAD_LIST_ROOM = 1;
 //    public static final int CLICK_ROOM = 0;
+    public static final int LOGIN_INFO = 0;
 
     /***********************************************************************************************
      * Class implementation.
