@@ -11,7 +11,7 @@ public class Mapper {
         Integer[][] int_board = new Integer[N_ROW][N_COL];
         for(int i = 0; i < N_ROW; i++){
             for (int j = 0; j < N_COL; j++){
-                temp = board.gerPattern()[i][j];
+                temp = board.getPattern()[i][j];
                 int_board[i][j] = temp;
             }
         }
