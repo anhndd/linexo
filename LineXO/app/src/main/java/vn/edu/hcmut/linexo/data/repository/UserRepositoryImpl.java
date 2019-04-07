@@ -27,7 +27,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public Single<Optional<User>> getCacheUser() {
-        return null;
+        return cacheSource.getUser();
     }
 
     @Override

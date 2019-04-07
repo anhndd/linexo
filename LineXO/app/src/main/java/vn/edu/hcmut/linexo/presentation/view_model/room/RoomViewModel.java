@@ -13,7 +13,9 @@ import io.reactivex.Observer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.subjects.PublishSubject;
+import vn.edu.hcmut.linexo.BR;
 import vn.edu.hcmut.linexo.R;
+import vn.edu.hcmut.linexo.domain.interactor.Usecase;
 import vn.edu.hcmut.linexo.presentation.model.RoomItem;
 import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.presentation.view.play.PlayActivity;
@@ -32,14 +34,16 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
     private String strSearch = "";
     private RoomRecyclerViewAdapter adapter = new RoomRecyclerViewAdapter(new ArrayList<>(), this);
-    private User user = new User();
+    private User user;
     private List<RoomItem> data;
     private Context context;
+    private Usecase roomUsecase;
 
     int i = 1;
 
-    public RoomViewModel(Context context) {
+    public RoomViewModel(Context context, Usecase roomUsecase) {
         this.context = context;
+        this.roomUsecase = roomUsecase;
         // create view list room
         data = new ArrayList<>();
 
@@ -63,6 +67,8 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     @Override
     public void subscribeObserver(Observer<Event> observer) {
         publisher.subscribe(observer);
+
+        roomUsecase.execute(new UserInfoObserver(),Event.LOGIN_INFO);
     }
 
     @Override
@@ -145,7 +151,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     public Object getUrlAvatar() {
         if (user == null)
             return R.drawable.ic_logo_round;
-        return "";
+        return user.getAvatar();
     }
 
     public void onClickCreateRoom(View view) {
@@ -156,7 +162,10 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
     @Bindable
     public String getScore(){
-        return 10000+"";
+        if(user == null){
+            return "";
+        }
+        return String.valueOf(user.getScore());
     }
 
     @Bindable
@@ -164,7 +173,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         if(user == null){
             return context.getString(R.string.app_name);
         }
-        return "";
+        return user.getName();
     }
 
     @Bindable
@@ -184,7 +193,10 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         public void onSuccess(Optional<User> userOptional) {
             if(userOptional.isPresent()){
                 user = userOptional.get();
-
+                notifyPropertyChanged(BR.urlAvatar);
+                notifyPropertyChanged(BR.userName);
+                notifyPropertyChanged(BR.userVisibility);
+                notifyPropertyChanged(BR.score);
             }
         }
 

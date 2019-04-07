@@ -13,6 +13,10 @@ import vn.edu.hcmut.linexo.utils.Optional;
 public class RoomUsecase extends AbstractUsecase {
     private UserRepository userRepository;
 
+    public RoomUsecase(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public void execute(Object observer, @Nullable int flag, @Nullable Object... params) {
         switch (flag) {

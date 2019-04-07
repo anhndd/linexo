@@ -18,6 +18,7 @@ import vn.edu.hcmut.linexo.data.repository.SessionRepositoryImpl;
 import vn.edu.hcmut.linexo.data.repository.UserRepository;
 import vn.edu.hcmut.linexo.data.repository.UserRepositoryImpl;
 import vn.edu.hcmut.linexo.domain.interactor.PlayUsecase;
+import vn.edu.hcmut.linexo.domain.interactor.RoomUsecase;
 import vn.edu.hcmut.linexo.domain.interactor.Usecase;
 import vn.edu.hcmut.linexo.presentation.view_model.play.PlayViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.room.RoomViewModel;
@@ -80,6 +81,12 @@ public class AppModule {
     }
 
     @Provides
+    @Named("RoomUsecase")
+    public Usecase provideRoomUsecase(UserRepository userRepository) {
+        return new RoomUsecase(userRepository);
+    }
+
+    @Provides
     @Named("SplashViewModel")
     public ViewModel provideSplashViewModel() {
         return new SplashViewModel();
@@ -87,8 +94,8 @@ public class AppModule {
 
     @Provides
     @Named("RoomViewModel")
-    public ViewModel provideRoomViewModel(Context context) {
-        return new RoomViewModel(context);
+    public ViewModel provideRoomViewModel(Context context, @Named("RoomUsecase") Usecase roomUsecase) {
+        return new RoomViewModel(context, roomUsecase);
     }
 
     @Provides
