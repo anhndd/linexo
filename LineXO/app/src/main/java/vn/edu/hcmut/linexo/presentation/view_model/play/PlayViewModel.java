@@ -92,7 +92,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     }
 
     public void setTouch(int[] touch) {
-        if (board.getPlayerToMove() == 2) {
+        if (board.getValueAt(touch[0], touch[1]) == Board.LINE_NOT_DRAWN && board.getPlayerToMove() == 2) {
             playUsecase.execute(
                     new DisposableSingleObserver<Board>() {
                         @Override
