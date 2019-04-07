@@ -37,7 +37,6 @@ public class CircleImageView extends AppCompatImageView {
         setBackground(drawable);
         setScaleType(ScaleType.CENTER_CROP);
         setClipToOutline(true);
-        setPadding(5,5,5,5);
         //Outline
         drawable = new GradientDrawable();
         drawable.setShape(GradientDrawable.RECTANGLE);

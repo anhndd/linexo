@@ -18,6 +18,7 @@ import vn.edu.hcmut.linexo.databinding.ActivityRoomBinding;
 import vn.edu.hcmut.linexo.presentation.view.BaseActivity;
 import vn.edu.hcmut.linexo.presentation.view.splash.SplashActivity;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
+import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.presentation.view_model.room.RoomViewModel;
 import vn.edu.hcmut.linexo.utils.Event;
 import vn.edu.hcmut.linexo.utils.Tool;
@@ -101,6 +102,13 @@ public class RoomActivity extends BaseActivity {
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.it_rating:
+                        break;
+                    case R.id.it_logout:
+                        ((ViewModelCallback) viewModel).onHelp(Event.create(Event.LOGOUT));
+                        break;
+                }
                 return true;
             }
         });
