@@ -1,0 +1,48 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 10
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 08h00 ngày 07/04/2019.
+	- Địa điểm: Bàn tự học trước nhà B10 CS1 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Các thành viên trình bày phần công việc được giao
+		- Anh
+			+ Demo layout chat nhưng chưa đúng màu sắc như đã thiết kế, cần sửa lại.
+			+ Lấy được Soft Keyboard Height.
+		- Sang 
+			+ Đưa được các bàn cờ lên firebase.
+			+ Có tìm hiểu phần backend firebase nhưng chưa hiện thực được.
+		- Trọng
+			+ Sửa lại code AI chạy nhanh hơn nhưng kém thông minh, cần thay đổi giải thuật.
+	
+	4.2. Các thành viên cùng nhau hoàn thành các usecase của ứng dụng
+		- Hoàn thành SplashActivity.
+		- Hoàn thành kiểm tra tình trạng đăng nhập của user.
+		- Hoàn thành việc load và hiển thị danh sách phòng chơi.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Sửa lại màu sắc layout chat, thay đổi font chữ, kích cỡ avatar cho đẹp mắt hơn.
+		+ Sửa lại menu khi click vào avatar phù hợp với trạng thái đăng nhập của user.
+	- Hùng
+		+ Tiếp tục làm bài thuyết trình về Window Phone.
+	- Sang
+		+ Tìm hiểu hiện thực phần backend firebase.
+	- Trọng
+		+ Thiết kế lại giải thuật cho AI.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 13h30 ngày 09/04/2019.
+	- Địa điểm: Hành lang tầng 3 nhà H6 CS2 BK
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 13h00 cùng ngày.
