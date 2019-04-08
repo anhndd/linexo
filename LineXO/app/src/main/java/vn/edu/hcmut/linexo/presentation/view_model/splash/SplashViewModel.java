@@ -30,7 +30,7 @@ public class SplashViewModel extends BaseObservable implements ViewModel {
             public void run() {
                 publisher.onNext(Event.create(Event.END_SPLASH));
             }
-        },2000);
+        },1200);
     }
 
     @Override

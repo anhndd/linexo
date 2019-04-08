@@ -11,10 +11,6 @@ import java.util.List;
 
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.presentation.model.Message;
-import vn.edu.hcmut.linexo.presentation.model.RoomItem;
-import vn.edu.hcmut.linexo.presentation.view.room.RoomDiffCallBack;
-import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
-import vn.edu.hcmut.linexo.utils.Event;
 
 /**
  * Created by Anh on 3/13/2019.

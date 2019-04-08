@@ -2,6 +2,7 @@ package vn.edu.hcmut.linexo.presentation.view.play;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -56,7 +57,7 @@ public class ChatViewLayout extends FrameLayout {
         switch (type) {
             case 1: {
                 txtMessage.measure(
-                        (roomBgWitdh - rooomBgHeight / 8 * 2) | MeasureSpec.AT_MOST,
+                        roomBgWitdh*4/5 | MeasureSpec.AT_MOST,
                         (rooomBgHeight - rooomBgHeight / 8 * 2) | MeasureSpec.UNSPECIFIED
                 );
                 setMeasuredDimension(width, txtMessage.getMeasuredHeight() + rooomBgHeight / 8 * 2);
@@ -64,13 +65,13 @@ public class ChatViewLayout extends FrameLayout {
             }
             case 2: {
                 txtMessage.measure(
-                        (roomBgWitdh - (rooomBgHeight + rooomBgHeight / 8)) | MeasureSpec.AT_MOST,
+                        (roomBgWitdh*4/5 - (rooomBgHeight/2 + rooomBgHeight / 8)) | MeasureSpec.AT_MOST,
                         (rooomBgHeight - rooomBgHeight / 8 * 2) | MeasureSpec.UNSPECIFIED
                 );
 
                 civAvatar.measure(
-                        (rooomBgHeight - rooomBgHeight / 8 * 2) | MeasureSpec.EXACTLY,
-                        (rooomBgHeight - rooomBgHeight / 8 * 2) | MeasureSpec.EXACTLY
+                        (rooomBgHeight )/2 | MeasureSpec.EXACTLY,
+                        (rooomBgHeight )/2 | MeasureSpec.EXACTLY
                 );
                 txtMessageName.measure(
                         (roomBgWitdh - (rooomBgHeight - rooomBgHeight / 8 * 2 - rooomBgHeight / 8)) | MeasureSpec.AT_MOST,
@@ -133,7 +134,7 @@ public class ChatViewLayout extends FrameLayout {
             case 1:
                 txtMessage.setBackgroundResource(R.drawable.bg_message);
                 txtMessage.setText(message);
-                txtMessage.setTextSize(14);
+                txtMessage.setTextColor(Color.BLACK);
                 civAvatar.setVisibility(GONE);
                 txtMessageName.setVisibility(GONE);
                 break;
@@ -141,15 +142,15 @@ public class ChatViewLayout extends FrameLayout {
                 txtMessage.setBackgroundResource(R.drawable.bg_message_opposite);
                 txtMessage.setText(message);
                 GlideApp.with(getContext()).load(link).into(civAvatar);
+                txtMessage.setTextColor(Color.BLACK);
                 txtMessageName.setText(name);
-                txtMessage.setTextSize(14);
                 civAvatar.setVisibility(VISIBLE);
                 txtMessageName.setVisibility(VISIBLE);
                 break;
             case 3:
                 txtMessage.setBackgroundResource(R.drawable.bg_message_system);
                 txtMessage.setText(message);
-                txtMessage.setTextSize(10);
+                txtMessage.setTextColor(Color.WHITE);
                 civAvatar.setVisibility(GONE);
                 txtMessageName.setVisibility(GONE);
                 break;

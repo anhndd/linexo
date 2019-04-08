@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.subjects.PublishSubject;
 import vn.edu.hcmut.linexo.BR;
@@ -23,7 +24,9 @@ import vn.edu.hcmut.linexo.presentation.view.room.RoomRecyclerViewAdapter;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.utils.Event;
+import vn.edu.hcmut.linexo.utils.NetworkChangeReceiver;
 import vn.edu.hcmut.linexo.utils.Optional;
+import vn.edu.hcmut.linexo.utils.Tool;
 
 public class RoomViewModel extends BaseObservable implements ViewModel, ViewModelCallback {
 
@@ -38,12 +41,21 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     private List<RoomItem> data;
     private Context context;
     private Usecase roomUsecase;
+    private boolean isConnected;
+    NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
 
     int i = 1;
 
     public RoomViewModel(Context context, Usecase roomUsecase) {
         this.context = context;
         this.roomUsecase = roomUsecase;
+        networkChangeReceiver.initReceiver(context, new NetworkChangeReceiver.NetworkChangeListener() {
+            @Override
+            public void onNetworkChange(boolean networkState) {
+                isConnected = networkState;
+                notifyPropertyChanged(BR.networkVisibility);
+            }
+        });
         // create view list room
         data = new ArrayList<>();
 
@@ -106,8 +118,31 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 }
                 break;
             }
+            case Event.CLICK_AVATAR_POPUP_MENU: {
+                PopupMenu popup = (PopupMenu) e.getData()[0];
+                Tool.forcePopupMenuShowIcon(popup);
+                //Inflating the Popup using xml file
+                if (user != null)
+                    popup.getMenuInflater().inflate(R.menu.popup_logout, popup.getMenu());
+                else
+                    popup.getMenuInflater().inflate(R.menu.popup_login, popup.getMenu());
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.it_rating:
+                                break;
+                            case R.id.it_logout:
+                                onHelp(Event.create(Event.LOGOUT));
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                popup.show(); //showing popup menu
+            }
             case Event.LOGOUT: {
-                roomUsecase.execute(null,Event.LOGOUT);
+                roomUsecase.execute(null, Event.LOGOUT);
             }
         }
     }
@@ -183,7 +218,15 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     public int getUserVisibility() {
         if (user == null)
             return View.GONE;
-        else return View.VISIBLE;
+        return View.VISIBLE;
+    }
+
+    @Bindable
+    public int getNetworkVisibility() {
+        if (isConnected) {
+            return View.GONE;
+        }
+        return View.VISIBLE;
     }
 
     @Override

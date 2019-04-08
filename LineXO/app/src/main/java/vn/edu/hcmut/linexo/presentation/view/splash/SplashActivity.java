@@ -103,6 +103,7 @@ public class SplashActivity extends BaseActivity {
         @Override
         public void onNext(Object o) {
             startActivity(new Intent(SplashActivity.this, RoomActivity.class));
+            SplashActivity.this.finish();
         }
 
         @Override
