@@ -1,0 +1,41 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 11
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 13h30 ngày 09/04/2019.
+	- Địa điểm: Hành lang tầng 3 nhà H6 CS2 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Các thành viên trình bày phần công việc được giao
+		- Anh
+			+ Demo layout thay đổi màu sắc, font, kích cỡ avatar.
+			+ Demo hiển thị menu theo trạng thái đăng nhập của user.
+		- Sang 
+			+ Demo backend nhưng chưa đi vào usercase cụ thể, cần tìm hiểu thêm.
+		- Trọng
+			+ Thử một số giải pháp tăng tốc AI.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Thêm chức năng kiểm tra mạng vào PlayActivity.
+	- Hùng
+		+ Tiếp tục làm bài thuyết trình về Window Phone.
+	- Sang
+		+ Hoàn thành hiện thực backend.
+	- Trọng
+		+ Thiết kế lại giải thuật cho AI.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 08h00 ngày 14/04/2019.
+	- Địa điểm: Bàn tự học giữa B9 và B10 CS1 BK.
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 15h00 cùng ngày.
