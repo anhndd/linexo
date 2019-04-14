@@ -10,7 +10,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -50,33 +49,34 @@ public class FirebaseDB implements NetworkSource {
     }
 
     @Override
-    public Observable<Optional<List<Room>>> getRoom() {
-        DatabaseReference myRef = database.getReference("room");
-        List<Room> results = new ArrayList<>();
+    public Observable<List<Room>> getRoom() {
         return Observable.create(emitter -> {
+            DatabaseReference myRef = database.getReference("room");
             ValueEventListener listener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    List<Room> results = new ArrayList<>();
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                         Room post = postSnapshot.getValue(Room.class);
                         if (post.getBoard_number() != null){
                             results.add(post);
                         }
                     }
-                    emitter.onNext(Optional.of(results));
+                    emitter.onNext(results);
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e("FIREBASE ERROR", databaseError.getMessage());
-                    emitter.onNext(Optional.empty());
                 }
             };
+            myRef.addValueEventListener(listener);
+            emitter.setCancellable(() -> myRef.removeEventListener(listener));
         });
     }
 
     @Override
-    public void setRoom(Room room) {
-
+    public Single<Boolean> setRoom(Room room) {
+        return null;
     }
 }

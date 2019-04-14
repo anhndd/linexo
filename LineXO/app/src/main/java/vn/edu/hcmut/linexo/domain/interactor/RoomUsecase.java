@@ -39,7 +39,7 @@ public class RoomUsecase extends AbstractUsecase {
                         .getListRooms()
                         .subscribeOn(getSubscribeScheduler())
                         .observeOn(getObserveScheduler())
-                        .subscribeWith((DisposableObserver<Optional<List<Room>>>)observer));
+                        .subscribeWith((DisposableObserver<List<Room>>)observer));
                 break;
         }
     }

@@ -11,6 +11,6 @@ import vn.edu.hcmut.linexo.utils.Optional;
 public interface NetworkSource {
 
     Single<List<Board>> getBoard();
-    Observable<Optional<List<Room>>> getRoom();
-    void setRoom(Room room);
+    Observable<List<Room>> getRoom();
+    Single<Boolean> setRoom(Room room);
 }

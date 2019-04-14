@@ -18,13 +18,13 @@ public class RoomRepositoryImpl implements RoomRepository{
     }
 
     @Override
-    public Observable<Optional<List<Room>>> getListRooms() {
+    public Observable<List<Room>> getListRooms() {
         return networkSource.getRoom();
     }
 
     @Override
-    public void setNetworkRoom(Room room) {
-        networkSource.setRoom(room);
+    public Single<Boolean> setNetworkRoom(Room room) {
+        return networkSource.setRoom(room);
     }
 }
 
