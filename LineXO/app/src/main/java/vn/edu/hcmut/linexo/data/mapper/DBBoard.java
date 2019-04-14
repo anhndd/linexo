@@ -9,6 +9,8 @@ public class DBBoard {
 
     private List<List<Integer>> pattern;
 
+    public DBBoard(){}
+
     public DBBoard(Integer cell_x, Integer cell_o, Integer max_cell, List<List<Integer>> pattern) {
         this.cell_x = cell_x;
         this.cell_o = cell_o;

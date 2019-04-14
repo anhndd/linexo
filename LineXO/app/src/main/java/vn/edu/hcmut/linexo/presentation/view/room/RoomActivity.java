@@ -1,5 +1,6 @@
 package vn.edu.hcmut.linexo.presentation.view.room;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -7,6 +8,8 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,6 +32,7 @@ public class RoomActivity extends BaseActivity {
     public ViewModel viewModel;
 
     ActivityRoomBinding binding;
+    Disposable disposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +57,36 @@ public class RoomActivity extends BaseActivity {
         viewModel.subscribeObserver(new Observer<Event>() {
             @Override
             public void onSubscribe(Disposable d) {
-
+                disposable = d;
             }
 
             @Override
             public void onNext(Event event) {
-                if(event.getType()==1) {
-//                    viewModel.onHelp(event);
+                switch (event.getType()){
+                    case Event.SHOW_LOGIN:{
+                        Dialog loginDialog = new Dialog(RoomActivity.this);
+                        loginDialog.setContentView(R.layout.popup_login);
+
+                        Button btnGoogle = loginDialog.findViewById(R.id.btn_google);
+                        btnGoogle.setOnClickListener(view -> {
+                            loginGoogle();
+                            loginDialog.dismiss();
+                        });
+
+                        Button btnFacebook = loginDialog.findViewById(R.id.btn_facebook);
+                        btnFacebook.setOnClickListener(view -> {
+                            loginFacebook();
+                            loginDialog.dismiss();
+                        });
+
+                        loginDialog.show();
+                        break;
+                    }
+                    case Event.SHOW_PLAY_ACTIVITY:{
+                        int idRoom = (int) event.getData()[0];
+
+                        break;
+                    }
                 }
             }
 
@@ -77,7 +104,9 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     public void onUnSubscribeViewModel() {
-
+        if (!disposable.isDisposed()) {
+            disposable.dispose();
+        }
     }
 
     @Override
@@ -96,5 +125,13 @@ public class RoomActivity extends BaseActivity {
         PopupMenu popup = new PopupMenu(wrapper, binding.avatar);
 
         ((ViewModelCallback) viewModel).onHelp(Event.create(Event.CLICK_AVATAR_POPUP_MENU,popup));
+    }
+
+    private void loginGoogle() {
+        Toast.makeText(this,"google",Toast.LENGTH_SHORT).show();
+    }
+
+    private void loginFacebook() {
+        Toast.makeText(this,"facebook",Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,10 +1,12 @@
 package vn.edu.hcmut.linexo.presentation.view_model.room;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -12,12 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.subjects.PublishSubject;
 import vn.edu.hcmut.linexo.BR;
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.domain.interactor.Usecase;
-import vn.edu.hcmut.linexo.presentation.model.RoomItem;
+import vn.edu.hcmut.linexo.presentation.view.room.RoomItem;
 import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.presentation.view.play.PlayActivity;
 import vn.edu.hcmut.linexo.presentation.view.room.RoomRecyclerViewAdapter;
@@ -38,7 +41,8 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     private String strSearch = "";
     private RoomRecyclerViewAdapter adapter = new RoomRecyclerViewAdapter(new ArrayList<>(), this);
     private User user;
-    private List<RoomItem> data;
+    private List<RoomItem> data = new ArrayList<>();
+    ;
     private Context context;
     private Usecase roomUsecase;
     private boolean isConnected;
@@ -54,23 +58,12 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             public void onNetworkChange(boolean networkState) {
                 isConnected = networkState;
                 notifyPropertyChanged(BR.networkVisibility);
+                if (data.size() < 2) // if list room is empty or just contain AI room
+                    roomUsecase.execute(new LoadListRoomObserver(), Event.LOAD_LIST_ROOM, isConnected);
             }
         });
         // create view list room
-        data = new ArrayList<>();
 
-        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null));
-        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", null, true));
-        data.add(new RoomItem(i++, "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-        data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
-        data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", null, true));
-        data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg", true));
-        data.add(new RoomItem(i++, "https://image.vtcns.com/resize/685x498/files/ctv.giaoduc/2018/02/22/kieu-trinh-1-0550339.jpg", "https://kenh14cdn.com/2017/1-1506422137960.jpg"));
         adapter = new RoomRecyclerViewAdapter(data, this);
         data = new ArrayList<>(data);
 
@@ -88,12 +81,18 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         switch (e.getType()) {
             case Event.CLICK_ROOM: {
                 Object[] data = e.getData();
-                String roomId = (String) data[0];
+                int roomId = (int) data[0];
+//                Log.e("test222",roomId+"");
+                if (roomId == 0 || user != null) {
+                    publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY, roomId));
+                } else {
+                    publisher.onNext(Event.create(Event.SHOW_LOGIN));
+                }
                 break;
             }
             case Event.LOAD_LIST_ROOM: {
                 data = new ArrayList<>((List<RoomItem>) e.getData()[0]);
-
+                if (data == null) return;
                 if (!strSearch.isEmpty()) {
                     ArrayList<RoomItem> filteredList = new ArrayList<>();
                     for (RoomItem item : data) {
@@ -248,6 +247,24 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
         @Override
         public void onError(Throwable e) {
+
+        }
+    }
+
+    class LoadListRoomObserver extends DisposableObserver<List<RoomItem>> {
+
+        @Override
+        public void onNext(List<RoomItem> list) {
+            onHelp(Event.create(Event.LOAD_LIST_ROOM, list));
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+
+        @Override
+        public void onComplete() {
 
         }
     }

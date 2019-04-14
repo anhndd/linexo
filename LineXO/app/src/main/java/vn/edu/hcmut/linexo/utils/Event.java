@@ -20,6 +20,8 @@ public class Event {
     public static final int LOGOUT = 6;
     public static final int END_SPLASH = 7;
     public static final int CLICK_AVATAR_POPUP_MENU = 8;
+    public static final int SHOW_LOGIN = 9;
+    public static final int SHOW_PLAY_ACTIVITY = 10;
 
     /***********************************************************************************************
      * Class implementation.

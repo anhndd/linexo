@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 import vn.edu.hcmut.linexo.R;
-import vn.edu.hcmut.linexo.presentation.model.RoomItem;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.utils.Event;
 
@@ -42,7 +41,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View view) {
-                    viewModelCallback.onHelp(Event.create(Event.CLICK_ROOM, holder.itemView.getRoomNumberView().getText().toString()));
+                    viewModelCallback.onHelp(Event.create(Event.CLICK_ROOM, roomItems.get(position).getId()));
                 }
             }
         );

@@ -2,11 +2,18 @@ package vn.edu.hcmut.linexo.presentation.model;
 
 public class Room {
     private int action;
+    private Integer room_number;
+    private Board board;
+    private String last_turn;
+    private String next_turn;
+    private User user_1;
+    private User user_2;
+    private Boolean is_private;
 
     public Room() {
     }
 
-    public Room(int action, Integer room_number, Board board, String last_turn, String next_turn, User user_1, User user_2, Boolean isPrivate) {
+    public Room(int action, Integer room_number, Board board, String last_turn, String next_turn, User user_1, User user_2, Boolean is_private) {
         this.action = action;
         this.room_number = room_number;
         this.board = board;
@@ -14,16 +21,9 @@ public class Room {
         this.next_turn = next_turn;
         this.user_1 = user_1;
         this.user_2 = user_2;
-        this.isPrivate = isPrivate;
+        this.is_private = is_private;
     }
 
-    private Integer room_number;
-    private Board board;
-    private String last_turn;
-    private String next_turn;
-    private User user_1;
-    private User user_2;
-    private Boolean isPrivate;
 
     public Integer getRoom_number() {
         return room_number;
@@ -81,11 +81,11 @@ public class Room {
         this.user_2 = user_2;
     }
 
-    public Boolean getPrivate() {
-        return isPrivate;
+    public Boolean getIs_private() {
+        return is_private;
     }
 
-    public void setPrivate(Boolean aPrivate) {
-        isPrivate = aPrivate;
+    public void setIs_private(Boolean is_private) {
+        this.is_private = is_private;
     }
 }

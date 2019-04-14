@@ -47,7 +47,7 @@ public class LoginLayout extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        final int width  = MeasureSpec.getSize(widthMeasureSpec) * 3 / 4;
+        final int width  = MeasureSpec.getSize(widthMeasureSpec) * 5 / 6;
         final int height = MeasureSpec.getSize(heightMeasureSpec);
         title.measure(
                 width | MeasureSpec.EXACTLY,

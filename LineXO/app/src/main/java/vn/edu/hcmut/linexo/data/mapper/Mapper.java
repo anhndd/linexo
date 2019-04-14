@@ -10,12 +10,12 @@ import vn.edu.hcmut.linexo.presentation.model.Room;
 public class Mapper {
     public static Room convertRoomDB2Room(RoomDB roomDB){
         return new Room(roomDB.getAction(), roomDB.getRoom_number(), convertDBBoard2Board(roomDB.getBoard()), roomDB.getLast_turn(),
-                roomDB.getNext_turn(), roomDB.getUser_1(), roomDB.getUser_2(), roomDB.getPrivate());
+                roomDB.getNext_turn(), roomDB.getUser_1(), roomDB.getUser_2(), roomDB.getIs_private());
     }
 
     public static RoomDB convertRoom2RoomDB(Room room){
         return new RoomDB(room.getAction(), room.getRoom_number(), convertBoard2DBBoard(room.getBoard()), room.getLast_turn(),
-                room.getNext_turn(), room.getUser_1(), room.getUser_2(), room.getPrivate());
+                room.getNext_turn(), room.getUser_1(), room.getUser_2(), room.getIs_private());
     }
     public static DBBoard convertBoard2DBBoard(Board board){
         List<List<Integer>> dbboard = new ArrayList<>();

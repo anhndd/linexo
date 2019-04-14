@@ -1,4 +1,4 @@
-package vn.edu.hcmut.linexo.presentation.model;
+package vn.edu.hcmut.linexo.presentation.view.room;
 
 public class RoomItem {
     int id;
