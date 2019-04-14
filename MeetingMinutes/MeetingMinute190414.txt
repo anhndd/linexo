@@ -1,0 +1,47 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 11
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 08h00 ngày 14/04/2019.
+	- Địa điểm: The Coffee house Lý Thường Kiệt.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Các thành viên trình bày phần công việc được giao
+		- Anh
+			+ Demo thêm chức năng kiểm tra mạng vào PlayActivity.
+		- Sang 
+			+ Không thể hiện thực backend dễ dàng, chuyển hướng hiện thực app phụ cho server.
+		- Trọng
+			+ Sử dụng AI đơn giản cho việc tập chơi.
+
+	4.2. Các thành viên cùng nhau hiện thực các usecase
+		- Kiểm tra tình trạng đăng nhập của user khi mở app.
+		- Load danh sách phòng chơi.
+		- Thực hiện đăng nhập bằng Google/Facebook.
+		- Chọn phòng chơi.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Hoàn thành việc kiểm soát user đăng nhập cho View.
+		+ Hoàn thành usecase chọn phòng chơi cho View.
+	- Hùng
+		+ Tiếp tục làm bài thuyết trình về Window Phone.
+	- Sang
+		+ Hoàn thành việc get/set user.
+	- Trọng
+		+ Hoàn thành việc kiểm soát user đăng nhập cho View trong Domain.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 14h00 ngày 16/04/2019.
+	- Địa điểm: Hành lang tầng 3 nhà H6 CS2 BK
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 18h00 cùng ngày.
