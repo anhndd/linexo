@@ -6,7 +6,7 @@ import static vn.edu.hcmut.linexo.data.local.DBBoard.N_COL;
 import static vn.edu.hcmut.linexo.data.local.DBBoard.N_ROW;
 
 public class Mapper {
-    public static DBBoard Board2DBBoard(Board board){
+    public static DBBoard convertBoard2DBBoard(Board board){
         int temp;
         Integer[][] int_board = new Integer[N_ROW][N_COL];
         for(int i = 0; i < N_ROW; i++){
@@ -18,7 +18,7 @@ public class Mapper {
         return new DBBoard(int_board);
     }
 
-    public static Board DBBoard2Board(DBBoard dbBoard){
+    public static Board convertDBBoard2Board(DBBoard dbBoard){
         int temp;
         byte[][] byte_board = new byte[N_ROW][N_COL];
         for(int i = 0; i < N_ROW; i++){
@@ -44,7 +44,7 @@ public class Mapper {
                 {3,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,3}, // 10
                 {0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0}, // 11
         };
-        System.out.println(Board2DBBoard(new Board(byte_board)));
+        System.out.println(convertBoard2DBBoard(new Board(byte_board)));
 
         Integer[][] int_board = {
                 {0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0}, // 1
@@ -59,6 +59,6 @@ public class Mapper {
                 {3,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,3}, // 10
                 {0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0,3,0}, // 11
         };
-        System.out.println(DBBoard2Board(new DBBoard(int_board)));
+        System.out.println(convertDBBoard2Board(new DBBoard(int_board)));
     }
 }
