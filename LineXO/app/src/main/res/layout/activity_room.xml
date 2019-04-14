@@ -25,7 +25,7 @@
             android:id="@+id/avatar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="onClickAvatar"
+            android:onClick="@{viewModel::onClickAvatar}"
             bind:src_from_object="@{viewModel.urlAvatar}"/>
 
         <TextView

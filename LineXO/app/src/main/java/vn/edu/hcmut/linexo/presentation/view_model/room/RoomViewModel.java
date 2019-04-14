@@ -10,6 +10,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,11 +52,20 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     private Usecase roomUsecase;
     private boolean isConnected;
     NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     int i = 1;
 
     public RoomViewModel(Context context, Usecase roomUsecase) {
+
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            User user = new User(firebaseUser.getUid(), firebaseUser.getEmail(),
+                    firebaseUser.getPhotoUrl().toString(), firebaseUser.getDisplayName(), 0, System.currentTimeMillis());
+            onHelp(Event.create(Event.LOGIN_USER, user));
+        }
         this.context = context;
+
         this.roomUsecase = roomUsecase;
         networkChangeReceiver.initReceiver(context, new NetworkChangeReceiver.NetworkChangeListener() {
             @Override
@@ -117,31 +131,19 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 }
                 break;
             }
-            case Event.CLICK_AVATAR_POPUP_MENU: {
-                PopupMenu popup = (PopupMenu) e.getData()[0];
-                Tool.forcePopupMenuShowIcon(popup);
-                //Inflating the Popup using xml file
-                if (user != null)
-                    popup.getMenuInflater().inflate(R.menu.popup_logout, popup.getMenu());
-                else
-                    popup.getMenuInflater().inflate(R.menu.popup_login, popup.getMenu());
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.it_rating:
-                                break;
-                            case R.id.it_logout:
-                                onHelp(Event.create(Event.LOGOUT));
-                                break;
-                        }
-                        return true;
-                    }
-                });
-                popup.show(); //showing popup menu
+            case Event.LOGIN_USER: {
+                user = (User) e.getData()[0];
+                notifyPropertyChanged(BR.urlAvatar);
+                notifyPropertyChanged(BR.userName);
+                notifyPropertyChanged(BR.userVisibility);
+                notifyPropertyChanged(BR.score);
+                break;
+
             }
             case Event.LOGOUT: {
+                mAuth.signOut();
                 roomUsecase.execute(null, Event.LOGOUT);
+                break;
             }
         }
     }
@@ -202,6 +204,10 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         if (user == null) {
             return "";
         }
+        else if(user.getScore() == -1){
+            return "-";
+        }
+
         return String.valueOf(user.getScore());
     }
 
@@ -231,6 +237,14 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     @Override
     public void endTask() {
 
+    }
+
+    public void onClickAvatar(View view) {
+        if (user != null) {
+            publisher.onNext(Event.create(Event.SHOW_POPUP_USER_ON));
+        } else {
+            publisher.onNext(Event.create(Event.SHOW_POPUP_USER_OFF));
+        }
     }
 
     class UserInfoObserver extends DisposableSingleObserver<Optional<User>> {
@@ -265,6 +279,24 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
         @Override
         public void onComplete() {
+
+        }
+    }
+
+    class FullUserInfoObserver extends DisposableSingleObserver<Optional<User>> {
+        @Override
+        public void onSuccess(Optional<User> userOptional) {
+            if (userOptional.isPresent()) {
+                user = userOptional.get();
+                notifyPropertyChanged(BR.urlAvatar);
+                notifyPropertyChanged(BR.userName);
+                notifyPropertyChanged(BR.userVisibility);
+                notifyPropertyChanged(BR.score);
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
 
         }
     }
