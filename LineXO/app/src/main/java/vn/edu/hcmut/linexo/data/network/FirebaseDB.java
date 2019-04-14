@@ -1,8 +1,12 @@
 package vn.edu.hcmut.linexo.data.network;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -77,6 +81,17 @@ public class FirebaseDB implements NetworkSource {
 
     @Override
     public Single<Boolean> setRoom(Room room) {
-        return null;
+        return Single.create(emitter -> {
+            DatabaseReference roomRef = database.getReference("room").push();
+            roomRef.setValue(room, (databaseError, databaseReference) -> {
+                if (databaseError == null){
+                    emitter.onSuccess(true);
+                }
+                else {
+                    Log.e("FIREBASE ERROR", databaseError.getMessage());
+                    emitter.onSuccess(false);
+                }
+            });
+        });
     }
 }
