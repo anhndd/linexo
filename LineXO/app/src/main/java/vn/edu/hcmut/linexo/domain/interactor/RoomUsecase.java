@@ -48,6 +48,8 @@ public class RoomUsecase extends AbstractUsecase {
                                 RoomItem roomItem = new RoomItem(room.getRoom_number().intValue(), room.getUser_1().getAvatar(), room.getUser_2().getAvatar(), room.getPrivate());
                                 roomItems.add(roomItem);
                             }
+                            RoomItem roomItem = new RoomItem(0, "LineXOAI", null, false);
+                            roomItems.add(0, roomItem);
                             return roomItems;
                         })
                         .subscribeWith((DisposableObserver<List<RoomItem>>)observer));
