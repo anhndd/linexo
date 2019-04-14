@@ -6,29 +6,31 @@ public class Room {
     public Room() {
     }
 
-    public Room(int action, Integer board_number, Board board, String last_turn, String next_turn, User user_1, User user_2) {
+    public Room(int action, Integer room_number, Board board, String last_turn, String next_turn, User user_1, User user_2, Boolean isPrivate) {
         this.action = action;
-        this.board_number = board_number;
+        this.room_number = room_number;
         this.board = board;
         this.last_turn = last_turn;
         this.next_turn = next_turn;
         this.user_1 = user_1;
         this.user_2 = user_2;
+        this.isPrivate = isPrivate;
     }
 
-    private Integer board_number;
+    private Integer room_number;
     private Board board;
     private String last_turn;
     private String next_turn;
     private User user_1;
     private User user_2;
+    private Boolean isPrivate;
 
-    public Integer getBoard_number() {
-        return board_number;
+    public Integer getRoom_number() {
+        return room_number;
     }
 
-    public void setBoard_number(Integer board_number) {
-        this.board_number = board_number;
+    public void setRoom_number(Integer room_number) {
+        this.room_number = room_number;
     }
 
     public int getAction() {
@@ -77,5 +79,13 @@ public class Room {
 
     public void setUser_2(User user_2) {
         this.user_2 = user_2;
+    }
+
+    public Boolean getPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(Boolean aPrivate) {
+        isPrivate = aPrivate;
     }
 }

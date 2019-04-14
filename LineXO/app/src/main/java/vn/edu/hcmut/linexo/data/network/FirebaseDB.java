@@ -58,7 +58,7 @@ public class FirebaseDB implements NetworkSource {
                     List<Room> results = new ArrayList<>();
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                         Room post = postSnapshot.getValue(Room.class);
-                        if (post.getBoard_number() != null){
+                        if (post.getRoom_number() != null){
                             results.add(post);
                         }
                     }
