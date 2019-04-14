@@ -133,7 +133,7 @@ public class RoomViewLayout extends FrameLayout {
     public void setRoomView(int id, @NonNull String link1, @Nullable String link2, boolean isPrivate) {
         roomNumberView.setNumber(id);
 
-        GlideApp.with(getContext()).load(link1).into(civHost);
+        civHost.setImageFromObject(link1);
 
         if (isPrivate) {
             lockRoom.setVisibility(VISIBLE);
@@ -146,7 +146,7 @@ public class RoomViewLayout extends FrameLayout {
             civOpponent.setVisibility(View.GONE);
         } else {
             civOpponent.setVisibility(View.VISIBLE);
-            GlideApp.with(getContext()).load(link2).into(civOpponent);
+            civOpponent.setImageFromObject(link2);
         }
 
         int afterState = civOpponent.getVisibility();

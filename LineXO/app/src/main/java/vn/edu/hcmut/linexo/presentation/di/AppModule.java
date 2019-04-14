@@ -8,7 +8,7 @@ import dagger.Provides;
 import vn.edu.hcmut.linexo.data.cache.CacheSource;
 import vn.edu.hcmut.linexo.data.cache.SharedPreferencesDB;
 import vn.edu.hcmut.linexo.data.local.LocalSource;
-import vn.edu.hcmut.linexo.data.local.RoomDB;
+import vn.edu.hcmut.linexo.data.local.PaperDB;
 import vn.edu.hcmut.linexo.data.network.FirebaseDB;
 import vn.edu.hcmut.linexo.data.network.NetworkSource;
 import vn.edu.hcmut.linexo.data.repository.BoardRepository;
@@ -53,7 +53,7 @@ public class AppModule {
 
     @Provides
     public LocalSource provideLocalSource(){
-        return new RoomDB();
+        return new PaperDB();
     }
 
     @Provides
@@ -108,7 +108,7 @@ public class AppModule {
 
     @Provides
     @Named("PlayViewModel")
-    public ViewModel providePlayViewModel(@Named("PlayUsecase") Usecase playUsecase) {
-        return new PlayViewModel(playUsecase);
+    public ViewModel providePlayViewModel(Context context, @Named("PlayUsecase") Usecase playUsecase) {
+        return new PlayViewModel(context, playUsecase);
     }
 }

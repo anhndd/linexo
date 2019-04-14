@@ -56,7 +56,7 @@ public class CircleImageView extends AppCompatImageView {
     public void setImageFromObject(Object object) {
         GlideApp
                 .with(getContext())
-                .load(object)
+                .load(object.equals("LineXOAI") ? R.drawable.ic_logo_round : object)
                 .placeholder(R.drawable.img_avatar_holder)
                 .into(this);
     }

@@ -1,19 +1,21 @@
-package vn.edu.hcmut.linexo.presentation.model;
+package vn.edu.hcmut.linexo.data.mapper;
 
-public class Room {
+import vn.edu.hcmut.linexo.presentation.model.User;
+
+public class RoomDB {
     private int action;
     private Integer room_number;
-    private Board board;
+    private DBBoard board;
     private String last_turn;
     private String next_turn;
     private User user_1;
     private User user_2;
     private Boolean is_private;
 
-    public Room() {
+    public RoomDB() {
     }
 
-    public Room(int action, Integer room_number, Board board, String last_turn, String next_turn, User user_1, User user_2, Boolean is_private) {
+    public RoomDB(int action, Integer room_number, DBBoard board, String last_turn, String next_turn, User user_1, User user_2, Boolean is_private) {
         this.action = action;
         this.room_number = room_number;
         this.board = board;
@@ -23,7 +25,6 @@ public class Room {
         this.user_2 = user_2;
         this.is_private = is_private;
     }
-
 
     public Integer getRoom_number() {
         return room_number;
@@ -41,11 +42,11 @@ public class Room {
         this.action = action;
     }
 
-    public Board getBoard() {
+    public DBBoard getBoard() {
         return board;
     }
 
-    public void setBoard(Board board) {
+    public void setBoard(DBBoard board) {
         this.board = board;
     }
 

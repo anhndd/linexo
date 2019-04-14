@@ -12,7 +12,7 @@ public class LineXOGame {
     }
 
     public Board getRootState(byte[][] rootBoard, int playerToMove) {
-        return new Board(rootBoard, 0, playerToMove, null);
+        return null;
     }
 
     public int getPlayer(Board state) {

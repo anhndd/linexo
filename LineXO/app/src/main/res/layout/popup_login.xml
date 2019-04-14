@@ -39,4 +39,9 @@
         android:textColor="@color/colorWhite"
         android:background="@drawable/btn_facebook"
         android:stateListAnimator="@null"/>
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btn_facebook_invisibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
 </vn.edu.hcmut.linexo.presentation.view.room.LoginLayout>

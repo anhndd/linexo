@@ -5,8 +5,6 @@ import android.support.v7.util.DiffUtil;
 
 import java.util.List;
 
-import vn.edu.hcmut.linexo.presentation.model.RoomItem;
-
 /**
  * Created by Anh on 3/16/2019.
  */
