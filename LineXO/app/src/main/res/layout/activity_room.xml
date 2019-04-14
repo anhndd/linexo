@@ -65,7 +65,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/network_error"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:visibility="@{viewModel.networkVisibility}"/>
 
         <EditText
             android:id="@+id/edt_search"

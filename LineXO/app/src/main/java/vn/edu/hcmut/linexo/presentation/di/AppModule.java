@@ -108,7 +108,7 @@ public class AppModule {
 
     @Provides
     @Named("PlayViewModel")
-    public ViewModel providePlayViewModel(@Named("PlayUsecase") Usecase playUsecase) {
-        return new PlayViewModel(playUsecase);
+    public ViewModel providePlayViewModel(Context context, @Named("PlayUsecase") Usecase playUsecase) {
+        return new PlayViewModel(context, playUsecase);
     }
 }

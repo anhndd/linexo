@@ -142,7 +142,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     @Override
     public void onDestroy() {
         super.onDestroy();
-        keyboardHeightProvider.close();
+        keyboardHeightProvider.stop();
         if(imm != null) imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 

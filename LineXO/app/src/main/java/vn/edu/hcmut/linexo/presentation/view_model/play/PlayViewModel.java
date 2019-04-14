@@ -1,5 +1,6 @@
 package vn.edu.hcmut.linexo.presentation.view_model.play;
 
+import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import vn.edu.hcmut.linexo.presentation.view.play.ChatRecyclerViewAdapter;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.utils.Event;
+import vn.edu.hcmut.linexo.utils.NetworkChangeReceiver;
 
 public class PlayViewModel extends BaseObservable implements ViewModel, ViewModelCallback {
 
@@ -33,10 +35,21 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
     private ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter(new ArrayList<>());
     private List<Message> messages;
+    private boolean isConnected;
+    NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
+
     int j = 0;
 
-    public PlayViewModel(Usecase playUsecase) {
+    public PlayViewModel(Context context, Usecase playUsecase) {
         this.playUsecase = playUsecase;
+
+        networkChangeReceiver.initReceiver(context, new NetworkChangeReceiver.NetworkChangeListener() {
+            @Override
+            public void onNetworkChange(boolean networkState) {
+                isConnected = networkState;
+                notifyPropertyChanged(BR.networkVisibility);
+            }
+        });
 
         messages = new ArrayList<>();
         messages.add(new Message(1, j+++"", null, null, "alo"));
@@ -164,6 +177,14 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
     public void setAdapter(ChatRecyclerViewAdapter adapter) {
         this.adapter = adapter;
+    }
+
+    @Bindable
+    public int getNetworkVisibility() {
+        if (isConnected) {
+            return View.GONE;
+        }
+        return View.VISIBLE;
     }
 
     @Override

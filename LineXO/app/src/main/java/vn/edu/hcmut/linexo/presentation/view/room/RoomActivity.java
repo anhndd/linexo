@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
+
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import vn.edu.hcmut.linexo.R;
@@ -21,7 +21,6 @@ import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.presentation.view_model.room.RoomViewModel;
 import vn.edu.hcmut.linexo.utils.Event;
-import vn.edu.hcmut.linexo.utils.Tool;
 
 public class RoomActivity extends BaseActivity {
 
@@ -95,23 +94,7 @@ public class RoomActivity extends BaseActivity {
         Context wrapper = new ContextThemeWrapper(this, R.style.AppTheme_PopupMenu);
         //Creating the instance of PopupMenu
         PopupMenu popup = new PopupMenu(wrapper, binding.avatar);
-        Tool.forcePopupMenuShowIcon(popup);
-        //Inflating the Popup using xml file
-        popup.getMenuInflater().inflate(R.menu.popup_logout, popup.getMenu());
 
-        //registering popup with OnMenuItemClickListener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.it_rating:
-                        break;
-                    case R.id.it_logout:
-                        ((ViewModelCallback) viewModel).onHelp(Event.create(Event.LOGOUT));
-                        break;
-                }
-                return true;
-            }
-        });
-        popup.show(); //showing popup menu
+        ((ViewModelCallback) viewModel).onHelp(Event.create(Event.CLICK_AVATAR_POPUP_MENU,popup));
     }
 }

@@ -22,7 +22,8 @@
             android:background="@color/colorPrimary"
             android:gravity="center"
             android:text="@string/network_error"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:visibility="@{viewModel.networkVisibility}"/>
 
         <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
             android:id="@+id/avatar_1"
