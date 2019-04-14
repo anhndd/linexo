@@ -20,10 +20,10 @@ public class UserRepositoryImpl implements UserRepository{
         this.localSource = localSource;
     }
 
-    @Override
-    public Single<Optional<User>> getNetworkUser(String username) {
-        return null;
-    }
+//    @Override
+//    public Single<Optional<User>> getNetworkUser(String uid) {
+//        return networkSource.getUser(uid);
+//    }
 
     @Override
     public Single<Optional<User>> getCacheUser() {

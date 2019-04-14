@@ -6,7 +6,7 @@ import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.utils.Optional;
 
 public interface UserRepository {
-    Single<Optional<User>> getNetworkUser(String username);
+    //Single<Optional<User>> getNetworkUser(String username);
 
     Single<Optional<User>> getCacheUser();
 

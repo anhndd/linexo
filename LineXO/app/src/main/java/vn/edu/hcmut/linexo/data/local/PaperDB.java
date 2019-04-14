@@ -4,6 +4,6 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public class RoomDB implements LocalSource {
+public class PaperDB implements LocalSource {
 
 }
