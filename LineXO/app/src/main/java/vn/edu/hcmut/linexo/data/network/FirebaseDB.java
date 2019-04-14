@@ -52,21 +52,27 @@ public class FirebaseDB implements NetworkSource {
     @Override
     public Observable<Optional<List<Room>>> getRoom() {
         DatabaseReference myRef = database.getReference("room");
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
-                    Room post = postSnapshot.getValue(Room.class);
-
+        List<Room> results = new ArrayList<>();
+        return Observable.create(emitter -> {
+            ValueEventListener listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
+                        Room post = postSnapshot.getValue(Room.class);
+                        if (post.getBoard_number() != null){
+                            results.add(post);
+                        }
+                    }
+                    emitter.onNext(Optional.of(results));
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Log.e("Reading failed: ")
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("FIREBASE ERROR", databaseError.getMessage());
+                    emitter.onNext(Optional.empty());
+                }
+            };
         });
-        return null;
     }
 
     @Override
