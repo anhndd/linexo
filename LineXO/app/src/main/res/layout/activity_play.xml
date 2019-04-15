@@ -137,8 +137,25 @@
             android:id="@+id/btn_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="@dimen/dimen_10dp"
             android:background="@drawable/bg_send"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_send"
+            android:visibility="gone"
             android:onClick="@{viewModel::onClickSend}"/>
+
+        <EditText
+            android:id="@+id/edt_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen_10dp"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:hint="@string/message_hint"
+            android:inputType="text"
+            android:maxLines="1"
+            android:imeOptions="flagNoExtractUi"
+            android:visibility="gone"/>
     </vn.edu.hcmut.linexo.presentation.view.play.PlayLayout>
 </layout>
