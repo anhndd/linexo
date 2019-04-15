@@ -23,6 +23,7 @@ import vn.edu.hcmut.linexo.data.mapper.Mapper;
 import vn.edu.hcmut.linexo.data.mapper.RoomDB;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.model.Room;
+import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.utils.Optional;
 
 public class FirebaseDB implements NetworkSource {
@@ -88,6 +89,43 @@ public class FirebaseDB implements NetworkSource {
             DatabaseReference roomRef = database.getReference("room").push();
             roomRef.setValue(room, (databaseError, databaseReference) -> {
                 if (databaseError == null){
+                    emitter.onSuccess(true);
+                }
+                else {
+                    Log.e("FIREBASE ERROR", databaseError.getMessage());
+                    emitter.onSuccess(false);
+                }
+            });
+        });
+    }
+
+    @Override
+    public Single<Optional<User>> getUser(String uid) {
+        return Single.create(emitter -> {
+            DatabaseReference userRef = database.getReference("users").child(uid);
+            ValueEventListener listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    emitter.onSuccess(Optional.of(dataSnapshot.getValue(User.class)));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("FIREBASE ERROR", databaseError.getMessage());
+                    emitter.onSuccess(Optional.empty());
+                }
+            };
+            userRef.addListenerForSingleValueEvent(listener);
+            emitter.setCancellable(() -> userRef.removeEventListener(listener));
+        });
+    }
+
+    @Override
+    public Single<Boolean> setUser(User user) {
+        return Single.create(emitter -> {
+            DatabaseReference userRef = database.getReference("users").child(user.getUid());
+            userRef.setValue(user, (databaseError, databaseReference) -> {
+                if (databaseError != null){
                     emitter.onSuccess(true);
                 }
                 else {

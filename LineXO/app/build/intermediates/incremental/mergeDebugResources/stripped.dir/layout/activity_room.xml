@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+                                                        
+                                                   
+
+    
+
+                 
+                            
+                                                                                    
+           
+
+    <vn.edu.hcmut.linexo.presentation.view.room.RoomLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:tag="layout/activity_room_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:bind="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+
+        <View
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent" />
+
+        <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
+            android:id="@+id/avatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="binding_1"                      
+                                                         />
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
+            android:tag="binding_2"             />
+
+        <TextView
+            android:id="@+id/txt_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_score_right"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen_20dp"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:textColor="@color/colorScore"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:tag="binding_3"          
+                                                            />
+
+        <View
+            android:id="@+id/score_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_coin"
+            android:tag="binding_4"                         />
+
+        <TextView
+            android:id="@+id/txt_network"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/network_error"
+            android:textColor="@color/colorPrimary"
+            android:tag="binding_5"                            />
+
+        <EditText
+            android:id="@+id/edt_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_search"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="@dimen/dimen_10dp"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/dimen_10dp"
+            android:paddingRight="@dimen/dimen_10dp"
+            android:tag="binding_6"                />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lst_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="binding_7"             />
+
+        <Button
+            android:id="@+id/btn_create_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_create_room"
+            android:stateListAnimator="@null"
+            android:text="@string/create_room"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:tag="binding_8"                          />
+
+        <View
+            android:id="@+id/advertisement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/advertisement" />
+    </vn.edu.hcmut.linexo.presentation.view.room.RoomLayout>
+         

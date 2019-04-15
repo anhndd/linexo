@@ -64,23 +64,28 @@ public class SharedPreferencesDB  implements CacheSource {
     }
 
     @Override
-    public void setUser(User user) {
+    public Single<Boolean> setUser(User user) {
         if (user != null){
-            editor.putString(NAME, user.getName());
-            editor.putString(AVATAR, user.getAvatar());
-            editor.putInt(SCORE, user.getScore());
-            editor.putString(USER_ID, user.getUid());
-            editor.putLong(TIME, user.getTime());
-            editor.putString(EMAIL, user.getEmail());
+            return Single.create(emitter -> {
+                editor.putString(NAME, user.getName());
+                editor.putString(AVATAR, user.getAvatar());
+                editor.putInt(SCORE, user.getScore());
+                editor.putString(USER_ID, user.getUid());
+                editor.putLong(TIME, user.getTime());
+                editor.putString(EMAIL, user.getEmail());
+                emitter.onSuccess(true);
+            });
         }
         else {
-            editor.remove(NAME);
-            editor.remove(AVATAR);
-            editor.remove(SCORE);
-            editor.remove(USER_ID);
-            editor.remove(TIME);
-            editor.remove(EMAIL);
+            return Single.create(emitter -> {
+                editor.remove(NAME);
+                editor.remove(AVATAR);
+                editor.remove(SCORE);
+                editor.remove(USER_ID);
+                editor.remove(TIME);
+                editor.remove(EMAIL);
+                emitter.onSuccess(false);
+            });
         }
-
     }
 }

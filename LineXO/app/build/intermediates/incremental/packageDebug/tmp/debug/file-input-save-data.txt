@@ -1,0 +1,19 @@
+#Internal package file, do not edit.
+#Sat Apr 13 09:28:18 ICT 2019
+1.base=/Users/nvietsang/Desktop/AndroidApp/linexo/LineXO/app/build/intermediates/transforms/dexMerger/debug/1
+2.path=crashlytics-build.properties
+0.baseType=DIRECTORY
+3.baseType=DIRECTORY
+2.base=/Users/nvietsang/Desktop/AndroidApp/linexo/LineXO/app/build/intermediates/merged_assets/debug/mergeDebugAssets/out
+3.set=DEX
+2.set=ASSET
+1.baseType=DIRECTORY
+3.path=classes.dex
+count=4
+1.set=DEX
+0.path=classes2.dex
+3.base=/Users/nvietsang/Desktop/AndroidApp/linexo/LineXO/app/build/intermediates/transforms/dexMerger/debug/0
+0.set=DEX
+0.base=/Users/nvietsang/Desktop/AndroidApp/linexo/LineXO/app/build/intermediates/transforms/dexMerger/debug/1
+2.baseType=DIRECTORY
+1.path=classes.dex

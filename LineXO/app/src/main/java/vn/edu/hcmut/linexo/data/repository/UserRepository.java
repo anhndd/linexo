@@ -10,6 +10,10 @@ public interface UserRepository {
 
     Single<Optional<User>> getCacheUser();
 
-    void setCacheUser(User user);
+    Single<Boolean> setCacheUser(User user);
+
+    Single<Optional<User>> getNetworkUser(String uid);
+
+    Single<Boolean> setNetworkUser(User user);
 
 }

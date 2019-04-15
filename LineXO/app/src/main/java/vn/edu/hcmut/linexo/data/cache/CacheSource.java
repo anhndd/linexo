@@ -11,6 +11,6 @@ public interface CacheSource {
     Single<Boolean> setSession(Session session);
 
     Single<Optional<User>> getUser();
-    void setUser(User user);
+    Single<Boolean> setUser(User user);
 
 }
