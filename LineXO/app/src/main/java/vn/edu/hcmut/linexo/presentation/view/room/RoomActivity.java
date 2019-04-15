@@ -50,6 +50,7 @@ import vn.edu.hcmut.linexo.databinding.ActivityRoomBinding;
 import vn.edu.hcmut.linexo.presentation.model.Room;
 import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.presentation.view.BaseActivity;
+import vn.edu.hcmut.linexo.presentation.view.play.PlayActivity;
 import vn.edu.hcmut.linexo.presentation.view.splash.SplashActivity;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
@@ -151,7 +152,9 @@ public class RoomActivity extends BaseActivity {
                     }
                     case Event.SHOW_PLAY_ACTIVITY: {
                         int idRoom = (int) event.getData()[0];
-
+                        Intent intent = new Intent(RoomActivity.this, PlayActivity.class);
+                        startActivity(intent);
+                        finish();
                         break;
                     }
                     case Event.SHOW_POPUP_USER_ON: {
@@ -296,7 +299,6 @@ public class RoomActivity extends BaseActivity {
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             User user = new User(firebaseUser.getUid(), firebaseUser.getEmail(),
                                     firebaseUser.getPhotoUrl().toString(), firebaseUser.getDisplayName(), 0, System.currentTimeMillis());
-                            Log.e("AVATAR_FB", firebaseUser.getPhotoUrl().toString());
                             ((RoomViewModel) viewModel).onHelp(Event.create(Event.LOGIN_USER, user));
                         } else {
                             // If sign in fails, display a message to the user.
