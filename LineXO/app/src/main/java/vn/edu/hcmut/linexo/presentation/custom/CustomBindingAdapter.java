@@ -6,6 +6,7 @@ import android.databinding.InverseBindingListener;
 import android.support.v7.widget.RecyclerView;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.view.play.BoardView;
+import vn.edu.hcmut.linexo.presentation.view.play.PlayLayout;
 
 /**
  * Class included methods that used in xml file to bind attribute or
@@ -71,5 +72,25 @@ public class CustomBindingAdapter {
     @BindingAdapter("touchAttrChanged")
     public static void setTouchListener(BoardView boardView, final InverseBindingListener listener) {
         boardView.setCallback(() -> listener.onChange());
+    }
+
+    /**
+     * Add listener to know when attribute {@code touch} change value.
+     * @param playLayout View need to listen an attribute changing.
+     * @param array array 2 elements height and orientation.
+     */
+    @BindingAdapter("onKeyboardChanged")
+    public static void setKeyboardChanged(PlayLayout playLayout, int[] array) {
+        playLayout.setKeyboardHeight(array[0],array[1]);
+    }
+
+    /**
+     * Add listener to know when attribute {@code touch} change value.
+     * @param roomNumberView View need to listen an attribute changing.
+     * @param roomNumber room ID in integer type.
+     */
+    @BindingAdapter("roomNumber")
+    public static void setKeyboardChanged(RoomNumberView roomNumberView, int roomNumber) {
+        roomNumberView.setNumber(roomNumber);
     }
 }
