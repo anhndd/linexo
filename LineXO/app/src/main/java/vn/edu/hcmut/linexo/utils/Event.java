@@ -25,12 +25,15 @@ public class Event {
     public static final int LOGIN_USER = 11;
     public static final int SHOW_POPUP_USER_ON = 12;
     public static final int SHOW_POPUP_USER_OFF = 13;
+    public static final int LOAD_MESSAGE = 14;
+    public static final int LOAD_PLAY_INFO = 15;
+    public static final int KEYBOARD_CHANGED = 16;
 
     /***********************************************************************************************
      * Class implementation.
      **********************************************************************************************/
 
-    private int         type;
+    private int type;
     private Object[]    data;
 
     public static Event create(int type) {

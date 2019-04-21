@@ -81,7 +81,7 @@ public class RoomViewLayout extends FrameLayout {
             );
         }
         roomNumberView.measure(
-                (roomBgWitdh / 6) | MeasureSpec.EXACTLY,
+                (roomBgWitdh / 6) | MeasureSpec.UNSPECIFIED,
                 (roomBgWitdh / 6 / 2 + roomBgWitdh / 6 / 2 / 2) | MeasureSpec.EXACTLY
         );
         pen.measure(

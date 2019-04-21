@@ -91,8 +91,10 @@ public class PlayLayout extends FrameLayout {
         keyboardHeight = height;
         if (height > 0) {
             btnSend.setVisibility(VISIBLE);
+            edtMessage.setVisibility(VISIBLE);
         } else {
             btnSend.setVisibility(GONE);
+            edtMessage.setVisibility(GONE);
         }
     }
 

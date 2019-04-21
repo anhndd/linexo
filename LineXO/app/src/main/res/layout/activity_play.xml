@@ -13,7 +13,8 @@
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e2e9f1">
+        android:background="#e2e9f1"
+        bind:onKeyboardChanged="@{viewModel.arrayKeyboardChanged}">
 
         <TextView
             android:id="@+id/txt_network"
@@ -68,7 +69,8 @@
             android:gravity="center"
             android:textColor="@color/colorScore"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            bind:roomNumber="@{viewModel.roomId}"/>
 
         <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
             android:id="@+id/avatar_2"
