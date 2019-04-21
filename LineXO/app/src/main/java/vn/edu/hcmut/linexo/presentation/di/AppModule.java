@@ -15,8 +15,6 @@ import vn.edu.hcmut.linexo.data.repository.BoardRepository;
 import vn.edu.hcmut.linexo.data.repository.BoardRepositoryImpl;
 import vn.edu.hcmut.linexo.data.repository.RoomRepository;
 import vn.edu.hcmut.linexo.data.repository.RoomRepositoryImpl;
-import vn.edu.hcmut.linexo.data.repository.SessionRepository;
-import vn.edu.hcmut.linexo.data.repository.SessionRepositoryImpl;
 import vn.edu.hcmut.linexo.data.repository.UserRepository;
 import vn.edu.hcmut.linexo.data.repository.UserRepositoryImpl;
 import vn.edu.hcmut.linexo.domain.interactor.PlayUsecase;
@@ -58,12 +56,6 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public SessionRepository provideSessionRepository(CacheSource cacheSource) {
-        return new SessionRepositoryImpl(cacheSource);
-    }
-
-    @Provides
-    @Singleton
     public BoardRepository provideBoardRepository(NetworkSource networkSource) {
         return new BoardRepositoryImpl(networkSource);
     }
@@ -82,10 +74,9 @@ public class AppModule {
 
     @Provides
     @Named("PlayUsecase")
-    public Usecase providePlayUsecase(SessionRepository sessionRepository,
-                                      BoardRepository boardRepository,
-                                      UserRepository userRepository) {
-        return new PlayUsecase(sessionRepository, boardRepository, userRepository);
+    public Usecase providePlayUsecase(BoardRepository boardRepository,
+                                      UserRepository userRepository, RoomRepository roomRepository) {
+        return new PlayUsecase(boardRepository, userRepository, roomRepository);
     }
 
     @Provides
