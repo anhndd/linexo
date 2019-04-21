@@ -3,7 +3,6 @@ package vn.edu.hcmut.linexo.presentation.view_model.play;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -32,11 +31,12 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     private Usecase playUsecase;
 
     private Board board;
-
+    private int roomId;
     private ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter(new ArrayList<>());
     private List<Message> messages;
     private boolean isConnected;
     NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
+    int[] arrayKeyboardChanged = {0,0};
 
     int j = 0;
 
@@ -52,13 +52,13 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
         });
 
         messages = new ArrayList<>();
-        messages.add(new Message(1, j+++"", null, null, "alo"));
-        messages.add(new Message(2, j+++"", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
-        messages.add(new Message(2, j+++"", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
-        messages.add(new Message(3, j+++"", null, null, "Lâm Nguyễn đang theo dõi"));
-        messages.add(new Message(1, j+++"", null, null, "111"));
-        messages.add(new Message(1, j+++"", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
-        messages.add(new Message(3, j+++"", null, null, "Lâm Nguyễn đã thoát"));
+        messages.add(new Message(1, j++ + "", null, null, "alo"));
+        messages.add(new Message(2, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+        messages.add(new Message(2, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+        messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đang theo dõi"));
+        messages.add(new Message(1, j++ + "", null, null, "111"));
+        messages.add(new Message(1, j++ + "", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
+        messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đã thoát"));
         adapter = new ChatRecyclerViewAdapter(messages);
         messages = new ArrayList<>(messages);
     }
@@ -74,9 +74,24 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     @Override
     public void onHelp(Event e) {
         switch (e.getType()) {
-            case 1: {
+            case Event.LOAD_MESSAGE: {
                 messages = new ArrayList<>((List<Message>) e.getData()[0]);
                 adapter.updateMessageListItems(messages);
+                break;
+            }
+            case Event.LOAD_PLAY_INFO:
+                // load avatar url host and opponent, score by room ID
+                // check url null
+
+                roomId = (int) e.getData()[0];
+                String urlAvatar = (String) e.getData()[1];
+                int score = (int) e.getData()[2];
+
+                notifyPropertyChanged(BR.roomId);
+                break;
+            case Event.KEYBOARD_CHANGED: {
+                arrayKeyboardChanged = (int[]) e.getData()[0];
+                notifyPropertyChanged(BR.arrayKeyboardChanged);
                 break;
             }
         }
@@ -163,11 +178,11 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     public void onClickSend(View view) {
         messages = new ArrayList<>(messages);
 
-        messages.add(new Message(2, j+++"", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
-        messages.add(new Message(3, j+++"", null, null, "Lâm Nguyễn đang theo dõi"));
-        messages.add(new Message(1, j+++"", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
+        messages.add(new Message(2, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+        messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đang theo dõi"));
+        messages.add(new Message(1, j++ + "", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
 
-        onHelp(Event.create(1, messages));
+        onHelp(Event.create(Event.LOAD_MESSAGE, messages));
     }
 
     @Bindable
@@ -185,6 +200,16 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
             return View.GONE;
         }
         return View.VISIBLE;
+    }
+
+    @Bindable
+    public int getRoomId() {
+        return roomId;
+    }
+
+    @Bindable
+    public int[] getArrayKeyboardChanged() {
+        return arrayKeyboardChanged;
     }
 
     @Override

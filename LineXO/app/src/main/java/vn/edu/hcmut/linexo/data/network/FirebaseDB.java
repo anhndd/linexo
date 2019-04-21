@@ -23,6 +23,7 @@ import vn.edu.hcmut.linexo.data.mapper.Mapper;
 import vn.edu.hcmut.linexo.data.mapper.RoomDB;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.model.Room;
+import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.utils.Optional;
 
 public class FirebaseDB implements NetworkSource {
@@ -35,24 +36,24 @@ public class FirebaseDB implements NetworkSource {
 
     @Override
     public Single<List<Board>> getBoard() {
-        return null;
-//        return Single.create(emitter -> {
-//            List<Board> boards = new ArrayList<>();
-//            boards.add(new Board(new byte[][]{
-//                        {0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0}, // 1
-//                        {0,0,0,0,0,0,0,0,3,4,3,0,0,0,0,0,0,0,0}, // 2
-//                        {0,0,0,0,0,0,0,3,0,1,0,3,0,0,0,0,0,0,0}, // 3
-//                        {0,0,0,0,0,0,3,4,1,4,1,4,3,0,0,0,0,0,0}, // 4
-//                        {0,0,0,0,0,3,0,1,0,1,0,1,0,3,0,0,0,0,0}, // 5
-//                        {0,0,0,0,3,4,1,4,1,4,1,4,1,4,3,0,0,0,0}, // 6
-//                        {0,0,0,3,0,1,0,1,0,1,0,1,0,1,0,3,0,0,0}, // 7
-//                        {0,0,3,4,1,4,1,4,1,4,1,4,1,4,1,4,3,0,0}, // 8
-//                        {0,3,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,3,0}, // 9
-//                        {3,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,3}, // 10
-//                        {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}, // 11
-//                }));
-//            emitter.onSuccess(boards);
-//        });
+//        return null;
+        return Single.create(emitter -> {
+            List<Board> boards = new ArrayList<>();
+            boards.add(new Board(new byte[][]{
+                        {0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0}, // 1
+                        {0,0,0,0,0,0,0,0,3,4,3,0,0,0,0,0,0,0,0}, // 2
+                        {0,0,0,0,0,0,0,3,0,1,0,3,0,0,0,0,0,0,0}, // 3
+                        {0,0,0,0,0,0,3,4,1,4,1,4,3,0,0,0,0,0,0}, // 4
+                        {0,0,0,0,0,3,0,1,0,1,0,1,0,3,0,0,0,0,0}, // 5
+                        {0,0,0,0,3,4,1,4,1,4,1,4,1,4,3,0,0,0,0}, // 6
+                        {0,0,0,3,0,1,0,1,0,1,0,1,0,1,0,3,0,0,0}, // 7
+                        {0,0,3,4,1,4,1,4,1,4,1,4,1,4,1,4,3,0,0}, // 8
+                        {0,3,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,3,0}, // 9
+                        {3,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,3}, // 10
+                        {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}, // 11
+                },0,0,100));
+            emitter.onSuccess(boards);
+        });
     }
 
     @Override
@@ -88,6 +89,43 @@ public class FirebaseDB implements NetworkSource {
             DatabaseReference roomRef = database.getReference("room").push();
             roomRef.setValue(room, (databaseError, databaseReference) -> {
                 if (databaseError == null){
+                    emitter.onSuccess(true);
+                }
+                else {
+                    Log.e("FIREBASE ERROR", databaseError.getMessage());
+                    emitter.onSuccess(false);
+                }
+            });
+        });
+    }
+
+    @Override
+    public Single<Optional<User>> getUser(String uid) {
+        return Single.create(emitter -> {
+            DatabaseReference userRef = database.getReference("users").child(uid);
+            ValueEventListener listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    emitter.onSuccess(Optional.of(dataSnapshot.getValue(User.class)));
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("FIREBASE ERROR", databaseError.getMessage());
+                    emitter.onSuccess(Optional.empty());
+                }
+            };
+            userRef.addListenerForSingleValueEvent(listener);
+            emitter.setCancellable(() -> userRef.removeEventListener(listener));
+        });
+    }
+
+    @Override
+    public Single<Boolean> setUser(User user) {
+        return Single.create(emitter -> {
+            DatabaseReference userRef = database.getReference("users").child(user.getUid());
+            userRef.setValue(user, (databaseError, databaseReference) -> {
+                if (databaseError != null){
                     emitter.onSuccess(true);
                 }
                 else {

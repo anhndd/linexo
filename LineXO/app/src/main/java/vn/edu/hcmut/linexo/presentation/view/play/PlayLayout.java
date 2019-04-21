@@ -1,6 +1,7 @@
 package vn.edu.hcmut.linexo.presentation.view.play;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -11,8 +12,11 @@ import vn.edu.hcmut.linexo.R;
 public class PlayLayout extends FrameLayout {
 
     private int statusBarHeight;
+    private int actionBarHeight;
     private int defaultMargin;
     private int horizontalOffset;
+    private int keyboardHeight;
+    private int keyboardOrientation;
 
     private View txtNetwork;
     private View avatar1;
@@ -28,6 +32,7 @@ public class PlayLayout extends FrameLayout {
     private View lstMessage;
     private View btnMessage;
     private View btnSend;
+    private View edtMessage;
 
     public PlayLayout(@NonNull Context context) {
         super(context);
@@ -52,6 +57,13 @@ public class PlayLayout extends FrameLayout {
                         "android"
                 )
         );
+
+        TypedArray styledAttributes = getContext().getTheme().obtainStyledAttributes(
+                new int[] {android.R.attr.actionBarSize}
+        );
+        actionBarHeight = styledAttributes.getDimensionPixelSize(0, 0);
+        styledAttributes.recycle();
+
         defaultMargin = getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
     }
 
@@ -70,8 +82,20 @@ public class PlayLayout extends FrameLayout {
         txtClock2   = findViewById(R.id.txt_clock_2);
         board       = findViewById(R.id.board);
         lstMessage  = findViewById(R.id.lst_message);
-        btnMessage = findViewById(R.id.btn_message);
+        btnMessage  = findViewById(R.id.btn_message);
         btnSend     = findViewById(R.id.btn_send);
+        edtMessage  = findViewById(R.id.edt_message);
+    }
+
+    public void setKeyboardHeight(int height, int orientation) {
+        keyboardHeight = height;
+        if (height > 0) {
+            btnSend.setVisibility(VISIBLE);
+            edtMessage.setVisibility(VISIBLE);
+        } else {
+            btnSend.setVisibility(GONE);
+            edtMessage.setVisibility(GONE);
+        }
     }
 
     @Override
@@ -131,18 +155,24 @@ public class PlayLayout extends FrameLayout {
                     txtClock1.getMeasuredHeight() | MeasureSpec.EXACTLY
             );
         }
-        btnSend.measure(
-                ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 4 * defaultMargin) / 5) | MeasureSpec.EXACTLY,
-                ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 4 * defaultMargin) / 5) | MeasureSpec.EXACTLY
-        );
         btnMessage.measure(
-                (btnSend.getMeasuredWidth() * 4) | MeasureSpec.EXACTLY,
-                btnSend.getMeasuredWidth() | MeasureSpec.EXACTLY
+                ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 3 * defaultMargin)) | MeasureSpec.EXACTLY,
+                ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 3 * defaultMargin) / 5) | MeasureSpec.EXACTLY
         );
         lstMessage.measure(
-                (btnMessage.getMeasuredWidth() + btnSend.getMeasuredWidth() + defaultMargin) | MeasureSpec.EXACTLY,
+                btnMessage.getMeasuredWidth() | MeasureSpec.EXACTLY,
                 (height - statusBarHeight - 2 * defaultMargin - btnMessage.getMeasuredHeight()) | MeasureSpec.EXACTLY
         );
+        if (btnSend.getVisibility() != GONE) {
+            btnSend.measure(
+                    actionBarHeight | MeasureSpec.EXACTLY,
+                    actionBarHeight | MeasureSpec.EXACTLY
+            );
+            edtMessage.measure(
+                    (width - actionBarHeight) | MeasureSpec.EXACTLY,
+                    actionBarHeight | MeasureSpec.EXACTLY
+            );
+        }
         setMeasuredDimension(width, height);
     }
 
@@ -198,7 +228,12 @@ public class PlayLayout extends FrameLayout {
         t += lstMessage.getMeasuredHeight();
         btnMessage.layout(l, t, l + btnMessage.getMeasuredWidth(), t + btnMessage.getMeasuredHeight());
 
-        l += btnMessage.getMeasuredWidth() + defaultMargin;
-        btnSend.layout(l, t, l + btnSend.getMeasuredWidth(), t + btnSend.getMeasuredHeight());
+        if (btnSend.getVisibility() != GONE) {
+            l = left;
+            t = bottom - keyboardHeight - actionBarHeight;
+            edtMessage.layout(l, t, l + edtMessage.getMeasuredWidth(), t + edtMessage.getMeasuredHeight());
+            l += edtMessage.getMeasuredWidth();
+            btnSend.layout(l, t, l + btnSend.getMeasuredWidth(), t + btnSend.getMeasuredHeight());
+        }
     }
 }

@@ -1,14 +1,13 @@
 package vn.edu.hcmut.linexo.presentation.view_model.room;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.support.v7.widget.PopupMenu;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,6 @@ import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.utils.Event;
 import vn.edu.hcmut.linexo.utils.NetworkChangeReceiver;
 import vn.edu.hcmut.linexo.utils.Optional;
-import vn.edu.hcmut.linexo.utils.Tool;
 
 public class RoomViewModel extends BaseObservable implements ViewModel, ViewModelCallback {
 
@@ -47,11 +45,20 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     private Usecase roomUsecase;
     private boolean isConnected;
     NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     int i = 1;
 
     public RoomViewModel(Context context, Usecase roomUsecase) {
+
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            User user = new User(firebaseUser.getUid(), firebaseUser.getEmail(),
+                    firebaseUser.getPhotoUrl().toString(), firebaseUser.getDisplayName(), 0, System.currentTimeMillis());
+            onHelp(Event.create(Event.LOGIN_USER, user));
+        }
         this.context = context;
+
         this.roomUsecase = roomUsecase;
         networkChangeReceiver.initReceiver(context, new NetworkChangeReceiver.NetworkChangeListener() {
             @Override
@@ -73,7 +80,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     public void subscribeObserver(Observer<Event> observer) {
         publisher.subscribe(observer);
 
-        roomUsecase.execute(new UserInfoObserver(), Event.LOGIN_INFO);
+//        roomUsecase.execute(new UserInfoObserver(), Event.LOGIN_INFO);
     }
 
     @Override
@@ -82,9 +89,8 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             case Event.CLICK_ROOM: {
                 Object[] data = e.getData();
                 int roomId = (int) data[0];
-//                Log.e("test222",roomId+"");
-                if (roomId == 0 || user != null) {
-                    publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY, roomId));
+                if (roomId == 0 || (user != null && user.getScore() != -1)) {
+                    publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY, roomId, user.getAvatar(),user.getScore()));
                 } else {
                     publisher.onNext(Event.create(Event.SHOW_LOGIN));
                 }
@@ -117,31 +123,24 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 }
                 break;
             }
-            case Event.CLICK_AVATAR_POPUP_MENU: {
-                PopupMenu popup = (PopupMenu) e.getData()[0];
-                Tool.forcePopupMenuShowIcon(popup);
-                //Inflating the Popup using xml file
-                if (user != null)
-                    popup.getMenuInflater().inflate(R.menu.popup_logout, popup.getMenu());
-                else
-                    popup.getMenuInflater().inflate(R.menu.popup_login, popup.getMenu());
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.it_rating:
-                                break;
-                            case R.id.it_logout:
-                                onHelp(Event.create(Event.LOGOUT));
-                                break;
-                        }
-                        return true;
-                    }
-                });
-                popup.show(); //showing popup menu
+            case Event.LOGIN_USER: {
+                user = (User) e.getData()[0];
+                notifyPropertyChanged(BR.urlAvatar);
+                notifyPropertyChanged(BR.userName);
+                notifyPropertyChanged(BR.userVisibility);
+                notifyPropertyChanged(BR.score);
+                break;
+
             }
             case Event.LOGOUT: {
+                user = null;
+                notifyPropertyChanged(BR.urlAvatar);
+                notifyPropertyChanged(BR.userName);
+                notifyPropertyChanged(BR.userVisibility);
+                notifyPropertyChanged(BR.score);
+                mAuth.signOut();
                 roomUsecase.execute(null, Event.LOGOUT);
+                break;
             }
         }
     }
@@ -202,6 +201,10 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         if (user == null) {
             return "";
         }
+        else if(user.getScore() == -1){
+            roomUsecase.execute(new FullInfoUserObserver(),Event.LOAD_FULL_USER_INFO,user.getUid(),isConnected);
+            return "-";
+        }
         return String.valueOf(user.getScore());
     }
 
@@ -231,6 +234,14 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     @Override
     public void endTask() {
 
+    }
+
+    public void onClickAvatar(View view) {
+        if (user != null) {
+            publisher.onNext(Event.create(Event.SHOW_POPUP_USER_ON));
+        } else {
+            publisher.onNext(Event.create(Event.SHOW_POPUP_USER_OFF));
+        }
     }
 
     class UserInfoObserver extends DisposableSingleObserver<Optional<User>> {
@@ -265,6 +276,24 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
         @Override
         public void onComplete() {
+
+        }
+    }
+
+    class FullInfoUserObserver extends DisposableSingleObserver<Optional<User>> {
+        @Override
+        public void onSuccess(Optional<User> userOptional) {
+            if (userOptional.isPresent()) {
+                user = userOptional.get();
+                notifyPropertyChanged(BR.urlAvatar);
+                notifyPropertyChanged(BR.userName);
+                notifyPropertyChanged(BR.userVisibility);
+                notifyPropertyChanged(BR.score);
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
 
         }
     }

@@ -24,6 +24,7 @@ import vn.edu.hcmut.linexo.presentation.view_model.play.PlayViewModel;
 import vn.edu.hcmut.linexo.utils.Event;
 import vn.edu.hcmut.linexo.utils.KeyboardHeightObserver;
 import vn.edu.hcmut.linexo.utils.KeyboardHeightProvider;
+import vn.edu.hcmut.linexo.utils.Tool;
 
 public class PlayActivity extends BaseActivity implements KeyboardHeightObserver {
 
@@ -34,13 +35,20 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     ActivityPlayBinding binding;
     /** The keyboard height provider */
     private KeyboardHeightProvider keyboardHeightProvider;
-    InputMethodManager imm;
 
     Disposable disposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            int idRoom = (int) extras.get("idRoom");
+            String urlAvatar = (String) extras.get("urlAvatar");
+            Integer score = (Integer) extras.get("score");
+            ((PlayViewModel) viewModel).onHelp(Event.create(Event.LOAD_PLAY_INFO,idRoom,urlAvatar,score));
+        }
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
 //        linearLayoutManager.setReverseLayout(true);
@@ -54,6 +62,8 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                 keyboardHeightProvider.start();
             }
         });
+
+        addControlKeyboardView(binding.edtMessage);
     }
 
     @Override
@@ -110,11 +120,9 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
         }
     }
 
-    private Rect oldRect;
-
     public void onClickBtnMessage(View view) {
-        imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        binding.edtMessage.setVisibility(View.VISIBLE);
+        Tool.showSoftKeyboard(binding.edtMessage,this);
     }
 
     /**
@@ -124,7 +132,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     public void onPause() {
         super.onPause();
         keyboardHeightProvider.setKeyboardHeightObserver(null);
-        if(imm != null) imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        Tool.hideSoftKeyboard(this);
     }
 
     /**
@@ -143,7 +151,6 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     public void onDestroy() {
         super.onDestroy();
         keyboardHeightProvider.stop();
-        if(imm != null) imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
     }
 
     /**
@@ -151,7 +158,8 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
      */
     @Override
     public void onKeyboardHeightChanged(int height, int orientation) {
-
+        int[] array = {height,orientation};
+        ((PlayViewModel) viewModel).onHelp(Event.create(Event.KEYBOARD_CHANGED,array));
         String or = orientation == Configuration.ORIENTATION_PORTRAIT ? "portrait" : "landscape";
         Log.i("Text", "onKeyboardHeightChanged in pixels: " + height + " " + or);
     }

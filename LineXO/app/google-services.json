@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:439704264902:android:286da41afe8390ab",
+        "android_client_info": {
+          "package_name": "com.my.fbdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "439704264902-6b5f81bkk88fmsbf6lfj0kn2ua8n65cv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.my.fbdemo",
+            "certificate_hash": "f68f304880427381eea302ac0ab89a58119b7ca1"
+          }
+        },
+        {
+          "client_id": "439704264902-359ihm8644tv1e8s0hds5d4crafn1jrf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7fT4jGNedqR0_ZxmAw4a67U1qXAi6NVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "439704264902-359ihm8644tv1e8s0hds5d4crafn1jrf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:439704264902:android:b930dfba6b0a224b",
         "android_client_info": {
           "package_name": "vn.edu.hcmut.linexo"
@@ -15,7 +52,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "439704264902-dggj9rej3mg6anou611j6tmloulo898s.apps.googleusercontent.com",
+          "client_id": "439704264902-s4iici4827chv34b03q2pdspf2fb28ir.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "vn.edu.hcmut.linexo",
@@ -33,20 +70,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "439704264902-359ihm8644tv1e8s0hds5d4crafn1jrf.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
