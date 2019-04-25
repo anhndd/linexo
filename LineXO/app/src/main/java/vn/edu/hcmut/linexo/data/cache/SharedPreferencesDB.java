@@ -12,7 +12,7 @@ import vn.edu.hcmut.linexo.utils.Optional;
 
 public class SharedPreferencesDB  implements CacheSource {
 
-    private final String FILENAME = "linexo-97";
+    private final String FILENAME = "linexo";
     private final String NODE_NAME = "users";
     private final String USER_ID = "";
     private final String NAME = "name";
