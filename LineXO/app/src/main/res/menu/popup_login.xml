@@ -2,5 +2,5 @@
     <item
         android:id="@+id/it_rating"
         android:icon="@drawable/ic_star_rating"
-        android:title="Rating" />
+        android:title="@string/rating" />
 </menu>
