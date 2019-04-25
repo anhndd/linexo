@@ -90,7 +90,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 Object[] data = e.getData();
                 int roomId = (int) data[0];
                 if (roomId == 0 || (user != null && user.getScore() != -1)) {
-                    publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY, roomId, user.getAvatar(),user.getScore()));
+                    publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY, roomId));
                 } else {
                     publisher.onNext(Event.create(Event.SHOW_LOGIN));
                 }

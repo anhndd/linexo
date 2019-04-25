@@ -52,42 +52,42 @@ public class Board {
         return copy;
     }
 
-    public int getLastPlayer() {
-        return 0;
-    }
+//    public int getLastPlayer() {
+//        return 0;
+//    }
 
-    public int getPlayerToMove() {
-        return 0;
-    }
+//    public int getPlayerToMove() {
+//        return 0;
+//    }
 
-    public int[] getLastMove() {
-        return null;
-    }
+//    public int[] getLastMove() {
+//        return null;
+//    }
 
-    public Board updatePattern(byte[][] pattern) {
-        return null;
-    }
+//    public Board updatePattern(byte[][] pattern) {
+//        return new Board(pattern,);
+//    }
 
-    public Board updateLastPlayer(int lastPlayer) {
-        return null;
-    }
+//    public Board updateLastPlayer(int lastPlayer) {
+//        return null;
+//    }
+//
+//    public Board updatePlayerToMove(int playerToMove) {
+//        return null;
+//    }
+//
+//    public Board updateLastMove(int[] lastMove) {
+//        return null;
+//    }
 
-    public Board updatePlayerToMove(int playerToMove) {
-        return null;
-    }
-
-    public Board updateLastMove(int[] lastMove) {
-        return null;
-    }
-
-    public Board duplicate() {
-        byte[][] board_copy = new byte[getHeight()][getWidth()];
-        for (int i = 0; i < board_copy.length; ++i) {
-            System.arraycopy(pattern[i], 0, board_copy[i], 0, pattern[i].length);
-        }
-       // Board copy = new Board(board_copy, lastPlayer, playerToMove, lastMove);
-        return null;
-    }
+//    public Board duplicate() {
+//        byte[][] board_copy = new byte[getHeight()][getWidth()];
+//        for (int i = 0; i < board_copy.length; ++i) {
+//            System.arraycopy(pattern[i], 0, board_copy[i], 0, pattern[i].length);
+//        }
+//       // Board copy = new Board(board_copy, lastPlayer, playerToMove, lastMove);
+//        return null;
+//    }
 
     public List<LineXOMove> getNotDrawnLine() {
         List<LineXOMove> actions = new LinkedList<LineXOMove>();
@@ -102,46 +102,46 @@ public class Board {
         return actions;
     }
 
-    public void mark(LineXOMove location) {
-//        int x = location.getX();
-//        int y = location.getY();
-//        pattern[y][x] = Board.LINE_DRAWN;
-//        byte sign = playerToMove == Board.X ? Board.CELL_X : Board.CELL_O;
-//        int count = 0;
-//        if (x % 2 == 0 && y % 2 == 1) {
-//            if (pattern[y - 1][x - 1] == Board.LINE_DRAWN && pattern[y + 1][x - 1] == Board.LINE_DRAWN
-//                    && pattern[y][x - 2] == Board.LINE_DRAWN) {
-//                pattern[y][x - 1] = sign;
-//                count++;
-//            }
-//            if (pattern[y - 1][x + 1] == Board.LINE_DRAWN && pattern[y + 1][x + 1] == Board.LINE_DRAWN
-//                    && pattern[y][x + 2] == Board.LINE_DRAWN) {
-//                pattern[y][x + 1] = sign;
-//                count++;
-//            }
-//        } else if (x % 2 == 1 && y % 2 == 0) {
-//            if (pattern[y - 1][x - 1] == Board.LINE_DRAWN && pattern[y - 1][x + 1] == Board.LINE_DRAWN
-//                    && pattern[y - 2][x] == Board.LINE_DRAWN) {
-//                pattern[y - 1][x] = sign;
-//                count++;
-//            }
-//            if (pattern[y + 1][x - 1] == Board.LINE_DRAWN && pattern[y + 1][x + 1] == Board.LINE_DRAWN
-//                    && pattern[y + 2][x] == Board.LINE_DRAWN) {
-//                pattern[y + 1][x] = sign;
-//                count++;
-//            }
-//        }
-//        if (playerToMove == Board.X) {
-//            x_cells += count;
-//        } else {
-//            o_cells += count;
-//        }
-//        lastPlayer = playerToMove;
-//        lastMove = new int[]{location.getX(), location.getY()};
-//        if (count == 0) {
-//            playerToMove = playerToMove == Board.X ? Board.O : Board.X;
-//        }
-    }
+//    public void mark(LineXOMove location) {
+////        int x = location.getX();
+////        int y = location.getY();
+////        pattern[y][x] = Board.LINE_DRAWN;
+////        byte sign = playerToMove == Board.X ? Board.CELL_X : Board.CELL_O;
+////        int count = 0;
+////        if (x % 2 == 0 && y % 2 == 1) {
+////            if (pattern[y - 1][x - 1] == Board.LINE_DRAWN && pattern[y + 1][x - 1] == Board.LINE_DRAWN
+////                    && pattern[y][x - 2] == Board.LINE_DRAWN) {
+////                pattern[y][x - 1] = sign;
+////                count++;
+////            }
+////            if (pattern[y - 1][x + 1] == Board.LINE_DRAWN && pattern[y + 1][x + 1] == Board.LINE_DRAWN
+////                    && pattern[y][x + 2] == Board.LINE_DRAWN) {
+////                pattern[y][x + 1] = sign;
+////                count++;
+////            }
+////        } else if (x % 2 == 1 && y % 2 == 0) {
+////            if (pattern[y - 1][x - 1] == Board.LINE_DRAWN && pattern[y - 1][x + 1] == Board.LINE_DRAWN
+////                    && pattern[y - 2][x] == Board.LINE_DRAWN) {
+////                pattern[y - 1][x] = sign;
+////                count++;
+////            }
+////            if (pattern[y + 1][x - 1] == Board.LINE_DRAWN && pattern[y + 1][x + 1] == Board.LINE_DRAWN
+////                    && pattern[y + 2][x] == Board.LINE_DRAWN) {
+////                pattern[y + 1][x] = sign;
+////                count++;
+////            }
+////        }
+////        if (playerToMove == Board.X) {
+////            x_cells += count;
+////        } else {
+////            o_cells += count;
+////        }
+////        lastPlayer = playerToMove;
+////        lastMove = new int[]{location.getX(), location.getY()};
+////        if (count == 0) {
+////            playerToMove = playerToMove == Board.X ? Board.O : Board.X;
+////        }
+//    }
 
     public int getUtility(int player) {
         return player == Board.X ? x_cells - o_cells : o_cells - x_cells;
