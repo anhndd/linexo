@@ -130,10 +130,12 @@
             android:paddingLeft="@dimen/dimen_10dp"
             android:paddingRight="@dimen/dimen_10dp"
             android:stateListAnimator="@null"
-            android:text="@string/message_hint"
+            android:maxLines="1"
+            android:hint="@string/message_hint"
             android:textAllCaps="false"
             android:textColor="@android:color/darker_gray"
-            android:onClick="onClickBtnMessage" />
+            android:onClick="onClickBtnMessage"
+            android:text="@={viewModel.contentMessage}"/>
 
         <ImageButton
             android:id="@+id/btn_send"
@@ -158,6 +160,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:imeOptions="flagNoExtractUi"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:text="@={viewModel.contentMessage}"/>
     </vn.edu.hcmut.linexo.presentation.view.play.PlayLayout>
 </layout>

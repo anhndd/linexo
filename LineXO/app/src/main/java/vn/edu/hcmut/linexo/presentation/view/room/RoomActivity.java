@@ -154,12 +154,8 @@ public class RoomActivity extends BaseActivity {
                     }
                     case Event.SHOW_PLAY_ACTIVITY: {
                         int idRoom = (int) event.getData()[0];
-                        String urlAvatar = (String) event.getData()[1];
-                        Integer score = (Integer) event.getData()[2];
                         Intent intent = new Intent(RoomActivity.this, PlayActivity.class);
                         intent.putExtra("idRoom",idRoom);
-                        intent.putExtra("urlAvatar",urlAvatar);
-                        intent.putExtra("score",score);
                         startActivity(intent);
                         finish();
                         break;

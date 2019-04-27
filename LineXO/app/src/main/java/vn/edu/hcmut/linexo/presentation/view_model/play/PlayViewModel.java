@@ -3,7 +3,12 @@ package vn.edu.hcmut.linexo.presentation.view_model.play;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +17,12 @@ import io.reactivex.Observer;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.subjects.PublishSubject;
 import vn.edu.hcmut.linexo.BR;
+import vn.edu.hcmut.linexo.domain.interactor.PlayUsecase;
 import vn.edu.hcmut.linexo.domain.interactor.Usecase;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.model.Message;
+import vn.edu.hcmut.linexo.presentation.model.Room;
+import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.presentation.view.play.ChatRecyclerViewAdapter;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
@@ -30,13 +38,16 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
     private Usecase playUsecase;
 
-    private Board board;
+    private Room room;
     private int roomId;
     private ChatRecyclerViewAdapter adapter = new ChatRecyclerViewAdapter(new ArrayList<>());
     private List<Message> messages;
+    private User user;
     private boolean isConnected;
     NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
-    int[] arrayKeyboardChanged = {0,0};
+    int[] arrayKeyboardChanged = {0, 0};
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    String contentMessage = "";
 
     int j = 0;
 
@@ -51,6 +62,13 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
             }
         });
 
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            user = new User(firebaseUser.getUid(), firebaseUser.getEmail(),
+                    firebaseUser.getPhotoUrl().toString(), firebaseUser.getDisplayName(), 0, System.currentTimeMillis());
+//            onHelp(Event.create(Event.LOGIN_USER, user));
+        }
+
         messages = new ArrayList<>();
         messages.add(new Message(1, j++ + "", null, null, "alo"));
         messages.add(new Message(2, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
@@ -61,13 +79,20 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
         messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đã thoát"));
         adapter = new ChatRecyclerViewAdapter(messages);
         messages = new ArrayList<>(messages);
+
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                publisher.onNext(Event.create(Event.SMOOTH_MESSAGE_LIST,adapter.getItemCount()));
+            }
+        });
     }
 
     @Override
     public void subscribeObserver(Observer<Event> observer) {
         publisher.subscribe(observer);
-        if (board == null) {
-            loadBoard();
+        if (room == null) {
+            loadRoom();
         }
     }
 
@@ -82,11 +107,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
             case Event.LOAD_PLAY_INFO:
                 // load avatar url host and opponent, score by room ID
                 // check url null
-
                 roomId = (int) e.getData()[0];
-                String urlAvatar = (String) e.getData()[1];
-                int score = (int) e.getData()[2];
-
                 notifyPropertyChanged(BR.roomId);
                 break;
             case Event.KEYBOARD_CHANGED: {
@@ -99,7 +120,9 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
     @Bindable
     public Board getBoard() {
-        return board;
+        if (room == null)
+            return null;
+        return room.getBoard();
     }
 
     @Bindable
@@ -108,37 +131,32 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     }
 
     public void setTouch(int[] touch) {
-        if (board.getValueAt(touch[0], touch[1]) == Board.LINE_NOT_DRAWN && board.getPlayerToMove() == 2) {
-            playUsecase.execute(
-                    new DisposableSingleObserver<Board>() {
-                        @Override
-                        public void onSuccess(Board board) {
-                            PlayViewModel.this.board = board;
-                            notifyPropertyChanged(BR.board);
-                            if (board.getPlayerToMove() == 1) {
-                                getOpponentMove();
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                        }
-                    },
+        if (PlayViewModel.this.room.getRoom_number() == 0) {
+            if (!PlayViewModel.this.room.getNext_turn().equals("AI"))
+                playUsecase.execute(new RoomRecieverObserver(),
+                        Event.SEND_MOVE,
+                        touch[0], touch[1]
+                );
+        } else if (PlayViewModel.this.room.getNext_turn().equals(user.getUid())) {
+            playUsecase.execute(new RoomRecieverObserver(),
                     Event.SEND_MOVE,
                     touch[0], touch[1]
             );
         }
     }
 
-    private void loadBoard() {
+    private void loadRoom() {
         playUsecase.execute(
-                new DisposableSingleObserver<Board>() {
+                new DisposableSingleObserver<Room>() {
                     @Override
-                    public void onSuccess(Board board) {
-                        PlayViewModel.this.board = board;
+                    public void onSuccess(Room room) {
+                        PlayViewModel.this.room = room;
                         notifyPropertyChanged(BR.board);
                         //TODO: count down time
-                        if (board.getPlayerToMove() == 1) {
+                        if (PlayViewModel.this.room.getRoom_number() == 0) {
+                            if (PlayViewModel.this.room.getNext_turn().equals("AI"))
+                                getOpponentMove();
+                        } else if (!PlayViewModel.this.room.getNext_turn().equals(user.getUid())) {
                             getOpponentMove();
                         }
                     }
@@ -149,18 +167,21 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                     }
                 },
                 Event.INIT_GAME,
-                null
+                roomId
         );
     }
 
     private void getOpponentMove() {
         playUsecase.execute(
-                new DisposableSingleObserver<Board>() {
+                new DisposableSingleObserver<Room>() {
                     @Override
-                    public void onSuccess(Board board) {
-                        PlayViewModel.this.board = board;
+                    public void onSuccess(Room room) {
+                        PlayViewModel.this.room = room;
                         notifyPropertyChanged(BR.board);
-                        if (board.getPlayerToMove() == 1) {
+                        if (PlayViewModel.this.room.getRoom_number() == 0) {
+                            if (PlayViewModel.this.room.getNext_turn().equals("AI"))
+                                getOpponentMove();
+                        } else if (!PlayViewModel.this.room.getNext_turn().equals(user.getUid())) {
                             getOpponentMove();
                         }
                     }
@@ -178,9 +199,12 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     public void onClickSend(View view) {
         messages = new ArrayList<>(messages);
 
-        messages.add(new Message(2, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
-        messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đang theo dõi"));
-        messages.add(new Message(1, j++ + "", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
+//        messages.add(new Message(2, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+//        messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đang theo dõi"));
+//        messages.add(new Message(1, j++ + "", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
+        messages.add(new Message(1, j++ + "", null, null, contentMessage));
+        contentMessage = "";
+        notifyPropertyChanged(BR.contentMessage);
 
         onHelp(Event.create(Event.LOAD_MESSAGE, messages));
     }
@@ -212,8 +236,39 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
         return arrayKeyboardChanged;
     }
 
+    @Bindable
+    public String getContentMessage() {
+        return contentMessage;
+    }
+
+    public void setContentMessage(String contentMessage) {
+        this.contentMessage = contentMessage;
+        notifyPropertyChanged(BR.contentMessage);
+    }
+
     @Override
     public void endTask() {
         playUsecase.endTask();
+    }
+
+    class RoomRecieverObserver extends DisposableSingleObserver<Room> {
+
+        @Override
+        public void onSuccess(Room room) {
+            PlayViewModel.this.room = room;
+            notifyPropertyChanged(BR.board);
+            //TODO: count down time
+            if (PlayViewModel.this.room.getRoom_number() == 0) {
+                if (PlayViewModel.this.room.getNext_turn().equals("AI"))
+                    getOpponentMove();
+            } else if (user != null && !PlayViewModel.this.room.getNext_turn().equals(user.getUid())) {
+                getOpponentMove();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
     }
 }

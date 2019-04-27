@@ -2,12 +2,15 @@ package vn.edu.hcmut.linexo.domain.interactor;
 
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
 import java.util.List;
 import java.util.Random;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
+import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -27,7 +30,6 @@ import vn.edu.hcmut.linexo.utils.Optional;
 
 public class PlayUsecase extends AbstractUsecase {
 
-    private Board board;
     private Room room;
     private User user;
     private List<Board> boards;
@@ -48,7 +50,13 @@ public class PlayUsecase extends AbstractUsecase {
                         .subscribeWith(new DisposableSingleObserver<Optional<User>>() {
                             @Override
                             public void onSuccess(Optional<User> userOptional) {
-                                PlayUsecase.this.user = userOptional.get();
+//                                PlayUsecase.this.user = userOptional.get();
+                                if(userOptional.isPresent()){
+                                    PlayUsecase.this.user = userOptional.get();
+                                }
+                                else {
+                                    PlayUsecase.this.user = new User("fake", "a@gmail.com", "fake.jpg", "Fucking guy", 0);
+                                }
                             }
 
                             @Override
@@ -74,6 +82,7 @@ public class PlayUsecase extends AbstractUsecase {
                             }
                         })
         );
+//        user =
     }
 
     @Override
@@ -84,7 +93,7 @@ public class PlayUsecase extends AbstractUsecase {
                     @Override
                     public void run() {
                         if (user != null && boards != null) {
-                            initGame((DisposableObserver<Room>) observer, (int) params[0]);
+                            initGame((DisposableSingleObserver<Room>) observer, (int) params[0]);
                         } else {
                             playHandler.postDelayed(this, 100);
                         }
@@ -92,14 +101,14 @@ public class PlayUsecase extends AbstractUsecase {
                 });
                 break;
             case Event.SEND_MOVE:
-                userMove((DisposableSingleObserver<Board>) observer, (int) params[0], (int) params[1]);
+                userMove((DisposableSingleObserver<Room>) observer, (int) params[0], (int) params[1]);
                 break;
             case Event.GET_MOVE:
-                opponentMove((DisposableSingleObserver<Board>) observer);
+                opponentMove((DisposableSingleObserver<Room>) observer);
         }
     }
 
-    private void initGame(DisposableObserver<Room> observer, int roomNumber) {
+    private void initGame(DisposableSingleObserver<Room> observer, int roomNumber) {
         if (roomNumber == 0) {
             addTask(
                     buildAIObservable()
@@ -113,39 +122,69 @@ public class PlayUsecase extends AbstractUsecase {
         }
     }
 
-    private Observable<Room> buildAIObservable() {
-        return Observable.create(emitter -> {
+    private Single<Room> buildAIObservable() {
+        return Single.create(emitter -> {
             PlayUsecase.this.room = new Room(
                     0,
                     0,
                     PlayUsecase.this.boards.get(new Random().nextInt(PlayUsecase.this.boards.size())),
                     "",
-                    String next_turn, User user_1, User user_2, Boolean is_private)
+                    new Random().nextInt(2) == 0 ? "AI" : user.getUid(),
+                    null,
+                    user,
+                    false);
+            emitter.onSuccess(PlayUsecase.this.room);
         });
     }
 
-    private void userMove(DisposableSingleObserver<Board> observer, int x, int y) {
-        addTask(Single.create(new SingleOnSubscribe<Board>() {
-            @Override
-            public void subscribe(SingleEmitter<Board> emitter) throws Exception {
-                Board state = board.duplicate();
-                state.mark(new LineXOMove(x, y));
-                board = state.duplicate();
-                emitter.onSuccess(board);
+    private void userMove(DisposableSingleObserver<Room> observer, int x, int y) {
+        Log.e("Test", "userMove");
+        addTask(Single.create((SingleOnSubscribe<Room>) emitter -> {
+            String currentMove = PlayUsecase.this.room.getNext_turn();
+            int currentPlayer = PlayUsecase.this.room.getNext_turn().equals(PlayUsecase.this.room.getUser_2().getUid()) ? 2 : 1;
+            Board state = PlayUsecase.this.room.getBoard();
+            LineXOBoard lineXOBoard = new LineXOBoard(state.getPattern(), currentPlayer);
+            lineXOBoard.mark(new LineXOMove(x, y));
+            PlayUsecase.this.room.setBoard(new Board(lineXOBoard.getBoard(), lineXOBoard.getX_cells(), lineXOBoard.getO_cells(), state.getMax_cells()));
+            if (lineXOBoard.getPlayerToMove() != currentPlayer) {
+                User user1 = PlayUsecase.this.room.getUser_1();
+                User user2 = PlayUsecase.this.room.getUser_2();
+                if (user1 == null) {
+                    currentMove = user2.getUid().equals(currentMove) ? "AI" : user2.getUid();
+                }
+                else {
+                    currentMove = user2.getUid().equals(currentMove) ? user1.getUid() : user2.getUid();
+                }
             }
+            PlayUsecase.this.room.setNext_turn(currentMove);
+            emitter.onSuccess(PlayUsecase.this.room);
         }).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribeWith(observer));
     }
 
-    private void opponentMove(DisposableSingleObserver<Board> observer) {
-        addTask(Single.create((SingleOnSubscribe<Board>) emitter -> {
-            Board state = board.duplicate();
-            LineXOBoard state = new LineXOBoard(board.getPattern(), )
+    private void opponentMove(DisposableSingleObserver<Room> observer) {
+        Log.e("Test", "AI");
+        addTask(Single.create((SingleOnSubscribe<Room>) emitter -> {
+            String currentMove = PlayUsecase.this.room.getNext_turn();
+            int currentPlayer = PlayUsecase.this.room.getNext_turn().equals(PlayUsecase.this.room.getUser_2().getUid()) ? 2 : 1;
+            Board state = PlayUsecase.this.room.getBoard();
+            LineXOBoard rootState = new LineXOBoard(state.getPattern(), currentPlayer);
             LineXOGame game = new LineXOGame();
             LineXOAlphaBetaSearch search = new LineXOAlphaBetaSearch(game);
-            LineXOMove move = search.makeDecision(state);
-            state.mark(move);
-            board = state.duplicate();
-            emitter.onSuccess(board);
+            LineXOMove move = search.makeDecision(rootState);
+            rootState.mark(move);
+            PlayUsecase.this.room.setBoard(new Board(rootState.getBoard(), rootState.getX_cells(), rootState.getO_cells(), state.getMax_cells()));
+            if (rootState.getPlayerToMove() != currentPlayer) {
+                User user1 = PlayUsecase.this.room.getUser_1();
+                User user2 = PlayUsecase.this.room.getUser_2();
+                if (user1 == null) {
+                    currentMove = user2.getUid().equals(currentMove) ? "AI" : user2.getUid();
+                }
+                else {
+                    currentMove = user2.getUid().equals(currentMove) ? user1.getUid() : user2.getUid();
+                }
+            }
+            PlayUsecase.this.room.setNext_turn(currentMove);
+            emitter.onSuccess(PlayUsecase.this.room);
         }).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribeWith(observer));
     }
 }

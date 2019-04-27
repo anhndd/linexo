@@ -29,6 +29,22 @@ public class LineXOBoard {
         }
     }
 
+    public int getX_cells() {
+        return x_cells;
+    }
+
+    public void setX_cells(int x_cells) {
+        this.x_cells = x_cells;
+    }
+
+    public int getO_cells() {
+        return o_cells;
+    }
+
+    public void setO_cells(int o_cells) {
+        this.o_cells = o_cells;
+    }
+
     public int getPlayerToMove() {
         return playerToMove;
     }
