@@ -3,4 +3,8 @@
         android:id="@+id/it_rating"
         android:icon="@drawable/ic_star_rating"
         android:title="@string/rating" />
+    <item
+        android:id="@+id/it_ranking"
+        android:icon="@drawable/ic_ranking"
+        android:title="@string/ranking" />
 </menu>
