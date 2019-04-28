@@ -12,6 +12,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
@@ -143,9 +144,12 @@ public class FirebaseDB implements NetworkSource {
     }
 
     @Override
-    public Observable<Message> getMessage(Integer roomNumber, String uid) {
+    public Observable<Message> getMessage(int roomNumber) {
         return Observable.create(emitter -> {
-            DatabaseReference messRef = database.getReference("message").child(roomNumber.toString());
+            Query messRef = database
+                    .getReference("message")
+                    .child(String.valueOf(roomNumber))
+                    .orderByChild("time");
             ChildEventListener listener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -172,20 +176,19 @@ public class FirebaseDB implements NetworkSource {
 
                 }
             };
-            emitter.setCancellable(() -> messRef.removeEventListener(listener));
             messRef.addChildEventListener(listener);
+            emitter.setCancellable(() -> messRef.removeEventListener(listener));
         });
     }
 
     @Override
-    public Single<Boolean> setMessage(Integer roomNumber, Message message) {
+    public Single<Boolean> setMessage(int roomNumber, Message message) {
         return Single.create(emitter -> {
-            DatabaseReference messRef = database.getReference("message");
+            DatabaseReference messRef = database.getReference("message")
+                    .child(String.valueOf(roomNumber))
+                    .child(message.getId() + "@" + message.getTime());
 
-            Map<String, Object> node = new HashMap<>();
-            node.put("/"+roomNumber.toString()+"/"+message.getId()+"%"+System.currentTimeMillis(), message);
-
-            messRef.updateChildren(node, ((databaseError, databaseReference) -> {
+            messRef.setValue(message, ((databaseError, databaseReference) -> {
                 if (databaseError == null){
                     emitter.onSuccess(true);
                 }

@@ -1,6 +1,7 @@
 package vn.edu.hcmut.linexo.domain.interactor;
 
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -30,6 +31,8 @@ import vn.edu.hcmut.linexo.utils.Optional;
 
 public class PlayUsecase extends AbstractUsecase {
 
+    private final long MOVE_INTERVAL = 500;
+
     private Room room;
     private User user;
     private List<Board> boards;
@@ -37,6 +40,7 @@ public class PlayUsecase extends AbstractUsecase {
     private UserRepository userRepository;
     private RoomRepository roomRepository;
     private Handler playHandler = new Handler();
+    private long lastTimeGetMove = 0;
 
     public PlayUsecase(BoardRepository boardRepository, UserRepository userRepository, RoomRepository roomRepository) {
         this.boardRepository    = boardRepository;
@@ -144,25 +148,25 @@ public class PlayUsecase extends AbstractUsecase {
             int currentPlayer = PlayUsecase.this.room.getNext_turn().equals(PlayUsecase.this.room.getUser_2().getUid()) ? 2 : 1;
             Board state = PlayUsecase.this.room.getBoard();
             LineXOBoard lineXOBoard = new LineXOBoard(state.getPattern(), currentPlayer);
-            lineXOBoard.mark(new LineXOMove(x, y));
-            PlayUsecase.this.room.setBoard(new Board(lineXOBoard.getBoard(), lineXOBoard.getX_cells(), lineXOBoard.getO_cells(), state.getMax_cells()));
-            if (lineXOBoard.getPlayerToMove() != currentPlayer) {
-                User user1 = PlayUsecase.this.room.getUser_1();
-                User user2 = PlayUsecase.this.room.getUser_2();
-                if (user1 == null) {
-                    currentMove = user2.getUid().equals(currentMove) ? "AI" : user2.getUid();
+            if (lineXOBoard.getValueAt(x, y) == Board.LINE_NOT_DRAWN) {
+                lineXOBoard.mark(new LineXOMove(x, y));
+                PlayUsecase.this.room.setBoard(new Board(lineXOBoard.getBoard(), lineXOBoard.getX_cells(), lineXOBoard.getO_cells(), state.getMax_cells()));
+                if (lineXOBoard.getPlayerToMove() != currentPlayer) {
+                    User user1 = PlayUsecase.this.room.getUser_1();
+                    User user2 = PlayUsecase.this.room.getUser_2();
+                    if (user1 == null) {
+                        currentMove = user2.getUid().equals(currentMove) ? "AI" : user2.getUid();
+                    } else {
+                        currentMove = user2.getUid().equals(currentMove) ? user1.getUid() : user2.getUid();
+                    }
                 }
-                else {
-                    currentMove = user2.getUid().equals(currentMove) ? user1.getUid() : user2.getUid();
-                }
+                PlayUsecase.this.room.setNext_turn(currentMove);
             }
-            PlayUsecase.this.room.setNext_turn(currentMove);
             emitter.onSuccess(PlayUsecase.this.room);
         }).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribeWith(observer));
     }
 
     private void opponentMove(DisposableSingleObserver<Room> observer) {
-        Log.e("Test", "AI");
         addTask(Single.create((SingleOnSubscribe<Room>) emitter -> {
             String currentMove = PlayUsecase.this.room.getNext_turn();
             int currentPlayer = PlayUsecase.this.room.getNext_turn().equals(PlayUsecase.this.room.getUser_2().getUid()) ? 2 : 1;
@@ -184,6 +188,11 @@ public class PlayUsecase extends AbstractUsecase {
                 }
             }
             PlayUsecase.this.room.setNext_turn(currentMove);
+            long deltaTime = System.currentTimeMillis() - lastTimeGetMove;
+            if (deltaTime < MOVE_INTERVAL) {
+                SystemClock.sleep(MOVE_INTERVAL - deltaTime);
+            }
+            lastTimeGetMove = System.currentTimeMillis();
             emitter.onSuccess(PlayUsecase.this.room);
         }).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribeWith(observer));
     }

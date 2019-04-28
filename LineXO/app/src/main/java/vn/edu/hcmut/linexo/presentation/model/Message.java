@@ -1,18 +1,20 @@
 package vn.edu.hcmut.linexo.presentation.model;
 
 public class Message {
-    int type;
     String id;
     String name;
     String avatarURL;
     String message;
+    Long time;
 
-    public Message(int type, String id, String name, String avatarURL, String message) {
-        this.type = type;
+    public Message(){}
+
+    public Message(String id, String name, String avatarURL, String message, Long time) {
         this.id = id;
         this.name = name;
         this.avatarURL = avatarURL;
         this.message = message;
+        this.time = time;
     }
 
     public String getId() {
@@ -21,14 +23,6 @@ public class Message {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public String getName() {
@@ -53,5 +47,13 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Long getTime() {
+        return time;
+    }
+
+    public void setTime(Long time) {
+        this.time = time;
     }
 }

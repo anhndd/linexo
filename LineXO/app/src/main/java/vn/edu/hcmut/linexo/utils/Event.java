@@ -28,9 +28,9 @@ public class Event {
     public static final int LOAD_MESSAGE = 14;
     public static final int LOAD_PLAY_INFO = 15;
     public static final int KEYBOARD_CHANGED = 16;
-    public static final int FIRST_PLAYER = 0;
-    public static final int SECOND_PLAYER = 1;
     public static final int SMOOTH_MESSAGE_LIST = 17;
+    public static final int PUSH_MESSAGE = 18;
+
 
     /***********************************************************************************************
      * Class implementation.

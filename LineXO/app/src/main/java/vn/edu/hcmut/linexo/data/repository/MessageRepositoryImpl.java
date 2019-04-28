@@ -8,21 +8,19 @@ import vn.edu.hcmut.linexo.presentation.model.Message;
 
 public class MessageRepositoryImpl implements MessageRepository {
     private NetworkSource networkSource;
-    private CacheSource cacheSource;
 
-    public MessageRepositoryImpl(NetworkSource networkSource, CacheSource cacheSource) {
+    public MessageRepositoryImpl(NetworkSource networkSource) {
         this.networkSource = networkSource;
-        this.cacheSource = cacheSource;
     }
 
 
     @Override
-    public Observable<Message> getNetworkMessage(Integer roomNumber, String uid) {
-        return networkSource.getMessage(roomNumber, uid);
+    public Observable<Message> getNetworkMessage(int roomNumber) {
+        return networkSource.getMessage(roomNumber);
     }
 
     @Override
-    public Single<Boolean> setNetworkMessage(Integer roomNumber, Message message) {
+    public Single<Boolean> setNetworkMessage(int roomNumber, Message message) {
         return networkSource.setMessage(roomNumber, message);
     }
 }

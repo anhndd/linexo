@@ -1,6 +1,7 @@
 package vn.edu.hcmut.linexo.presentation.view.play;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Rect;
@@ -18,6 +19,7 @@ import io.reactivex.disposables.Disposable;
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.databinding.ActivityPlayBinding;
 import vn.edu.hcmut.linexo.presentation.view.BaseActivity;
+import vn.edu.hcmut.linexo.presentation.view.room.RoomActivity;
 import vn.edu.hcmut.linexo.presentation.view.splash.SplashActivity;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.play.PlayViewModel;
@@ -154,6 +156,12 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     public void onDestroy() {
         super.onDestroy();
         keyboardHeightProvider.stop();
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, RoomActivity.class));
+        super.onBackPressed();
     }
 
     /**

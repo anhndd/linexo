@@ -13,10 +13,13 @@ import vn.edu.hcmut.linexo.data.network.FirebaseDB;
 import vn.edu.hcmut.linexo.data.network.NetworkSource;
 import vn.edu.hcmut.linexo.data.repository.BoardRepository;
 import vn.edu.hcmut.linexo.data.repository.BoardRepositoryImpl;
+import vn.edu.hcmut.linexo.data.repository.MessageRepository;
+import vn.edu.hcmut.linexo.data.repository.MessageRepositoryImpl;
 import vn.edu.hcmut.linexo.data.repository.RoomRepository;
 import vn.edu.hcmut.linexo.data.repository.RoomRepositoryImpl;
 import vn.edu.hcmut.linexo.data.repository.UserRepository;
 import vn.edu.hcmut.linexo.data.repository.UserRepositoryImpl;
+import vn.edu.hcmut.linexo.domain.interactor.ChatUsecase;
 import vn.edu.hcmut.linexo.domain.interactor.PlayUsecase;
 import vn.edu.hcmut.linexo.domain.interactor.RoomUsecase;
 import vn.edu.hcmut.linexo.domain.interactor.Usecase;
@@ -73,10 +76,22 @@ public class AppModule {
     }
 
     @Provides
+    @Singleton
+    public MessageRepository provideMessageRepository(NetworkSource networkSource) {
+        return new MessageRepositoryImpl(networkSource);
+    }
+
+    @Provides
     @Named("PlayUsecase")
     public Usecase providePlayUsecase(BoardRepository boardRepository,
                                       UserRepository userRepository, RoomRepository roomRepository) {
         return new PlayUsecase(boardRepository, userRepository, roomRepository);
+    }
+
+    @Provides
+    @Named("ChatUsecase")
+    public Usecase provideChatUsecase(MessageRepository messageRepository) {
+        return new ChatUsecase(messageRepository);
     }
 
     @Provides
@@ -99,7 +114,7 @@ public class AppModule {
 
     @Provides
     @Named("PlayViewModel")
-    public ViewModel providePlayViewModel(Context context, @Named("PlayUsecase") Usecase playUsecase) {
-        return new PlayViewModel(context, playUsecase);
+    public ViewModel providePlayViewModel(Context context, @Named("PlayUsecase") Usecase playUsecase, @Named("ChatUsecase") Usecase chatUsecase) {
+        return new PlayViewModel(context, playUsecase, chatUsecase);
     }
 }

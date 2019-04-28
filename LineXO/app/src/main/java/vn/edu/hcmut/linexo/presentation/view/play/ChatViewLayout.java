@@ -1,19 +1,15 @@
 package vn.edu.hcmut.linexo.presentation.view.play;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.presentation.custom.CircleImageView;
-import vn.edu.hcmut.linexo.presentation.custom.RoomNumberView;
 import vn.edu.hcmut.linexo.utils.GlideApp;
 
 /**
@@ -25,7 +21,8 @@ public class ChatViewLayout extends FrameLayout {
     private TextView txtMessageName;
     private CircleImageView civAvatar;
     private TextView txtMessage;
-    private int type;
+    private String id;
+    private String Uid;
 
     public ChatViewLayout(@NonNull Context context) {
         super(context);
@@ -54,110 +51,101 @@ public class ChatViewLayout extends FrameLayout {
 
         int roomBgWitdh = width;
         int rooomBgHeight = width / 4;
-        switch (type) {
-            case 1: {
-                txtMessage.measure(
-                        roomBgWitdh*4/5 | MeasureSpec.AT_MOST,
-                        (rooomBgHeight - rooomBgHeight / 8 * 2) | MeasureSpec.UNSPECIFIED
-                );
-                setMeasuredDimension(width, txtMessage.getMeasuredHeight() + rooomBgHeight / 8 * 2);
-                break;
-            }
-            case 2: {
-                txtMessage.measure(
-                        (roomBgWitdh*4/5 - (rooomBgHeight/2 + rooomBgHeight / 8)) | MeasureSpec.AT_MOST,
-                        (rooomBgHeight - rooomBgHeight / 8 * 2) | MeasureSpec.UNSPECIFIED
-                );
 
-                civAvatar.measure(
-                        (rooomBgHeight )/2 | MeasureSpec.EXACTLY,
-                        (rooomBgHeight )/2 | MeasureSpec.EXACTLY
-                );
-                txtMessageName.measure(
-                        (roomBgWitdh - (rooomBgHeight - rooomBgHeight / 8 * 2 - rooomBgHeight / 8)) | MeasureSpec.AT_MOST,
-                        (rooomBgHeight / 2 - rooomBgHeight / 8) | MeasureSpec.EXACTLY
-                );
-                int height_message = txtMessage.getMeasuredHeight() > civAvatar.getMeasuredHeight() ? txtMessage.getMeasuredHeight() : civAvatar.getMeasuredHeight();
-                setMeasuredDimension(width, height_message + rooomBgHeight / 4 + rooomBgHeight / 4);
-                break;
-            }
-            case 3:
-                txtMessage.measure(
-                        (roomBgWitdh) | MeasureSpec.AT_MOST,
-                        (rooomBgHeight - rooomBgHeight / 8 * 2) | MeasureSpec.UNSPECIFIED
-                );
-                setMeasuredDimension(width, txtMessage.getMeasuredHeight() + rooomBgHeight / 8 * 2);
-                break;
+        if(this.id.equals(Uid)) {
+            txtMessage.measure(
+                    roomBgWitdh*4/5 | MeasureSpec.AT_MOST,
+                    (rooomBgHeight - rooomBgHeight / 8) | MeasureSpec.UNSPECIFIED
+            );
+            setMeasuredDimension(width, txtMessage.getMeasuredHeight() + rooomBgHeight / 8);
+        }
+        else if (this.id.equals("0")){
+            txtMessage.measure(
+                    (roomBgWitdh) | MeasureSpec.AT_MOST,
+                    (rooomBgHeight - rooomBgHeight / 8) | MeasureSpec.UNSPECIFIED
+            );
+            setMeasuredDimension(width, txtMessage.getMeasuredHeight() + rooomBgHeight / 8);
+        }
+        else{
+            txtMessage.measure(
+                    (roomBgWitdh*4/5 - (rooomBgHeight/2 + rooomBgHeight / 8)) | MeasureSpec.AT_MOST,
+                    (rooomBgHeight - rooomBgHeight / 8 * 2) | MeasureSpec.UNSPECIFIED
+            );
+
+            civAvatar.measure(
+                    (rooomBgHeight )/2 | MeasureSpec.EXACTLY,
+                    (rooomBgHeight )/2 | MeasureSpec.EXACTLY
+            );
+            txtMessageName.measure(
+                    (roomBgWitdh - (rooomBgHeight - rooomBgHeight / 8 * 2 - rooomBgHeight / 8)) | MeasureSpec.AT_MOST,
+                    (rooomBgHeight / 2 - rooomBgHeight / 8) | MeasureSpec.EXACTLY
+            );
+            int height_message = txtMessage.getMeasuredHeight() > civAvatar.getMeasuredHeight() ? txtMessage.getMeasuredHeight() : civAvatar.getMeasuredHeight();
+            setMeasuredDimension(width, height_message + rooomBgHeight / 4 + rooomBgHeight / 4);
         }
     }
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        switch (type) {
-            case 1: {
-                int l = getMeasuredWidth() - txtMessage.getMeasuredWidth();
-                int t = getMeasuredWidth() / 4 / 8;
+        if(this.id.equals(Uid)) {
+            int l = getMeasuredWidth() - txtMessage.getMeasuredWidth();
+            int t = 0;
+            txtMessage.layout(l, t, l + txtMessage.getMeasuredWidth(), t + txtMessage.getMeasuredHeight());
+        }
+        else if (this.id.equals("0")){
+            int l = (getMeasuredWidth() - txtMessage.getMeasuredWidth()) / 2;
+            int t = 0;
+            txtMessage.layout(l, t, l + txtMessage.getMeasuredWidth(), t + txtMessage.getMeasuredHeight());
+        }
+        else{
+            int l = civAvatar.getMeasuredWidth() + getMeasuredWidth() / 4 / 8;
+            int t = getMeasuredWidth() / 4 / 4 + getMeasuredWidth() / 4 / 8;
+            if ((l + txtMessage.getMeasuredWidth()) > getMeasuredWidth()) {
+                txtMessage.layout(l, t, getMeasuredWidth(), t + txtMessage.getMeasuredHeight());
+            } else {
                 txtMessage.layout(l, t, l + txtMessage.getMeasuredWidth(), t + txtMessage.getMeasuredHeight());
-                break;
             }
-            case 2: {
-                int l = civAvatar.getMeasuredWidth() + getMeasuredWidth() / 4 / 8;
-                int t = getMeasuredWidth() / 4 / 4 + getMeasuredWidth() / 4 / 8;
-                if ((l + txtMessage.getMeasuredWidth()) > getMeasuredWidth()) {
-                    txtMessage.layout(l, t, getMeasuredWidth(), t + txtMessage.getMeasuredHeight());
-                } else {
-                    txtMessage.layout(l, t, l + txtMessage.getMeasuredWidth(), t + txtMessage.getMeasuredHeight());
-                }
 
-                l = 0;
-                t = getMeasuredWidth() / 4 / 4 + getMeasuredWidth() / 4 / 8;
-                civAvatar.layout(l, t, l + civAvatar.getMeasuredWidth(), t + civAvatar.getMeasuredHeight());
+            l = 0;
+            t = getMeasuredWidth() / 4 / 4 + getMeasuredWidth() / 4 / 8;
+            civAvatar.layout(l, t, l + civAvatar.getMeasuredWidth(), t + civAvatar.getMeasuredHeight());
 
-                l = civAvatar.getMeasuredWidth() + getMeasuredWidth() / 4 / 8;
-                t = 0;
+            l = civAvatar.getMeasuredWidth() + getMeasuredWidth() / 4 / 8;
+            t = 0;
 
-                txtMessageName.layout(l, t, l + txtMessageName.getMeasuredWidth(), t + txtMessageName.getMeasuredHeight());
-                break;
-            }
-            case 3: {
-                int l = (getMeasuredWidth() - txtMessage.getMeasuredWidth()) / 2;
-                int t = getMeasuredWidth() / 4 / 8;
-                txtMessage.layout(l, t, l + txtMessage.getMeasuredWidth(), t + txtMessage.getMeasuredHeight());
-                break;
-            }
+            txtMessageName.layout(l, t, l + txtMessageName.getMeasuredWidth(), t + txtMessageName.getMeasuredHeight());
         }
     }
 
-    public void setMessageView(@NonNull int type, String id, String name, String link, @Nullable String message) {
-        this.type = type;
-        switch (type) {
-            case 1:
-                txtMessage.setBackgroundResource(R.drawable.bg_message);
-                txtMessage.setText(message);
-                txtMessage.setTextColor(Color.BLACK);
-                txtMessage.setTextSize(14);
-                civAvatar.setVisibility(GONE);
-                txtMessageName.setVisibility(GONE);
-                break;
-            case 2:
-                txtMessage.setBackgroundResource(R.drawable.bg_message_opposite);
-                txtMessage.setText(message);
-                GlideApp.with(getContext()).load(link).into(civAvatar);
-                txtMessage.setTextColor(Color.BLACK);
-                txtMessage.setTextSize(14);
-                txtMessageName.setText(name);
-                txtMessageName.setTextSize(12);
-                civAvatar.setVisibility(VISIBLE);
-                txtMessageName.setVisibility(VISIBLE);
-                break;
-            case 3:
-                txtMessage.setBackgroundResource(R.drawable.bg_message_system);
-                txtMessage.setText(message);
-                txtMessage.setTextColor(Color.WHITE);
-                txtMessage.setTextSize(12);
-                civAvatar.setVisibility(GONE);
-                txtMessageName.setVisibility(GONE);
-                break;
+    public void setMessageView(@NonNull  String id, String name, String link, @Nullable String message, String Uid) {
+        this.id = id;
+        this.Uid = Uid;
+        if(this.id.equals(Uid)){
+            txtMessage.setBackgroundResource(R.drawable.bg_message);
+            txtMessage.setText(message);
+            txtMessage.setTextColor(Color.BLACK);
+            txtMessage.setTextSize(14);
+            civAvatar.setVisibility(GONE);
+            txtMessageName.setVisibility(GONE);
+        }
+        else if (this.id.equals("0")){
+            txtMessage.setBackgroundResource(R.drawable.bg_message_system);
+            txtMessage.setText(message);
+            txtMessage.setTextColor(Color.WHITE);
+            txtMessage.setTextSize(12);
+            civAvatar.setVisibility(GONE);
+            txtMessageName.setVisibility(GONE);
+        }
+        else {
+            txtMessage.setBackgroundResource(R.drawable.bg_message_opposite);
+            txtMessage.setText(message);
+            GlideApp.with(getContext()).load(link).into(civAvatar);
+            txtMessage.setTextColor(Color.BLACK);
+            txtMessage.setTextSize(14);
+            txtMessageName.setText(name);
+            txtMessageName.setTextSize(12);
+            civAvatar.setVisibility(VISIBLE);
+            txtMessageName.setVisibility(VISIBLE);
         }
     }
 }

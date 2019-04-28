@@ -19,6 +19,6 @@ public interface NetworkSource {
     Single<Optional<User>> getUser(String uid);
     Single<Boolean> setUser(User user);
 
-    Observable<Message> getMessage(Integer roomNumber, String uid);
-    Single<Boolean> setMessage(Integer roomNumber, Message message);
+    Observable<Message> getMessage(int roomNumber);
+    Single<Boolean> setMessage(int roomNumber, Message message);
 }

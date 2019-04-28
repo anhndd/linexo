@@ -133,7 +133,6 @@
             android:maxLines="1"
             android:hint="@string/message_hint"
             android:textAllCaps="false"
-            android:textColor="@android:color/darker_gray"
             android:onClick="onClickBtnMessage"
             android:text="@={viewModel.contentMessage}"/>
 

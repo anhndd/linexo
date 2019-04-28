@@ -32,7 +32,7 @@ public class MessageDiffCallBack extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldMessageList.get(oldItemPosition).getId().equals(newMessageList.get(newItemPosition).getId());
+        return oldMessageList.get(oldItemPosition).getTime().equals(newMessageList.get(newItemPosition).getTime());
     }
 
     @Override
@@ -40,7 +40,7 @@ public class MessageDiffCallBack extends DiffUtil.Callback {
         Message oldMessage = oldMessageList.get(oldItemPosition);
         Message newMessage = newMessageList.get(newItemPosition);
 
-        return (oldMessage.getType() == newMessage.getType()) && equalString(oldMessage.getAvatarURL(),newMessage.getAvatarURL())
+        return (equalString(oldMessage.getId(),newMessage.getId())) && equalString(oldMessage.getAvatarURL(),newMessage.getAvatarURL())
                 && (equalString(oldMessage.getName(), newMessage.getName())) && (equalString(oldMessage.getMessage(),newMessage.getMessage()));
     }
 
