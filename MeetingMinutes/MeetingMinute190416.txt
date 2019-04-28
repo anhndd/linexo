@@ -1,0 +1,40 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 12
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 14h00 ngày 16/04/2019.
+	- Địa điểm: Hành lang tầng 3 nhà H6 CS2 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Các thành viên trình bày phần công việc được giao
+		- Anh
+			+ Demo kiểm soát trạng thái đăng nhập của user.
+		- Sang 
+			+ Demo set/get user.
+		- Trọng
+			+ Demo AI có kiểm soát user đăng nhập.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Anh	
+		+ Chỉnh sửa Menu tiếng việt.
+	- Hùng
+		+ Tiếp tục làm bài thuyết trình về Window Phone.
+	- Sang
+		+ Hiện thực app server.
+	- Trọng
+		+ Tiếp tục quản lý các trường hợp trong play.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 08h00 ngày 21/04/2019.
+	- Địa điểm: Lối tự học nhà B9-B10 CS1 BK.
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 15h00 cùng ngày.
