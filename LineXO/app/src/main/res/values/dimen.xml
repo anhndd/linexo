@@ -2,6 +2,7 @@
 <resources>
     <dimen name="dimen_10dp">10dp</dimen>
     <dimen name="dimen_20dp">20dp</dimen>
+    <dimen name="dimen_5dp">5dp</dimen>
     <dimen name="dimen_line_stroke">4dp</dimen>
     <dimen name="dimen_avatar_stroke">2dp</dimen>
 </resources>

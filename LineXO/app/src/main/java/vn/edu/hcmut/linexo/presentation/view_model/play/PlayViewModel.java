@@ -3,6 +3,7 @@ package vn.edu.hcmut.linexo.presentation.view_model.play;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
@@ -46,6 +47,8 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
     int[] arrayKeyboardChanged = {0, 0};
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    String contentMessage = "";
+
     int j = 0;
 
     public PlayViewModel(Context context, Usecase playUsecase) {
@@ -76,6 +79,13 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
         messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đã thoát"));
         adapter = new ChatRecyclerViewAdapter(messages);
         messages = new ArrayList<>(messages);
+
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                publisher.onNext(Event.create(Event.SMOOTH_MESSAGE_LIST,adapter.getItemCount()));
+            }
+        });
     }
 
     @Override
@@ -97,10 +107,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
             case Event.LOAD_PLAY_INFO:
                 // load avatar url host and opponent, score by room ID
                 // check url null
-
                 roomId = (int) e.getData()[0];
-
-
                 notifyPropertyChanged(BR.roomId);
                 break;
             case Event.KEYBOARD_CHANGED: {
@@ -169,7 +176,6 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                 new DisposableSingleObserver<Room>() {
                     @Override
                     public void onSuccess(Room room) {
-//                        PlayViewModel.this.room.setBoard(room.getBoard());
                         PlayViewModel.this.room = room;
                         notifyPropertyChanged(BR.board);
                         if (PlayViewModel.this.room.getRoom_number() == 0) {
@@ -193,9 +199,12 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     public void onClickSend(View view) {
         messages = new ArrayList<>(messages);
 
-        messages.add(new Message(2, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
-        messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đang theo dõi"));
-        messages.add(new Message(1, j++ + "", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
+//        messages.add(new Message(2, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
+//        messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đang theo dõi"));
+//        messages.add(new Message(1, j++ + "", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
+        messages.add(new Message(1, j++ + "", null, null, contentMessage));
+        contentMessage = "";
+        notifyPropertyChanged(BR.contentMessage);
 
         onHelp(Event.create(Event.LOAD_MESSAGE, messages));
     }
@@ -225,6 +234,16 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     @Bindable
     public int[] getArrayKeyboardChanged() {
         return arrayKeyboardChanged;
+    }
+
+    @Bindable
+    public String getContentMessage() {
+        return contentMessage;
+    }
+
+    public void setContentMessage(String contentMessage) {
+        this.contentMessage = contentMessage;
+        notifyPropertyChanged(BR.contentMessage);
     }
 
     @Override

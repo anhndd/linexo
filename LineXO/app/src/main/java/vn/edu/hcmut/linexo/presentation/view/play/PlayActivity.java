@@ -104,7 +104,12 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
 
         @Override
         public void onNext(Event event) {
-
+            switch (event.getType()){
+                case Event.SMOOTH_MESSAGE_LIST:
+                    int count = (int) event.getData()[0];
+                    binding.lstMessage.smoothScrollToPosition(count);
+                    break;
+            }
         }
 
         @Override

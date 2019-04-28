@@ -9,7 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +41,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -174,6 +179,34 @@ public class RoomActivity extends BaseActivity {
                                 switch (item.getItemId()) {
                                     case R.id.it_rating:
                                         break;
+                                    case R.id.it_ranking:
+                                        Dialog rankDialog = new Dialog(RoomActivity.this);
+                                        rankDialog.setContentView(R.layout.layout_rank_recyc_view);
+                                        Button btnClose = rankDialog.findViewById(R.id.btn_close);
+                                        btnClose.setOnClickListener(view -> {
+                                            rankDialog.dismiss();
+                                        });
+                                        RecyclerView lst_rank = ((RecyclerView) rankDialog.findViewById(R.id.lst_rank));
+                                        lst_rank.setLayoutManager(new LinearLayoutManager(RoomActivity.this));
+                                        lst_rank.setHasFixedSize(true);
+
+                                        List<RankItem> rankItems = new ArrayList<>();
+                                        rankItems.add(new RankItem("1", "Nguyễn Viết Sang", 200000000));
+                                        rankItems.add(new RankItem("2", "Lê Hữu Trọng", 1000));
+                                        rankItems.add(new RankItem("3", "Nguyễn Viết Sang", 2000));
+                                        rankItems.add(new RankItem("4", "Lê Hữu Trọng", 1000));
+                                        rankItems.add(new RankItem("5", "Nguyễn Viết Sang", 2000));
+                                        rankItems.add(new RankItem("6", "Lê Hữu Trọng", 1000));
+                                        rankItems.add(new RankItem("7", "Nguyễn Viết Sang", 2000));
+                                        rankItems.add(new RankItem("8", "Lê Hữu Trọng", 1000));
+                                        rankItems.add(new RankItem("9", "Lê Hữu Trọng", 1000));
+                                        rankItems.add(new RankItem("10", "Lê Hữu Trọng", 1000));
+                                        rankItems = new ArrayList<>(rankItems);
+                                        RankRecyclerViewAdapter a = new RankRecyclerViewAdapter(rankItems);
+                                        lst_rank.setAdapter(a);
+
+                                        rankDialog.show();
+                                        break;
                                     case R.id.it_logout:
                                         mGoogleSignInClient.signOut();
                                         LoginManager.getInstance().logOut();
@@ -201,6 +234,8 @@ public class RoomActivity extends BaseActivity {
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
                                     case R.id.it_rating:
+                                        break;
+                                    case R.id.it_ranking:
                                         break;
                                 }
                                 return true;

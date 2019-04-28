@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vn.edu.hcmut.linexo.presentation.view.room.RankViewLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/bg_rank_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_rankview"
+        />
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:textColor="#FFdA44"
+        android:gravity="center"
+        />
+    <TextView
+        android:id="@+id/user_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:textColor="#FFdA44"
+        android:gravity="center"
+        />
+</vn.edu.hcmut.linexo.presentation.view.room.RankViewLayout>
