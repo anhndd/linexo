@@ -1,9 +1,9 @@
 package vn.edu.hcmut.linexo.data.network;
 
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -15,12 +15,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.observers.DisposableObserver;
@@ -109,7 +107,7 @@ public class FirebaseDB implements NetworkSource {
     @Override
     public Single<Optional<User>> getUser(String uid) {
         return Single.create(emitter -> {
-            DatabaseReference userRef = database.getReference("users").child(uid);
+            DatabaseReference userRef = database.getReference("user").child(uid);
             ValueEventListener listener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -130,7 +128,7 @@ public class FirebaseDB implements NetworkSource {
     @Override
     public Single<Boolean> setUser(User user) {
         return Single.create(emitter -> {
-            DatabaseReference userRef = database.getReference("users").child(user.getUid());
+            DatabaseReference userRef = database.getReference("user").child(user.getUid());
             userRef.setValue(user, (databaseError, databaseReference) -> {
                 if (databaseError != null){
                     emitter.onSuccess(true);
@@ -140,6 +138,30 @@ public class FirebaseDB implements NetworkSource {
                     emitter.onSuccess(false);
                 }
             });
+        });
+    }
+
+    @Override
+    public Single<List<User>> getScoreTable() {
+        return Single.create(emitter -> {
+            DatabaseReference userRef = database.getReference("user");
+            List<User> resutls = new ArrayList<>();
+            ValueEventListener listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot post: dataSnapshot.getChildren()){
+                        resutls.add(post.getValue(User.class));
+                    }
+                    emitter.onSuccess(resutls);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("FIREBASE ERROR", databaseError.getMessage());
+                }
+            };
+            userRef.orderByChild("score").addListenerForSingleValueEvent(listener);
+            emitter.setCancellable(() -> userRef.removeEventListener(listener));
         });
     }
 
@@ -199,6 +221,4 @@ public class FirebaseDB implements NetworkSource {
             }));
         });
     }
-
-
 }

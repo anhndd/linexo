@@ -1,6 +1,8 @@
 package vn.edu.hcmut.linexo.data.repository;
 
 
+import java.util.List;
+
 import io.reactivex.Single;
 import vn.edu.hcmut.linexo.data.cache.CacheSource;
 import vn.edu.hcmut.linexo.data.local.LocalSource;
@@ -39,5 +41,10 @@ public class UserRepositoryImpl implements UserRepository{
     @Override
     public Single<Boolean> setNetworkUser(User user) {
         return networkSource.setUser(user);
+    }
+
+    @Override
+    public Single<List<User>> getNetworkScoreTable() {
+        return networkSource.getScoreTable();
     }
 }
