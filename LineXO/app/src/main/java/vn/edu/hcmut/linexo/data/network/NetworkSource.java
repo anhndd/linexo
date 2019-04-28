@@ -18,6 +18,7 @@ public interface NetworkSource {
 
     Single<Optional<User>> getUser(String uid);
     Single<Boolean> setUser(User user);
+    Single<List<User>> getScoreTable();
 
     Observable<Message> getMessage(Integer roomNumber, String uid);
     Single<Boolean> setMessage(Integer roomNumber, Message message);
