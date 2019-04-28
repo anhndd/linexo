@@ -9,7 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +42,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -50,6 +55,7 @@ import vn.edu.hcmut.linexo.databinding.ActivityRoomBinding;
 import vn.edu.hcmut.linexo.presentation.model.Room;
 import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.presentation.view.BaseActivity;
+import vn.edu.hcmut.linexo.presentation.view.play.PlayActivity;
 import vn.edu.hcmut.linexo.presentation.view.splash.SplashActivity;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
@@ -88,6 +94,8 @@ public class RoomActivity extends BaseActivity {
 
         binding.lstRoom.setLayoutManager(new GridLayoutManager(this, 2));
         binding.lstRoom.setHasFixedSize(true);
+
+        addControlKeyboardView(binding.edtSearch);
     }
 
     @Override
@@ -151,7 +159,10 @@ public class RoomActivity extends BaseActivity {
                     }
                     case Event.SHOW_PLAY_ACTIVITY: {
                         int idRoom = (int) event.getData()[0];
-
+                        Intent intent = new Intent(RoomActivity.this, PlayActivity.class);
+                        intent.putExtra("idRoom",idRoom);
+                        startActivity(intent);
+                        finish();
                         break;
                     }
                     case Event.SHOW_POPUP_USER_ON: {
@@ -167,6 +178,34 @@ public class RoomActivity extends BaseActivity {
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
                                     case R.id.it_rating:
+                                        break;
+                                    case R.id.it_ranking:
+                                        Dialog rankDialog = new Dialog(RoomActivity.this);
+                                        rankDialog.setContentView(R.layout.layout_rank_recyc_view);
+                                        Button btnClose = rankDialog.findViewById(R.id.btn_close);
+                                        btnClose.setOnClickListener(view -> {
+                                            rankDialog.dismiss();
+                                        });
+                                        RecyclerView lst_rank = ((RecyclerView) rankDialog.findViewById(R.id.lst_rank));
+                                        lst_rank.setLayoutManager(new LinearLayoutManager(RoomActivity.this));
+                                        lst_rank.setHasFixedSize(true);
+
+                                        List<RankItem> rankItems = new ArrayList<>();
+                                        rankItems.add(new RankItem("1", "Nguyễn Viết Sang", 200000000));
+                                        rankItems.add(new RankItem("2", "Lê Hữu Trọng", 1000));
+                                        rankItems.add(new RankItem("3", "Nguyễn Viết Sang", 2000));
+                                        rankItems.add(new RankItem("4", "Lê Hữu Trọng", 1000));
+                                        rankItems.add(new RankItem("5", "Nguyễn Viết Sang", 2000));
+                                        rankItems.add(new RankItem("6", "Lê Hữu Trọng", 1000));
+                                        rankItems.add(new RankItem("7", "Nguyễn Viết Sang", 2000));
+                                        rankItems.add(new RankItem("8", "Lê Hữu Trọng", 1000));
+                                        rankItems.add(new RankItem("9", "Lê Hữu Trọng", 1000));
+                                        rankItems.add(new RankItem("10", "Lê Hữu Trọng", 1000));
+                                        rankItems = new ArrayList<>(rankItems);
+                                        RankRecyclerViewAdapter a = new RankRecyclerViewAdapter(rankItems);
+                                        lst_rank.setAdapter(a);
+
+                                        rankDialog.show();
                                         break;
                                     case R.id.it_logout:
                                         mGoogleSignInClient.signOut();
@@ -195,6 +234,8 @@ public class RoomActivity extends BaseActivity {
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
                                     case R.id.it_rating:
+                                        break;
+                                    case R.id.it_ranking:
                                         break;
                                 }
                                 return true;
@@ -296,7 +337,6 @@ public class RoomActivity extends BaseActivity {
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             User user = new User(firebaseUser.getUid(), firebaseUser.getEmail(),
                                     firebaseUser.getPhotoUrl().toString(), firebaseUser.getDisplayName(), 0, System.currentTimeMillis());
-                            Log.e("AVATAR_FB", firebaseUser.getPhotoUrl().toString());
                             ((RoomViewModel) viewModel).onHelp(Event.create(Event.LOGIN_USER, user));
                         } else {
                             // If sign in fails, display a message to the user.

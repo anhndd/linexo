@@ -15,7 +15,7 @@ import vn.edu.hcmut.linexo.utils.Event;
  * Created by Anh on 3/13/2019.
  */
 
-public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerViewAdapter.RecyclerViewHolder>{
+public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerViewAdapter.RoomRecyclerViewHolder>{
 
     private List<RoomItem> roomItems = new ArrayList<>();
     ViewModelCallback viewModelCallback;
@@ -27,14 +27,14 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerVi
     }
 
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RoomRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.layout_room_item, parent, false);
-        return new RecyclerViewHolder(view);
+        return new RoomRecyclerViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(RoomRecyclerViewHolder holder, int position) {
         holder.itemView.setRoomView(roomItems.get(position).getId(), roomItems.get(position).getUrl_host(),
                 roomItems.get(position).getUrl_opponent(), roomItems.get(position).isPrivate());
 
@@ -52,10 +52,10 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerVi
         return roomItems.size();
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    public class RoomRecyclerViewHolder extends RecyclerView.ViewHolder {
         RoomViewLayout itemView;
 
-        public RecyclerViewHolder(View itemRoomView) {
+        public RoomRecyclerViewHolder(View itemRoomView) {
             super(itemRoomView);
             this.itemView = (RoomViewLayout) itemRoomView;
         }

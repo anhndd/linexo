@@ -13,7 +13,8 @@
         android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e2e9f1">
+        android:background="#e2e9f1"
+        bind:onKeyboardChanged="@{viewModel.arrayKeyboardChanged}">
 
         <TextView
             android:id="@+id/txt_network"
@@ -68,7 +69,8 @@
             android:gravity="center"
             android:textColor="@color/colorScore"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            bind:roomNumber="@{viewModel.roomId}"/>
 
         <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
             android:id="@+id/avatar_2"
@@ -128,10 +130,12 @@
             android:paddingLeft="@dimen/dimen_10dp"
             android:paddingRight="@dimen/dimen_10dp"
             android:stateListAnimator="@null"
-            android:text="@string/message_hint"
+            android:maxLines="1"
+            android:hint="@string/message_hint"
             android:textAllCaps="false"
             android:textColor="@android:color/darker_gray"
-            android:onClick="onClickBtnMessage" />
+            android:onClick="onClickBtnMessage"
+            android:text="@={viewModel.contentMessage}"/>
 
         <ImageButton
             android:id="@+id/btn_send"
@@ -156,6 +160,7 @@
             android:inputType="text"
             android:maxLines="1"
             android:imeOptions="flagNoExtractUi"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:text="@={viewModel.contentMessage}"/>
     </vn.edu.hcmut.linexo.presentation.view.play.PlayLayout>
 </layout>

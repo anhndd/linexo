@@ -2,6 +2,7 @@ package vn.edu.hcmut.linexo.utils;
 
 import android.app.Activity;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -16,6 +17,7 @@ public class Tool {
      * @param activity  activity that need to hide keyboard.
      */
     public static void hideSoftKeyboard(Activity activity) {
+        Log.e("Test", "hide");
         if(activity.getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);

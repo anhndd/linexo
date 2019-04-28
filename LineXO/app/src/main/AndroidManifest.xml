@@ -30,8 +30,7 @@
             android:windowSoftInputMode="adjustNothing|stateHidden" />
         <activity
             android:name=".presentation.view.play.PlayActivity"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="adjustNothing|stateHidden" />
+            android:screenOrientation="landscape"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
