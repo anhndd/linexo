@@ -3,7 +3,9 @@ package vn.edu.hcmut.linexo.presentation.view_model.play;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,12 +46,15 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     private List<Message> messages;
     private User user;
     private boolean isConnected;
-    NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
-    int[] arrayKeyboardChanged = {0, 0};
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    String contentMessage = "";
+    private NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
+    private int[] arrayKeyboardChanged = {0, 0};
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private String contentMessage = "";
+    private long countTimeHost = 0;
+    private long countTimeGuest = 0;
+    private int gameState = Event.PLAYING;
 
-    int j = 0;
+    private Handler countDownHandler = new Handler();
 
     public PlayViewModel(Context context, Usecase playUsecase, Usecase chatUsecase) {
         this.playUsecase = playUsecase;
@@ -149,25 +154,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
     private void loadRoom() {
         playUsecase.execute(
-                new DisposableSingleObserver<Room>() {
-                    @Override
-                    public void onSuccess(Room room) {
-                        PlayViewModel.this.room = room;
-                        notifyPropertyChanged(BR.board);
-                        //TODO: count down time
-                        if (PlayViewModel.this.room.getRoom_number() == 0) {
-                            if (PlayViewModel.this.room.getNext_turn().equals("AI"))
-                                getOpponentMove();
-                        } else if (!PlayViewModel.this.room.getNext_turn().equals(user.getUid())) {
-                            getOpponentMove();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                },
+                new RoomReceiverObserver(),
                 Event.INIT_GAME,
                 roomId
         );
@@ -175,24 +162,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
     private void getOpponentMove() {
         playUsecase.execute(
-                new DisposableSingleObserver<Room>() {
-                    @Override
-                    public void onSuccess(Room room) {
-                        PlayViewModel.this.room = room;
-                        notifyPropertyChanged(BR.board);
-                        if (PlayViewModel.this.room.getRoom_number() == 0) {
-                            if (PlayViewModel.this.room.getNext_turn().equals("AI"))
-                                getOpponentMove();
-                        } else if (!PlayViewModel.this.room.getNext_turn().equals(user.getUid())) {
-                            getOpponentMove();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                },
+                new RoomReceiverObserver(),
                 Event.GET_MOVE,
                 null
         );
@@ -201,12 +171,6 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     public void onClickSend(View view) {
         if (!contentMessage.equals("")) {
             messages = new ArrayList<>(messages);
-
-//            messages.add(new Message(++j + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)", System.currentTimeMillis()));
-//            messages.add(new Message(0 + "", null, null, "Lâm Nguyễn đang theo dõi", System.currentTimeMillis()));
-//            messages.add(new Message(user.getUid(), null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi.", System.currentTimeMillis()));
-//            messages.add(new Message(user.getUid(), null, null, contentMessage, System.currentTimeMillis()));
-
             chatUsecase.execute(null, Event.PUSH_MESSAGE, roomId, new Message(user.getUid(), user.getName(), user.getAvatar(), contentMessage, System.currentTimeMillis()));
             contentMessage = "";
             notifyPropertyChanged(BR.contentMessage);
@@ -252,6 +216,16 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
         notifyPropertyChanged(BR.contentMessage);
     }
 
+    @Bindable
+    public long getCountTimeHost() {
+        return countTimeHost;
+    }
+
+    @Bindable
+    public long getCountTimeGuest() {
+        return countTimeGuest;
+    }
+
     @Override
     public void endTask() {
         playUsecase.endTask();
@@ -261,14 +235,84 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
         @Override
         public void onSuccess(Room room) {
-            PlayViewModel.this.room = room;
-            notifyPropertyChanged(BR.board);
-            //TODO: count down time
-            if (PlayViewModel.this.room.getRoom_number() == 0) {
-                if (PlayViewModel.this.room.getNext_turn().equals("AI"))
-                    getOpponentMove();
-            } else if (user != null && !PlayViewModel.this.room.getNext_turn().equals(user.getUid())) {
-                getOpponentMove();
+            if (gameState == Event.PLAYING) {
+                countDownHandler.removeCallbacksAndMessages(null);
+                Log.e("Test", room.getBoard().getO_cells() + " " + room.getBoard().getX_cells() + " " + room.getBoard().getMax_cells());
+                if ((room.getBoard().getO_cells() + room.getBoard().getX_cells()) == room.getBoard().getMax_cells()) {
+                    if (room.getRoom_number() == 0) {
+                        if(room.getBoard().getO_cells() > room.getBoard().getX_cells()){
+                            gameState = Event.WIN;
+                        }
+                        else if (room.getBoard().getO_cells() < room.getBoard().getX_cells()){
+                            gameState = Event.LOSE;
+                        }
+                        else {
+                            gameState = Event.DRAW;
+                        }
+                        publisher.onNext(Event.create(Event.RESULT, gameState));
+                    } else {
+                        //TODO:
+                    }
+                    PlayViewModel.this.room = room;
+                    notifyPropertyChanged(BR.board);
+                    return;
+                }
+                if (PlayViewModel.this.room == null) {
+                    for (int i = 3; i >= 0; --i) {
+                        final int numCount = i;
+                        countDownHandler.postDelayed(
+                                () -> publisher.onNext(Event.create(Event.COUNT_DOWN, numCount)),
+                                (3 - numCount) * 1000
+                        );
+                    }
+                }
+                countDownHandler.postDelayed(
+                        () -> {
+                            countTimeHost = 0;
+                            countTimeGuest = 0;
+                            notifyPropertyChanged(BR.countTimeHost);
+                            notifyPropertyChanged(BR.countTimeGuest);
+                            if (room.getRoom_number() == 0) {
+                                if (room.getNext_turn().equals("AI")) {
+                                    getOpponentMove();
+                                    for (int i = 10; i >= 0; --i) {
+                                        final int numCount = i;
+                                        countDownHandler.postDelayed(
+                                                () -> {
+                                                    countTimeHost = numCount;
+                                                    notifyPropertyChanged(BR.countTimeHost);
+                                                    if (countTimeHost == 0) {
+                                                        gameState = Event.WIN;
+                                                        publisher.onNext(Event.create(Event.RESULT, gameState));
+                                                    }
+                                                },
+                                                (10 - numCount) * 1000
+                                        );
+                                    }
+                                } else {
+                                    for (int i = 10; i >= 0; --i) {
+                                        final int numCount = i;
+                                        countDownHandler.postDelayed(
+                                                () -> {
+                                                    countTimeGuest = numCount;
+                                                    notifyPropertyChanged(BR.countTimeGuest);
+                                                    if (countTimeGuest == 0) {
+                                                        gameState = Event.LOSE;
+                                                        publisher.onNext(Event.create(Event.RESULT, gameState));
+                                                    }
+                                                },
+                                                (10 - numCount) * 1000
+                                        );
+                                    }
+                                }
+                            } else if (user != null && !room.getNext_turn().equals(user.getUid())) {
+                                getOpponentMove();
+                            }
+                        },
+                        PlayViewModel.this.room == null ? 4000 : 0
+                );
+                PlayViewModel.this.room = room;
+                notifyPropertyChanged(BR.board);
             }
         }
 

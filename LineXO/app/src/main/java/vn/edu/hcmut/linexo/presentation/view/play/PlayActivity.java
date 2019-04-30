@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,7 +36,9 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     public ViewModel viewModel;
 
     ActivityPlayBinding binding;
-    /** The keyboard height provider */
+    /**
+     * The keyboard height provider
+     */
     private KeyboardHeightProvider keyboardHeightProvider;
 
     Disposable disposable;
@@ -45,9 +48,9 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
+        if (extras != null) {
             int idRoom = (int) extras.get("idRoom");
-            ((PlayViewModel) viewModel).onHelp(Event.create(Event.LOAD_PLAY_INFO,idRoom));
+            ((PlayViewModel) viewModel).onHelp(Event.create(Event.LOAD_PLAY_INFO, idRoom));
         }
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -106,11 +109,33 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
 
         @Override
         public void onNext(Event event) {
-            switch (event.getType()){
-                case Event.SMOOTH_MESSAGE_LIST:
+            switch (event.getType()) {
+                case Event.SMOOTH_MESSAGE_LIST: {
                     int count = (int) event.getData()[0];
                     binding.lstMessage.smoothScrollToPosition(count);
                     break;
+                }
+                case Event.COUNT_DOWN: {
+                    int count = (int) event.getData()[0];
+                    Toast.makeText(PlayActivity.this, count + "",Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                case Event.RESULT:{
+                    String state = "";
+                    switch ((int) event.getData()[0]){
+                        case Event.WIN:
+                            state = "Win";
+                            break;
+                        case Event.LOSE:
+                            state = "Lose";
+                            break;
+                        case Event.DRAW:
+                            state = "Draw";
+                            break;
+                    }
+                    Toast.makeText(PlayActivity.this,state,Toast.LENGTH_LONG).show();
+                    break;
+                }
             }
         }
 
@@ -127,7 +152,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
 
     public void onClickBtnMessage(View view) {
         binding.edtMessage.setVisibility(View.VISIBLE);
-        Tool.showSoftKeyboard(binding.edtMessage,this);
+        Tool.showSoftKeyboard(binding.edtMessage, this);
     }
 
     /**
@@ -169,8 +194,8 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
      */
     @Override
     public void onKeyboardHeightChanged(int height, int orientation) {
-        int[] array = {height,orientation};
-        ((PlayViewModel) viewModel).onHelp(Event.create(Event.KEYBOARD_CHANGED,array));
+        int[] array = {height, orientation};
+        ((PlayViewModel) viewModel).onHelp(Event.create(Event.KEYBOARD_CHANGED, array));
         String or = orientation == Configuration.ORIENTATION_PORTRAIT ? "portrait" : "landscape";
         Log.i("Text", "onKeyboardHeightChanged in pixels: " + height + " " + or);
     }

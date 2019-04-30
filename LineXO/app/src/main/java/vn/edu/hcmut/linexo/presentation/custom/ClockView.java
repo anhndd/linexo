@@ -18,7 +18,7 @@ public class ClockView extends android.support.v7.widget.AppCompatTextView{
         super(context, attrs, defStyleAttr);
     }
 
-    public void setCountTime(Long time) {
+    public void setCountTime(long time) {
         long minute = time / 60;
         long second = time % 60;
         String displayTime = "";

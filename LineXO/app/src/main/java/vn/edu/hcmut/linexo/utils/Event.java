@@ -30,6 +30,12 @@ public class Event {
     public static final int KEYBOARD_CHANGED = 16;
     public static final int SMOOTH_MESSAGE_LIST = 17;
     public static final int PUSH_MESSAGE = 18;
+    public static final int COUNT_DOWN = 19;
+    public static final int PLAYING = 20;
+    public static final int LOSE = 21;
+    public static final int DRAW = 22;
+    public static final int WIN = 23;
+    public static final int RESULT = 24;
 
 
     /***********************************************************************************************

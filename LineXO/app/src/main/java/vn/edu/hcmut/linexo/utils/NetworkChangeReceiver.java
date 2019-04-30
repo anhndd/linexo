@@ -25,16 +25,16 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                 NetworkChangeReceiver.this,
                 new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE")
         );
-        checkNetwork();
+        checkNetwork(true);
     }
 
     public void endReceiver() {
         context.unregisterReceiver(NetworkChangeReceiver.this);
     }
 
-    private void checkNetwork() {
+    private void checkNetwork(boolean firstCheck) {
         Boolean currentNetworkState = isNetworkAvailable(context);
-        if (currentNetworkState != lastNetworkState) {
+        if (firstCheck || currentNetworkState != lastNetworkState) {
             listener.onNetworkChange(currentNetworkState);
             lastNetworkState = currentNetworkState;
         }
@@ -48,7 +48,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        checkNetwork();
+        checkNetwork(false);
     }
 
     public interface NetworkChangeListener {

@@ -93,4 +93,15 @@ public class CustomBindingAdapter {
     public static void setKeyboardChanged(RoomNumberView roomNumberView, int roomNumber) {
         roomNumberView.setNumber(roomNumber);
     }
+
+    /**
+     * Add listener to know when attribute {@code time} change value.
+     * @param clockView View need to listen an attribute changing.
+     * @param countTime time countdown.
+     */
+    @BindingAdapter("time")
+    public static void setCountTime(ClockView clockView, long countTime) {
+        clockView.setCountTime(countTime);
+    }
+
 }

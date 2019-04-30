@@ -59,7 +59,8 @@
             android:paddingLeft="@dimen/dimen_10dp"
             android:paddingRight="@dimen/dimen_10dp"
             android:textColor="@color/colorWhite"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            bind:time="@{viewModel.countTimeHost}"/>
 
         <vn.edu.hcmut.linexo.presentation.custom.RoomNumberView
             android:id="@+id/txt_room"
@@ -105,7 +106,8 @@
             android:paddingLeft="@dimen/dimen_10dp"
             android:paddingRight="@dimen/dimen_10dp"
             android:textColor="@color/colorWhite"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            bind:time="@{viewModel.countTimeGuest}"/>
 
         <vn.edu.hcmut.linexo.presentation.view.play.BoardView
             android:id="@+id/board"
