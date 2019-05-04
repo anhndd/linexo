@@ -18,7 +18,7 @@ public class RankViewLayout extends FrameLayout {
     private View txtUserName;
     private View txtScore;
     private View avatar;
-    private View scoreIcon;
+    private View lineSpaceRank;
     private int defaultMargin;
 
     public RankViewLayout(@NonNull Context context) {
@@ -39,7 +39,7 @@ public class RankViewLayout extends FrameLayout {
         txtUserName = findViewById(R.id.txt_username);
         txtScore = findViewById(R.id.txt_userscore);
         avatar = findViewById(R.id.avatar);
-        scoreIcon = findViewById(R.id.score_icon);
+        lineSpaceRank = findViewById(R.id.line_space_rank);
         defaultMargin = getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
     }
 
@@ -56,16 +56,16 @@ public class RankViewLayout extends FrameLayout {
                 (BgHeight-space*2) | MeasureSpec.EXACTLY
         );
 
-        scoreIcon.measure(
-                avatar.getMeasuredWidth() | MeasureSpec.EXACTLY,
-                avatar.getMeasuredHeight() | MeasureSpec.EXACTLY
-        );
+//        lineSpaceRank.measure(
+//                avatar.getMeasuredWidth() | MeasureSpec.EXACTLY,
+//                avatar.getMeasuredHeight() | MeasureSpec.EXACTLY
+//        );
         txtScore.measure(
                 MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED,
-                (scoreIcon.getMeasuredHeight() * 2 / 3) | MeasureSpec.EXACTLY
+                MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED
         );
         txtUserName.measure(
-                (width - avatar.getMeasuredWidth() - scoreIcon.getMeasuredWidth() - txtScore.getMeasuredWidth() - 3 * defaultMargin) | MeasureSpec.EXACTLY,
+                (width - avatar.getMeasuredWidth() - txtScore.getMeasuredWidth() - 4 * defaultMargin) | MeasureSpec.EXACTLY,
                 MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED
         );
         setMeasuredDimension(width, BgHeight);
@@ -83,12 +83,8 @@ public class RankViewLayout extends FrameLayout {
         t += (avatar.getMeasuredHeight() - txtUserName.getMeasuredHeight()) / 2;
         txtUserName.layout(l, t, l + txtUserName.getMeasuredWidth(), t + txtUserName.getMeasuredHeight());
 
-        l += txtUserName.getMeasuredWidth() + defaultMargin;
-        t = avatar.getTop();
-        scoreIcon.layout(l, t, l + scoreIcon.getMeasuredWidth(), t + scoreIcon.getMeasuredHeight());
-
-        l += scoreIcon.getMeasuredWidth() - defaultMargin;
-        t += (scoreIcon.getMeasuredHeight() - txtScore.getMeasuredHeight()) / 2;
+        l = getMeasuredWidth() - txtScore.getMeasuredWidth() - defaultMargin;
+        t = defaultMargin + (avatar.getMeasuredHeight() - txtScore.getMeasuredHeight()) / 2;
         txtScore.layout(l, t, l + txtScore.getMeasuredWidth(), t + txtScore.getMeasuredHeight());
     }
 }

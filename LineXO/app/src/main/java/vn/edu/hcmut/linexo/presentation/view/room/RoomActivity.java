@@ -14,16 +14,14 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -52,7 +50,7 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.databinding.ActivityRoomBinding;
-import vn.edu.hcmut.linexo.presentation.model.Room;
+import vn.edu.hcmut.linexo.presentation.custom.CircleImageView;
 import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.presentation.view.BaseActivity;
 import vn.edu.hcmut.linexo.presentation.view.play.PlayActivity;
@@ -181,13 +179,19 @@ public class RoomActivity extends BaseActivity {
                                         break;
                                     case R.id.it_ranking:
                                         Dialog rankDialog = new Dialog(RoomActivity.this);
-                                        rankDialog.setContentView(R.layout.layout_rank_recyc_view);
+                                        rankDialog.setContentView(R.layout.layout_rank_view);
+
+                                        CircleImageView firstRankAvatar = rankDialog.findViewById(R.id.civ_first_avatar);
+                                        firstRankAvatar.setImageFromObject(mAuth.getCurrentUser().getPhotoUrl().toString());
+
+                                        TextView firstRankScore = rankDialog.findViewById(R.id.txt_first_score);
+                                        firstRankScore.setText("200000000$");
+
                                         RecyclerView lst_rank = ((RecyclerView) rankDialog.findViewById(R.id.lst_rank));
                                         lst_rank.setLayoutManager(new LinearLayoutManager(RoomActivity.this));
                                         lst_rank.setHasFixedSize(true);
 
                                         List<RankItem> rankItems = new ArrayList<>();
-                                        rankItems.add(new RankItem("1", "Nguyễn Viết Sang", 200000000,mAuth.getCurrentUser().getPhotoUrl().toString()));
                                         rankItems.add(new RankItem("2", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString()));
                                         rankItems.add(new RankItem("3", "Nguyễn Viết Sang", 2000,mAuth.getCurrentUser().getPhotoUrl().toString()));
                                         rankItems.add(new RankItem("4", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString()));

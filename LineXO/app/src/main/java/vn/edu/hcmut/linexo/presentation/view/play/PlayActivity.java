@@ -5,11 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -127,10 +131,12 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                     if(count != 0) {
                         TextView txtCountStart = (countDialog.findViewById(R.id.txt_count_start));
                         txtCountStart.setText(count + "");
-                        txtCountStart.setTextSize(getResources().getDisplayMetrics().widthPixels/50);
+                        txtCountStart.setTextSize(getResources().getDisplayMetrics().widthPixels/30);
                         txtCountStart.setWidth(getResources().getDisplayMetrics().widthPixels/4);
                         txtCountStart.setHeight(getResources().getDisplayMetrics().widthPixels/4);
-                        countDialog.getWindow().setLayout(getResources().getDisplayMetrics().widthPixels/5,getResources().getDisplayMetrics().widthPixels/5);
+                        countDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        countDialog.getWindow().setLayout(getResources().getDisplayMetrics().widthPixels/6,getResources().getDisplayMetrics().widthPixels/6);
+                        countDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                         countDialog.show();
                     }
                     else{
@@ -143,6 +149,9 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                     String state = "";
                     switch ((int) event.getData()[0]){
                         case Event.WIN:
+//                            Dialog endGameDialog = new Dialog();
+                            countDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            countDialog.getWindow().setLayout(getResources().getDisplayMetrics().widthPixels/5,getResources().getDisplayMetrics().widthPixels/5);
                             state = "Win";
                             break;
                         case Event.LOSE:

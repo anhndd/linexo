@@ -16,25 +16,21 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:textColor="@color/colorWhite"
+        android:textColor="@color/colorAccent"
          />
 
     <TextView
         android:id="@+id/txt_userscore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_score_right"
-        android:paddingLeft="@dimen/dimen_20dp"
-        android:paddingRight="@dimen/dimen_10dp"
         android:textStyle="bold"
         android:singleLine="true"
-        android:textColor="@color/colorScore"
+        android:textColor="@color/colorAccent"
         android:gravity="center_vertical"
         />
 
     <View
-        android:id="@+id/score_icon"
+        android:id="@+id/line_space_rank"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_coin" />
+        android:layout_height="wrap_content" />
 </vn.edu.hcmut.linexo.presentation.view.room.RankViewLayout>

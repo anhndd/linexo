@@ -1,0 +1,37 @@
+<vn.edu.hcmut.linexo.presentation.view.room.RankLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/first_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent" />
+
+    <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
+        android:id="@+id/civ_first_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/king_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/txt_first_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:singleLine="true"
+        android:textSize="16sp"
+        android:textColor="@color/colorWhite"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/lst_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</vn.edu.hcmut.linexo.presentation.view.room.RankLayout>
