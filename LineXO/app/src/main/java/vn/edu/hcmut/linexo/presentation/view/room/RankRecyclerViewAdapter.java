@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vn.edu.hcmut.linexo.R;
+import vn.edu.hcmut.linexo.presentation.custom.CircleImageView;
 import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 
@@ -44,6 +45,7 @@ public class RankRecyclerViewAdapter extends RecyclerView.Adapter<RankRecyclerVi
     public void onBindViewHolder(RankRecyclerViewHolder holder, int position) {
         holder.txtUserName.setText(rankItems.get(position).getUserName());
         holder.txtUserScore.setText(rankItems.get(position).getUserScore());
+        holder.avatar.setImageFromObject(rankItems.get(position).getAvatarURL());
     }
 
     @Override
@@ -54,11 +56,13 @@ public class RankRecyclerViewAdapter extends RecyclerView.Adapter<RankRecyclerVi
     public class RankRecyclerViewHolder extends RecyclerView.ViewHolder {
         TextView txtUserName;
         TextView txtUserScore;
+        CircleImageView avatar;
 
         public RankRecyclerViewHolder(View itemRankView) {
             super(itemRankView);
-            this.txtUserScore = itemRankView.findViewById(R.id.user_score);
-            this.txtUserName = itemRankView.findViewById(R.id.user_name);
+            this.txtUserScore = itemRankView.findViewById(R.id.txt_userscore);
+            this.txtUserName = itemRankView.findViewById(R.id.txt_username);
+            this.avatar = itemRankView.findViewById(R.id.avatar);
         }
     }
 

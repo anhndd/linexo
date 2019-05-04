@@ -1,6 +1,5 @@
 package vn.edu.hcmut.linexo.presentation.view.room;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,8 +8,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import vn.edu.hcmut.linexo.R;
-import vn.edu.hcmut.linexo.presentation.custom.CircleImageView;
-import vn.edu.hcmut.linexo.presentation.custom.RoomNumberView;
 
 /**
  * Created by Anh on 3/12/2019.
@@ -18,9 +15,11 @@ import vn.edu.hcmut.linexo.presentation.custom.RoomNumberView;
 
 public class RankViewLayout extends FrameLayout {
 
-    private View txtName;
+    private View txtUserName;
     private View txtScore;
-    private View bgRankItem;
+    private View avatar;
+    private View scoreIcon;
+    private int defaultMargin;
 
     public RankViewLayout(@NonNull Context context) {
         super(context);
@@ -37,9 +36,11 @@ public class RankViewLayout extends FrameLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        txtName = findViewById(R.id.user_name);
-        txtScore = findViewById(R.id.user_score);
-        bgRankItem = findViewById(R.id.bg_rank_item);
+        txtUserName = findViewById(R.id.txt_username);
+        txtScore = findViewById(R.id.txt_userscore);
+        avatar = findViewById(R.id.avatar);
+        scoreIcon = findViewById(R.id.score_icon);
+        defaultMargin = getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
     }
 
     @Override
@@ -51,20 +52,22 @@ public class RankViewLayout extends FrameLayout {
         int BgHeight = width / 5;
         int space = width/30;
 
-        bgRankItem.measure((width-space*2) | MeasureSpec.EXACTLY,
-                (BgHeight-space) | MeasureSpec.EXACTLY
+        avatar.measure((BgHeight-space*2) | MeasureSpec.EXACTLY,
+                (BgHeight-space*2) | MeasureSpec.EXACTLY
         );
 
-        txtName.measure(
-                ((width*2 / 3)-space) | MeasureSpec.EXACTLY,
-                (BgHeight-space) | MeasureSpec.EXACTLY
+        scoreIcon.measure(
+                avatar.getMeasuredWidth() | MeasureSpec.EXACTLY,
+                avatar.getMeasuredHeight() | MeasureSpec.EXACTLY
         );
-
         txtScore.measure(
-                ((width / 3)-space*2) | MeasureSpec.EXACTLY,
-                (BgHeight-space) | MeasureSpec.EXACTLY
+                MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED,
+                (scoreIcon.getMeasuredHeight() * 2 / 3) | MeasureSpec.EXACTLY
         );
-
+        txtUserName.measure(
+                (width - avatar.getMeasuredWidth() - scoreIcon.getMeasuredWidth() - txtScore.getMeasuredWidth() - 3 * defaultMargin) | MeasureSpec.EXACTLY,
+                MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED
+        );
         setMeasuredDimension(width, BgHeight);
     }
 
@@ -72,13 +75,20 @@ public class RankViewLayout extends FrameLayout {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         int space = getMeasuredWidth() / 30;
 
-        int l = (getMeasuredWidth() - bgRankItem.getMeasuredWidth())/2;
-        int t = 0;
-        bgRankItem.layout(l,t,l+bgRankItem.getMeasuredWidth(),t+bgRankItem.getMeasuredHeight());
-        l = 0;
-        txtName.layout(l+space, t, l + txtName.getMeasuredWidth(), t + txtScore.getMeasuredHeight());
+        int l = defaultMargin;
+        int t = defaultMargin;
+        avatar.layout(l, t, l + avatar.getMeasuredWidth(), t + avatar.getMeasuredHeight());
 
-        l = getMeasuredWidth() - space*2 - txtScore.getMeasuredWidth();
+        l += avatar.getMeasuredWidth() + defaultMargin;
+        t += (avatar.getMeasuredHeight() - txtUserName.getMeasuredHeight()) / 2;
+        txtUserName.layout(l, t, l + txtUserName.getMeasuredWidth(), t + txtUserName.getMeasuredHeight());
+
+        l += txtUserName.getMeasuredWidth() + defaultMargin;
+        t = avatar.getTop();
+        scoreIcon.layout(l, t, l + scoreIcon.getMeasuredWidth(), t + scoreIcon.getMeasuredHeight());
+
+        l += scoreIcon.getMeasuredWidth() - defaultMargin;
+        t += (scoreIcon.getMeasuredHeight() - txtScore.getMeasuredHeight()) / 2;
         txtScore.layout(l, t, l + txtScore.getMeasuredWidth(), t + txtScore.getMeasuredHeight());
     }
 }

@@ -14,7 +14,6 @@ public class RankRecyclerViewLayout extends FrameLayout {
     private int defaultMargin;
 
     private View lstRank;
-    private View btnClose;
 
     public RankRecyclerViewLayout(@NonNull Context context) {
         super(context);
@@ -39,7 +38,6 @@ public class RankRecyclerViewLayout extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         lstRank = findViewById(R.id.lst_rank);
-        btnClose = findViewById(R.id.btn_close);
     }
 
     @Override
@@ -50,14 +48,10 @@ public class RankRecyclerViewLayout extends FrameLayout {
                 width | MeasureSpec.EXACTLY,
                 height / 2 | MeasureSpec.EXACTLY
         );
-        btnClose.measure(
-                width-defaultMargin*2 | MeasureSpec.EXACTLY,
-                width / 4 | MeasureSpec.EXACTLY
-        );
 
         setMeasuredDimension(
                 width,
-                lstRank.getMeasuredHeight() + btnClose.getMeasuredHeight()+defaultMargin
+                lstRank.getMeasuredHeight()
         );
     }
 
@@ -66,9 +60,5 @@ public class RankRecyclerViewLayout extends FrameLayout {
         int l = left;
         int t = top;
         lstRank.layout(l, t, l + lstRank.getMeasuredWidth(), t + lstRank.getMeasuredHeight());
-
-        l = (getMeasuredWidth()-btnClose.getMeasuredWidth())/2;
-        t += lstRank.getMeasuredHeight();
-        btnClose.layout(l, t, l + btnClose.getMeasuredWidth(), t + btnClose.getMeasuredHeight());
     }
 }

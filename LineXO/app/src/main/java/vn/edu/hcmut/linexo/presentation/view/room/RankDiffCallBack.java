@@ -37,11 +37,12 @@ public class RankDiffCallBack extends DiffUtil.Callback {
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        RankItem oldUser = oldRankList.get(oldItemPosition);
-        RankItem newUser = newRankList.get(newItemPosition);
+        RankItem oldRankList = this.oldRankList.get(oldItemPosition);
+        RankItem newRankList = this.newRankList.get(newItemPosition);
 
-        return (oldUser.getUserScore()==newUser.getUserScore())
-                && equalString(oldUser.getUserName(),newUser.getUserName());
+        return (equalString(oldRankList.getUserScore(),newRankList.getUserScore()))
+                && equalString(oldRankList.getUserName(),newRankList.getUserName())
+                && equalString(oldRankList.getAvatarURL(),newRankList.getAvatarURL());
     }
 
     @Nullable

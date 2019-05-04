@@ -1,5 +1,6 @@
 package vn.edu.hcmut.linexo.presentation.view.play;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -42,6 +44,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     private KeyboardHeightProvider keyboardHeightProvider;
 
     Disposable disposable;
+    Dialog countDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,10 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
         });
 
         addControlKeyboardView(binding.edtMessage);
+        countDialog = new Dialog(PlayActivity.this);
+        countDialog.setContentView(R.layout.layout_count_view);
+        countDialog.setCancelable(false);
+        countDialog.setCanceledOnTouchOutside(false);
     }
 
     @Override
@@ -117,7 +124,19 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                 }
                 case Event.COUNT_DOWN: {
                     int count = (int) event.getData()[0];
-                    Toast.makeText(PlayActivity.this, count + "",Toast.LENGTH_SHORT).show();
+                    if(count != 0) {
+                        TextView txtCountStart = (countDialog.findViewById(R.id.txt_count_start));
+                        txtCountStart.setText(count + "");
+                        txtCountStart.setTextSize(getResources().getDisplayMetrics().widthPixels/50);
+                        txtCountStart.setWidth(getResources().getDisplayMetrics().widthPixels/4);
+                        txtCountStart.setHeight(getResources().getDisplayMetrics().widthPixels/4);
+                        countDialog.getWindow().setLayout(getResources().getDisplayMetrics().widthPixels/5,getResources().getDisplayMetrics().widthPixels/5);
+                        countDialog.show();
+                    }
+                    else{
+                        countDialog.cancel();
+                    }
+//                    Toast.makeText(PlayActivity.this, count + "",Toast.LENGTH_SHORT).show();
                     break;
                 }
                 case Event.RESULT:{

@@ -2,18 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_star_rating"
+    android:background="@color/colorAccent"
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lst_rank"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/btn_close"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFDA44"
-        android:text="Close" />
+        />
 </vn.edu.hcmut.linexo.presentation.view.room.RankRecyclerViewLayout>
