@@ -23,8 +23,13 @@ public class RoomRepositoryImpl implements RoomRepository{
     }
 
     @Override
-    public Single<Boolean> setNetworkRoom(Room room) {
+    public Single<String> setNetworkRoom(Room room) {
         return networkSource.setRoom(room);
+    }
+
+    @Override
+    public Single<Boolean> updateNetworkRoom(Room room) {
+        return networkSource.updateRoom(room);
     }
 }
 
