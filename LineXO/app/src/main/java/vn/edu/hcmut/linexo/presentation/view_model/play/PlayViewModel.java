@@ -108,6 +108,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                 // load avatar url host and opponent, score by room ID
                 // check url null
                 roomId = (String) e.getData()[0];
+
 //                notifyPropertyChanged(BR.roomId);
                 break;
             case Event.KEYBOARD_CHANGED: {
@@ -230,82 +231,84 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
         @Override
         public void onSuccess(Room room) {
-            if (gameState == Event.PLAYING) {
-                countDownHandler.removeCallbacksAndMessages(null);
-                Log.e("Test", room.getBoard().getO_cells() + " " + room.getBoard().getX_cells() + " " + room.getBoard().getMax_cells());
-                if ((room.getBoard().getO_cells() + room.getBoard().getX_cells()) == room.getBoard().getMax_cells()) {
-                    if (room.getRoom_number() == 0) {
-                        if (room.getBoard().getO_cells() > room.getBoard().getX_cells()) {
-                            gameState = Event.WIN;
-                        } else if (room.getBoard().getO_cells() < room.getBoard().getX_cells()) {
-                            gameState = Event.LOSE;
+            if (room.getAction() >= Room.START) {
+                if (gameState == Event.PLAYING) {
+                    countDownHandler.removeCallbacksAndMessages(null);
+                    Log.e("Test", room.getBoard().getO_cells() + " " + room.getBoard().getX_cells() + " " + room.getBoard().getMax_cells());
+                    if ((room.getBoard().getO_cells() + room.getBoard().getX_cells()) == room.getBoard().getMax_cells()) {
+                        if (room.getRoom_number() == 0) {
+                            if (room.getBoard().getO_cells() > room.getBoard().getX_cells()) {
+                                gameState = Event.WIN;
+                            } else if (room.getBoard().getO_cells() < room.getBoard().getX_cells()) {
+                                gameState = Event.LOSE;
+                            } else {
+                                gameState = Event.DRAW;
+                            }
+                            publisher.onNext(Event.create(Event.RESULT, gameState));
                         } else {
-                            gameState = Event.DRAW;
+                            //TODO:
                         }
-                        publisher.onNext(Event.create(Event.RESULT, gameState));
-                    } else {
-                        //TODO:
+                        PlayViewModel.this.room = room;
+                        notifyPropertyChanged(BR.board);
+                        return;
                     }
+                    if (PlayViewModel.this.room == null) {
+                        for (int i = 3; i >= 0; --i) {
+                            final int numCount = i;
+                            countDownHandler.postDelayed(
+                                    () -> publisher.onNext(Event.create(Event.COUNT_DOWN, numCount)),
+                                    (3 - numCount) * 1000
+                            );
+                        }
+                    }
+                    countDownHandler.postDelayed(
+                            () -> {
+                                countTimeHost = 0;
+                                countTimeGuest = 0;
+                                notifyPropertyChanged(BR.countTimeHost);
+                                notifyPropertyChanged(BR.countTimeGuest);
+                                if (room.getRoom_number() == 0) {
+                                    if (room.getNext_turn().equals("AI")) {
+                                        getOpponentMove();
+                                        for (int i = 10; i >= 0; --i) {
+                                            final int numCount = i;
+                                            countDownHandler.postDelayed(
+                                                    () -> {
+                                                        countTimeHost = numCount;
+                                                        notifyPropertyChanged(BR.countTimeHost);
+                                                        if (countTimeHost == 0) {
+                                                            gameState = Event.WIN;
+                                                            publisher.onNext(Event.create(Event.RESULT, gameState));
+                                                        }
+                                                    },
+                                                    (10 - numCount) * 1000
+                                            );
+                                        }
+                                    } else {
+                                        for (int i = 10; i >= 0; --i) {
+                                            final int numCount = i;
+                                            countDownHandler.postDelayed(
+                                                    () -> {
+                                                        countTimeGuest = numCount;
+                                                        notifyPropertyChanged(BR.countTimeGuest);
+                                                        if (countTimeGuest == 0) {
+                                                            gameState = Event.LOSE;
+                                                            publisher.onNext(Event.create(Event.RESULT, gameState));
+                                                        }
+                                                    },
+                                                    (10 - numCount) * 1000
+                                            );
+                                        }
+                                    }
+                                } else if (user != null && !room.getNext_turn().equals(user.getUid())) {
+                                    getOpponentMove();
+                                }
+                            },
+                            PlayViewModel.this.room == null ? 4000 : 0
+                    );
                     PlayViewModel.this.room = room;
                     notifyPropertyChanged(BR.board);
-                    return;
                 }
-                if (PlayViewModel.this.room == null) {
-                    for (int i = 3; i >= 0; --i) {
-                        final int numCount = i;
-                        countDownHandler.postDelayed(
-                                () -> publisher.onNext(Event.create(Event.COUNT_DOWN, numCount)),
-                                (3 - numCount) * 1000
-                        );
-                    }
-                }
-                countDownHandler.postDelayed(
-                        () -> {
-                            countTimeHost = 0;
-                            countTimeGuest = 0;
-                            notifyPropertyChanged(BR.countTimeHost);
-                            notifyPropertyChanged(BR.countTimeGuest);
-                            if (room.getRoom_number() == 0) {
-                                if (room.getNext_turn().equals("AI")) {
-                                    getOpponentMove();
-                                    for (int i = 10; i >= 0; --i) {
-                                        final int numCount = i;
-                                        countDownHandler.postDelayed(
-                                                () -> {
-                                                    countTimeHost = numCount;
-                                                    notifyPropertyChanged(BR.countTimeHost);
-                                                    if (countTimeHost == 0) {
-                                                        gameState = Event.WIN;
-                                                        publisher.onNext(Event.create(Event.RESULT, gameState));
-                                                    }
-                                                },
-                                                (10 - numCount) * 1000
-                                        );
-                                    }
-                                } else {
-                                    for (int i = 10; i >= 0; --i) {
-                                        final int numCount = i;
-                                        countDownHandler.postDelayed(
-                                                () -> {
-                                                    countTimeGuest = numCount;
-                                                    notifyPropertyChanged(BR.countTimeGuest);
-                                                    if (countTimeGuest == 0) {
-                                                        gameState = Event.LOSE;
-                                                        publisher.onNext(Event.create(Event.RESULT, gameState));
-                                                    }
-                                                },
-                                                (10 - numCount) * 1000
-                                        );
-                                    }
-                                }
-                            } else if (user != null && !room.getNext_turn().equals(user.getUid())) {
-                                getOpponentMove();
-                            }
-                        },
-                        PlayViewModel.this.room == null ? 4000 : 0
-                );
-                PlayViewModel.this.room = room;
-                notifyPropertyChanged(BR.board);
             }
         }
 

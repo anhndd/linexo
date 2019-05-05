@@ -125,7 +125,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             }
             case Event.LOGIN_USER: {
                 user = (User) e.getData()[0];
-                roomUsecase.execute(new LoginObserver(),Event.LOGIN_USER,user);
+                roomUsecase.execute(new LoginObserver(), Event.LOGIN_USER, user);
                 break;
 
             }
@@ -143,11 +143,11 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 roomUsecase.execute(new RankScoreObserver(), Event.SHOW_RANK_DIALOG);
                 break;
             }
-            case Event.LOGIN_INFO:{
-                roomUsecase.execute(new LoginInfoObserver(),Event.LOGIN_INFO);
+            case Event.LOGIN_INFO: {
+                roomUsecase.execute(new LoginInfoObserver(), Event.LOGIN_INFO);
                 break;
             }
-            case Event.SHOW_LOGIN:{
+            case Event.SHOW_LOGIN: {
                 publisher.onNext(Event.create(Event.SHOW_LOGIN));
                 break;
             }
@@ -200,12 +200,11 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     }
 
     public void onClickCreateRoom(View view) {
-        if(user == null){
+        if (user == null) {
             publisher.onNext(Event.create(Event.SHOW_LOGIN));
-        }
-        else {
-            Room room = new Room(null,Room.CREATE,user,System.currentTimeMillis());
-            roomUsecase.execute(new CreateRoomObserver(),Event.CREATE_ROOM,room);
+        } else {
+            Room room = new Room(null, Room.CREATE, user, System.currentTimeMillis());
+            roomUsecase.execute(new CreateRoomObserver(), Event.CREATE_ROOM, room);
         }
     }
 
@@ -232,7 +231,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     public int getUserVisibility() {
         if (user == null)
             return View.GONE;
-        if(user.getScore()==-1)
+        if (user.getScore() == -1)
             return View.GONE;
         return View.VISIBLE;
     }
@@ -327,15 +326,14 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     class LoginInfoObserver extends DisposableSingleObserver<Optional<User>> {
         @Override
         public void onSuccess(Optional<User> user) {
-            if(user.isPresent()){
+            if (user.isPresent()) {
                 RoomViewModel.this.user = user.get();
 
                 notifyPropertyChanged(BR.urlAvatar);
                 notifyPropertyChanged(BR.userName);
                 notifyPropertyChanged(BR.userVisibility);
                 notifyPropertyChanged(BR.score);
-            }
-            else{
+            } else {
                 onHelp(Event.create(Event.LOGIN_USER, RoomViewModel.this.user));
             }
         }
@@ -349,7 +347,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     class CreateRoomObserver extends DisposableSingleObserver<String> {
         @Override
         public void onSuccess(String roomid) {
-            publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY,roomid));
+            publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY, roomid));
         }
 
         @Override
