@@ -130,7 +130,7 @@ public class PlayUsecase extends AbstractUsecase {
             PlayUsecase.this.room = new Room(
                     0,
                     0,
-                    PlayUsecase.this.boards.get(0/*new Random().nextInt(PlayUsecase.this.boards.size())*/),
+                    PlayUsecase.this.boards.get(new Random().nextInt(PlayUsecase.this.boards.size())),
                     "",
                     new Random().nextInt(2) == 0 ? "AI" : user.getUid(),
                     null,
