@@ -74,6 +74,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
         });
 
         addControlKeyboardView(binding.edtMessage);
+
         countDialog = new Dialog(PlayActivity.this);
         countDialog.setContentView(R.layout.layout_count_view);
         countDialog.setCancelable(false);
@@ -128,40 +129,54 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                 }
                 case Event.COUNT_DOWN: {
                     int count = (int) event.getData()[0];
-                    if(count != 0) {
+                    if (count != 0) {
                         TextView txtCountStart = (countDialog.findViewById(R.id.txt_count_start));
                         txtCountStart.setText(count + "");
-                        txtCountStart.setTextSize(getResources().getDisplayMetrics().widthPixels/30);
-                        txtCountStart.setWidth(getResources().getDisplayMetrics().widthPixels/4);
-                        txtCountStart.setHeight(getResources().getDisplayMetrics().widthPixels/4);
+                        txtCountStart.setTextSize(getResources().getDisplayMetrics().widthPixels / 30);
+                        txtCountStart.setWidth(getResources().getDisplayMetrics().widthPixels / 4);
+                        txtCountStart.setHeight(getResources().getDisplayMetrics().widthPixels / 4);
                         countDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        countDialog.getWindow().setLayout(getResources().getDisplayMetrics().widthPixels/6,getResources().getDisplayMetrics().widthPixels/6);
+                        countDialog.getWindow().setLayout(getResources().getDisplayMetrics().widthPixels / 6, getResources().getDisplayMetrics().widthPixels / 6);
                         countDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                         countDialog.show();
-                    }
-                    else{
+                    } else {
                         countDialog.cancel();
                     }
 //                    Toast.makeText(PlayActivity.this, count + "",Toast.LENGTH_SHORT).show();
                     break;
                 }
-                case Event.RESULT:{
+                case Event.RESULT: {
                     String state = "";
-                    switch ((int) event.getData()[0]){
-                        case Event.WIN:
-//                            Dialog endGameDialog = new Dialog();
-                            countDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                            countDialog.getWindow().setLayout(getResources().getDisplayMetrics().widthPixels/5,getResources().getDisplayMetrics().widthPixels/5);
-                            state = "Win";
+                    Dialog endGameDialog = new Dialog(PlayActivity.this);
+                    endGameDialog.setContentView(R.layout.layout_end_game);
+//                    endGameDialog.setCancelable(false);
+//                    endGameDialog.setCanceledOnTouchOutside(false);
+                    endGameDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    endGameDialog.getWindow().setLayout(getResources().getDisplayMetrics().widthPixels / 5, getResources().getDisplayMetrics().widthPixels / 5);
+
+                    switch ((int) event.getData()[0]) {
+                        case Event.WIN: {
+                            View view = endGameDialog.findViewById(R.id.endgame_status);
+                            view.setBackgroundResource((R.drawable.ic_win));
+                            endGameDialog.show();
+//                            state = "Win";
                             break;
-                        case Event.LOSE:
-                            state = "Lose";
+
+                        }
+                        case Event.LOSE: {
+                            View view = endGameDialog.findViewById(R.id.endgame_status);
+                            view.setBackgroundResource((R.drawable.ic_win));
+                            endGameDialog.show();
                             break;
-                        case Event.DRAW:
-                            state = "Draw";
+                        }
+                        case Event.DRAW: {
+                            View view = endGameDialog.findViewById(R.id.endgame_status);
+                            view.setBackgroundResource((R.drawable.ic_win));
+                            endGameDialog.show();
                             break;
+                        }
                     }
-                    Toast.makeText(PlayActivity.this,state,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(PlayActivity.this, state, Toast.LENGTH_LONG).show();
                     break;
                 }
             }
