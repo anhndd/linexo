@@ -8,7 +8,7 @@ import dagger.Provides;
 import vn.edu.hcmut.linexo.data.cache.CacheSource;
 import vn.edu.hcmut.linexo.data.cache.SharedPreferencesDB;
 import vn.edu.hcmut.linexo.data.local.LocalSource;
-import vn.edu.hcmut.linexo.data.local.PaperDB;
+import vn.edu.hcmut.linexo.data.local.LocalSourceImpl;
 import vn.edu.hcmut.linexo.data.network.FirebaseDB;
 import vn.edu.hcmut.linexo.data.network.NetworkSource;
 import vn.edu.hcmut.linexo.data.repository.BoardRepository;
@@ -54,13 +54,13 @@ public class AppModule {
 
     @Provides
     public LocalSource provideLocalSource(){
-        return new PaperDB();
+        return new LocalSourceImpl();
     }
 
     @Provides
     @Singleton
-    public BoardRepository provideBoardRepository(NetworkSource networkSource) {
-        return new BoardRepositoryImpl(networkSource);
+    public BoardRepository provideBoardRepository(NetworkSource networkSource, LocalSource localSource) {
+        return new BoardRepositoryImpl(networkSource, localSource);
     }
 
     @Provides

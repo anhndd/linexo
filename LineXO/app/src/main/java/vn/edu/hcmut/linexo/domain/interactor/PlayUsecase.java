@@ -54,7 +54,6 @@ public class PlayUsecase extends AbstractUsecase {
                         .subscribeWith(new DisposableSingleObserver<Optional<User>>() {
                             @Override
                             public void onSuccess(Optional<User> userOptional) {
-//                                PlayUsecase.this.user = userOptional.get();
                                 if(userOptional.isPresent()){
                                     PlayUsecase.this.user = userOptional.get();
                                 }
@@ -131,7 +130,7 @@ public class PlayUsecase extends AbstractUsecase {
             PlayUsecase.this.room = new Room(
                     0,
                     0,
-                    PlayUsecase.this.boards.get(new Random().nextInt(PlayUsecase.this.boards.size())),
+                    PlayUsecase.this.boards.get(0/*new Random().nextInt(PlayUsecase.this.boards.size())*/),
                     "",
                     new Random().nextInt(2) == 0 ? "AI" : user.getUid(),
                     null,
@@ -161,8 +160,11 @@ public class PlayUsecase extends AbstractUsecase {
                     }
                 }
                 PlayUsecase.this.room.setNext_turn(currentMove);
+                emitter.onSuccess(PlayUsecase.this.room);
             }
-            emitter.onSuccess(PlayUsecase.this.room);
+            else {
+                emitter.onError(new Throwable());
+            }
         }).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribeWith(observer));
     }
 

@@ -12,8 +12,9 @@ public class BoardRepositoryImpl implements BoardRepository {
     private NetworkSource networkSource;
     private LocalSource localSource;
 
-    public BoardRepositoryImpl(NetworkSource networkSource) {
+    public BoardRepositoryImpl(NetworkSource networkSource, LocalSource localSource) {
         this.networkSource = networkSource;
+        this.localSource = localSource;
     }
 
     @Override
