@@ -1,7 +1,6 @@
 package vn.edu.hcmut.linexo.presentation.view_model.room;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
@@ -19,9 +18,10 @@ import io.reactivex.subjects.PublishSubject;
 import vn.edu.hcmut.linexo.BR;
 import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.domain.interactor.Usecase;
+import vn.edu.hcmut.linexo.presentation.model.Room;
+import vn.edu.hcmut.linexo.presentation.view.room.RankItem;
 import vn.edu.hcmut.linexo.presentation.view.room.RoomItem;
 import vn.edu.hcmut.linexo.presentation.model.User;
-import vn.edu.hcmut.linexo.presentation.view.play.PlayActivity;
 import vn.edu.hcmut.linexo.presentation.view.room.RoomRecyclerViewAdapter;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
@@ -40,7 +40,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     private RoomRecyclerViewAdapter adapter = new RoomRecyclerViewAdapter(new ArrayList<>(), this);
     private User user;
     private List<RoomItem> data = new ArrayList<>();
-    ;
+
     private Context context;
     private Usecase roomUsecase;
     private boolean isConnected;
@@ -51,15 +51,17 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
     public RoomViewModel(Context context, Usecase roomUsecase) {
 
-        FirebaseUser firebaseUser = mAuth.getCurrentUser();
-        if (firebaseUser != null) {
-            User user = new User(firebaseUser.getUid(), firebaseUser.getEmail(),
-                    firebaseUser.getPhotoUrl().toString(), firebaseUser.getDisplayName(), 0, System.currentTimeMillis());
-            onHelp(Event.create(Event.LOGIN_USER, user));
-        }
         this.context = context;
 
         this.roomUsecase = roomUsecase;
+
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser != null) {
+            user = new User(firebaseUser.getUid(), firebaseUser.getEmail(),
+                    firebaseUser.getPhotoUrl().toString(), firebaseUser.getDisplayName(), -1, System.currentTimeMillis());
+            onHelp(Event.create(Event.LOGIN_INFO, user));
+        }
+
         networkChangeReceiver.initReceiver(context, new NetworkChangeReceiver.NetworkChangeListener() {
             @Override
             public void onNetworkChange(boolean networkState) {
@@ -79,8 +81,6 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     @Override
     public void subscribeObserver(Observer<Event> observer) {
         publisher.subscribe(observer);
-
-//        roomUsecase.execute(new UserInfoObserver(), Event.LOGIN_INFO);
     }
 
     @Override
@@ -88,8 +88,8 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         switch (e.getType()) {
             case Event.CLICK_ROOM: {
                 Object[] data = e.getData();
-                int roomId = (int) data[0];
-                if (roomId == 0 || (user != null && user.getScore() != -1)) {
+                String roomId = (String) data[0];
+                if (roomId == "AI" || (user != null && user.getScore() != -1)) {
                     publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY, roomId));
                 } else {
                     publisher.onNext(Event.create(Event.SHOW_LOGIN));
@@ -102,7 +102,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 if (!strSearch.isEmpty()) {
                     ArrayList<RoomItem> filteredList = new ArrayList<>();
                     for (RoomItem item : data) {
-                        int number = item.getId();
+                        int number = item.getRoomNumber();
                         String strNumber = "";
                         if (number == 0) {
 //                        strNumber = getResources().getString(R.string.room_ai);
@@ -125,10 +125,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             }
             case Event.LOGIN_USER: {
                 user = (User) e.getData()[0];
-                notifyPropertyChanged(BR.urlAvatar);
-                notifyPropertyChanged(BR.userName);
-                notifyPropertyChanged(BR.userVisibility);
-                notifyPropertyChanged(BR.score);
+                roomUsecase.execute(new LoginObserver(),Event.LOGIN_USER,user);
                 break;
 
             }
@@ -142,6 +139,18 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 roomUsecase.execute(null, Event.LOGOUT);
                 break;
             }
+            case Event.SHOW_RANK_DIALOG: {
+                roomUsecase.execute(new RankScoreObserver(), Event.SHOW_RANK_DIALOG);
+                break;
+            }
+            case Event.LOGIN_INFO:{
+                roomUsecase.execute(new LoginInfoObserver(),Event.LOGIN_INFO);
+                break;
+            }
+            case Event.SHOW_LOGIN:{
+                publisher.onNext(Event.create(Event.SHOW_LOGIN));
+                break;
+            }
         }
     }
 
@@ -150,7 +159,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
         ArrayList<RoomItem> filteredList = new ArrayList<>();
         for (RoomItem item : data) {
-            int number = item.getId();
+            int number = item.getRoomNumber();
             String strNumber = "";
             if (number == 0) {
 //                strNumber = getResources().getString(R.string.room_ai);
@@ -191,18 +200,21 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     }
 
     public void onClickCreateRoom(View view) {
-        Intent intent = new Intent(view.getContext(), PlayActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        view.getContext().startActivity(intent);
+        if(user == null){
+            publisher.onNext(Event.create(Event.SHOW_LOGIN));
+        }
+        else {
+            Room room = new Room(null,Room.CREATE,user,System.currentTimeMillis());
+            roomUsecase.execute(new CreateRoomObserver(),Event.CREATE_ROOM,room);
+        }
     }
 
     @Bindable
     public String getScore() {
         if (user == null) {
             return "";
-        }
-        else if(user.getScore() == -1){
-            roomUsecase.execute(new FullInfoUserObserver(),Event.LOAD_FULL_USER_INFO,user.getUid(),isConnected);
+        } else if (user.getScore() == -1) {
+            roomUsecase.execute(new FullInfoUserObserver(), Event.LOAD_FULL_USER_INFO, user.getUid(), isConnected);
             return "-";
         }
         return String.valueOf(user.getScore());
@@ -219,6 +231,8 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     @Bindable
     public int getUserVisibility() {
         if (user == null)
+            return View.GONE;
+        if(user.getScore()==-1)
             return View.GONE;
         return View.VISIBLE;
     }
@@ -241,24 +255,6 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             publisher.onNext(Event.create(Event.SHOW_POPUP_USER_ON));
         } else {
             publisher.onNext(Event.create(Event.SHOW_POPUP_USER_OFF));
-        }
-    }
-
-    class UserInfoObserver extends DisposableSingleObserver<Optional<User>> {
-        @Override
-        public void onSuccess(Optional<User> userOptional) {
-            if (userOptional.isPresent()) {
-                user = userOptional.get();
-                notifyPropertyChanged(BR.urlAvatar);
-                notifyPropertyChanged(BR.userName);
-                notifyPropertyChanged(BR.userVisibility);
-                notifyPropertyChanged(BR.score);
-            }
-        }
-
-        @Override
-        public void onError(Throwable e) {
-
         }
     }
 
@@ -290,6 +286,70 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 notifyPropertyChanged(BR.userVisibility);
                 notifyPropertyChanged(BR.score);
             }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+    }
+
+    class RankScoreObserver extends DisposableSingleObserver<List<RankItem>> {
+        @Override
+        public void onSuccess(List<RankItem> listRank) {
+            List<RankItem> rankItems = listRank;
+            publisher.onNext(Event.create(Event.SHOW_RANK_DIALOG, rankItems));
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+    }
+
+    class LoginObserver extends DisposableSingleObserver<User> {
+        @Override
+        public void onSuccess(User user) {
+            RoomViewModel.this.user = user;
+
+            notifyPropertyChanged(BR.urlAvatar);
+            notifyPropertyChanged(BR.userName);
+            notifyPropertyChanged(BR.userVisibility);
+            notifyPropertyChanged(BR.score);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+    }
+
+    class LoginInfoObserver extends DisposableSingleObserver<Optional<User>> {
+        @Override
+        public void onSuccess(Optional<User> user) {
+            if(user.isPresent()){
+                RoomViewModel.this.user = user.get();
+
+                notifyPropertyChanged(BR.urlAvatar);
+                notifyPropertyChanged(BR.userName);
+                notifyPropertyChanged(BR.userVisibility);
+                notifyPropertyChanged(BR.score);
+            }
+            else{
+                onHelp(Event.create(Event.LOGIN_USER, RoomViewModel.this.user));
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+    }
+
+    class CreateRoomObserver extends DisposableSingleObserver<String> {
+        @Override
+        public void onSuccess(String roomid) {
+            publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY,roomid));
         }
 
         @Override

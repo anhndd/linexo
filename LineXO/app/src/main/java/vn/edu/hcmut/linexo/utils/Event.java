@@ -36,7 +36,8 @@ public class Event {
     public static final int DRAW = 22;
     public static final int WIN = 23;
     public static final int RESULT = 24;
-
+    public static final int SHOW_RANK_DIALOG = 25;
+    public static final int CREATE_ROOM = 26;
 
     /***********************************************************************************************
      * Class implementation.

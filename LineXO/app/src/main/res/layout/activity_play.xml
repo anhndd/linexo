@@ -71,7 +71,7 @@
             android:textColor="@color/colorScore"
             android:textSize="20sp"
             android:textStyle="bold"
-            bind:roomNumber="@{viewModel.roomId}"/>
+            bind:roomNumber="@{viewModel.roomNumber}"/>
 
         <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
             android:id="@+id/avatar_2"

@@ -96,7 +96,7 @@ public class PlayUsecase extends AbstractUsecase {
                     @Override
                     public void run() {
                         if (user != null && boards != null) {
-                            initGame((DisposableSingleObserver<Room>) observer, (int) params[0]);
+                            initGame((DisposableSingleObserver<Room>) observer, (String) params[0]);
                         } else {
                             playHandler.postDelayed(this, 100);
                         }
@@ -111,8 +111,8 @@ public class PlayUsecase extends AbstractUsecase {
         }
     }
 
-    private void initGame(DisposableSingleObserver<Room> observer, int roomNumber) {
-        if (roomNumber == 0) {
+    private void initGame(DisposableSingleObserver<Room> observer, String roomId) {
+        if (roomId.equals("AI")) {
             addTask(
                     buildAIObservable()
                             .subscribeOn(getSubscribeScheduler())
@@ -127,7 +127,7 @@ public class PlayUsecase extends AbstractUsecase {
 
     private Single<Room> buildAIObservable() {
         return Single.create(emitter -> {
-            PlayUsecase.this.room = new Room(
+            PlayUsecase.this.room = new Room("AI",
                     0,
                     0,
                     PlayUsecase.this.boards.get(new Random().nextInt(PlayUsecase.this.boards.size())),

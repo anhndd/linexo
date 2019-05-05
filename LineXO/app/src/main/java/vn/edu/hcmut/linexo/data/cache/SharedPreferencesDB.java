@@ -31,18 +31,6 @@ public class SharedPreferencesDB  implements CacheSource {
     }
 
     @Override
-    public Single<Session> getSession() {
-        return Single.create(emitter -> {
-            emitter.onSuccess(new Session(0));
-        });
-    }
-
-    @Override
-    public Single<Boolean> setSession(Session sess) {
-        return null;
-    }
-
-    @Override
     public Single<Optional<User>> getUser() {
         return Single.create(emitter -> {
             String uid = sharedPref.getString(USER_ID, "");
@@ -73,6 +61,7 @@ public class SharedPreferencesDB  implements CacheSource {
                 editor.putString(USER_ID, user.getUid());
                 editor.putLong(TIME, user.getTime());
                 editor.putString(EMAIL, user.getEmail());
+                editor.commit();
                 emitter.onSuccess(true);
             });
         }
@@ -84,6 +73,7 @@ public class SharedPreferencesDB  implements CacheSource {
                 editor.remove(USER_ID);
                 editor.remove(TIME);
                 editor.remove(EMAIL);
+                editor.commit();
                 emitter.onSuccess(false);
             });
         }

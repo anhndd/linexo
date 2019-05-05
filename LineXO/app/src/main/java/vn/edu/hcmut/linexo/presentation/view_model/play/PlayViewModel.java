@@ -41,7 +41,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     private Usecase chatUsecase;
 
     private Room room;
-    private int roomId;
+    private String roomId;
     private ChatRecyclerViewAdapter adapter;
     private List<Message> messages;
     private User user;
@@ -72,23 +72,16 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
         if (firebaseUser != null) {
             user = new User(firebaseUser.getUid(), firebaseUser.getEmail(),
                     firebaseUser.getPhotoUrl().toString(), firebaseUser.getDisplayName(), 0, System.currentTimeMillis());
-//            onHelp(Event.create(Event.LOGIN_USER, user));
         }
-
-//        messages.add(new Message(1, j++ + "", null, null, "alo"));
-//        messages.add(new Message(2, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
-//        messages.add(new Message(2, j++ + "", "khuong tu nha", "https://i.pinimg.com/originals/30/60/5a/30605a36231a5b7cd5ad0af4ee6774e3.jpg", "đi đường kia kìa :)"));
-//        messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đang theo dõi"));
-//        messages.add(new Message(1, j++ + "", null, null, "111"));
-//        messages.add(new Message(1, j++ + "", null, null, "đường nào mày...... ha ha ha chết chưa m hả bưởi."));
-//        messages.add(new Message(3, j++ + "", null, null, "Lâm Nguyễn đã thoát"));
-        adapter = new ChatRecyclerViewAdapter(new ArrayList<>(), user.getUid());
-        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onItemRangeInserted(int positionStart, int itemCount) {
-                publisher.onNext(Event.create(Event.SMOOTH_MESSAGE_LIST, adapter.getItemCount()));
-            }
-        });
+        if (user != null) {
+            adapter = new ChatRecyclerViewAdapter(new ArrayList<>(), user.getUid());
+            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    publisher.onNext(Event.create(Event.SMOOTH_MESSAGE_LIST, adapter.getItemCount()));
+                }
+            });
+        }
     }
 
     @Override
@@ -97,7 +90,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
         if (room == null) {
             loadRoom();
         }
-        if (messages == null) {
+        if (!roomId.equals("AI") && messages == null) {
             messages = new ArrayList<>();
             chatUsecase.execute(new ChatReceiverObserver(), Event.LOAD_MESSAGE, roomId);
         }
@@ -114,8 +107,8 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
             case Event.LOAD_PLAY_INFO:
                 // load avatar url host and opponent, score by room ID
                 // check url null
-                roomId = (int) e.getData()[0];
-                notifyPropertyChanged(BR.roomId);
+                roomId = (String) e.getData()[0];
+//                notifyPropertyChanged(BR.roomId);
                 break;
             case Event.KEYBOARD_CHANGED: {
                 arrayKeyboardChanged = (int[]) e.getData()[0];
@@ -171,7 +164,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     public void onClickSend(View view) {
         if (!contentMessage.equals("")) {
             messages = new ArrayList<>(messages);
-            chatUsecase.execute(null, Event.PUSH_MESSAGE, roomId, new Message(user.getUid(), user.getName(), user.getAvatar(), contentMessage, System.currentTimeMillis()));
+            chatUsecase.execute(null, Event.PUSH_MESSAGE, room.getRoom_number(), new Message(user.getUid(), user.getName(), user.getAvatar(), contentMessage, System.currentTimeMillis()));
             contentMessage = "";
             notifyPropertyChanged(BR.contentMessage);
 
@@ -197,8 +190,10 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     }
 
     @Bindable
-    public int getRoomId() {
-        return roomId;
+    public int getRoomNumber() {
+        if (room == null)
+            return 0;
+        return room.getRoom_number();
     }
 
     @Bindable
@@ -240,13 +235,11 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                 Log.e("Test", room.getBoard().getO_cells() + " " + room.getBoard().getX_cells() + " " + room.getBoard().getMax_cells());
                 if ((room.getBoard().getO_cells() + room.getBoard().getX_cells()) == room.getBoard().getMax_cells()) {
                     if (room.getRoom_number() == 0) {
-                        if(room.getBoard().getO_cells() > room.getBoard().getX_cells()){
+                        if (room.getBoard().getO_cells() > room.getBoard().getX_cells()) {
                             gameState = Event.WIN;
-                        }
-                        else if (room.getBoard().getO_cells() < room.getBoard().getX_cells()){
+                        } else if (room.getBoard().getO_cells() < room.getBoard().getX_cells()) {
                             gameState = Event.LOSE;
-                        }
-                        else {
+                        } else {
                             gameState = Event.DRAW;
                         }
                         publisher.onNext(Event.create(Event.RESULT, gameState));

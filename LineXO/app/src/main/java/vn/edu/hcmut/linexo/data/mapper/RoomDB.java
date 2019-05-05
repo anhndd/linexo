@@ -11,11 +11,12 @@ public class RoomDB {
     private User user_1;
     private User user_2;
     private Boolean is_private;
+    private String room_id;
 
     public RoomDB() {
     }
 
-    public RoomDB(int action, Integer room_number, DBBoard board, String last_turn, String next_turn, User user_1, User user_2, Boolean is_private) {
+    public RoomDB(String room_id, int action, Integer room_number, DBBoard board, String last_turn, String next_turn, User user_1, User user_2, Boolean is_private) {
         this.action = action;
         this.room_number = room_number;
         this.board = board;
@@ -24,6 +25,7 @@ public class RoomDB {
         this.user_1 = user_1;
         this.user_2 = user_2;
         this.is_private = is_private;
+        this.room_id = room_id;
     }
 
     public Integer getRoom_number() {
@@ -88,5 +90,9 @@ public class RoomDB {
 
     public void setIs_private(Boolean is_private) {
         this.is_private = is_private;
+    }
+
+    public String getRoom_id() {
+        return room_id;
     }
 }

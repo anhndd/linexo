@@ -130,7 +130,7 @@ public class FirebaseDB implements NetworkSource {
         return Single.create(emitter -> {
             DatabaseReference userRef = database.getReference("user").child(user.getUid());
             userRef.setValue(user, (databaseError, databaseReference) -> {
-                if (databaseError != null){
+                if (databaseError == null){
                     emitter.onSuccess(true);
                 }
                 else {
@@ -166,11 +166,11 @@ public class FirebaseDB implements NetworkSource {
     }
 
     @Override
-    public Observable<Message> getMessage(int roomNumber) {
+    public Observable<Message> getMessage(String roomId) {
         return Observable.create(emitter -> {
             Query messRef = database
                     .getReference("message")
-                    .child(String.valueOf(roomNumber))
+                    .child(roomId)
                     .orderByChild("time");
             ChildEventListener listener = new ChildEventListener() {
                 @Override

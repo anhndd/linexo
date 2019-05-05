@@ -1,17 +1,18 @@
 package vn.edu.hcmut.linexo.presentation.view.room;
 
 public class RoomItem {
-    int id;
+    String id;
+    int roomNumber;
     String url_host;
     String url_opponent;
     boolean isPrivate;
 
-    public int getId() {
-        return id;
+    public int getRoomNumber() {
+        return roomNumber;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
     }
 
     public String getUrl_host() {
@@ -38,14 +39,20 @@ public class RoomItem {
         isPrivate = aPrivate;
     }
 
-    public RoomItem(int id, String url_host, String url_opponent, boolean isPrivate) {
+    public String getId() {
+        return id;
+    }
+
+    public RoomItem(String id, int roomNumber, String url_host, String url_opponent, boolean isPrivate) {
         this.id = id;
+        this.roomNumber = roomNumber;
         this.url_host = url_host;
         this.url_opponent = url_opponent;
         this.isPrivate = isPrivate;
     }
-    public RoomItem(int id, String url_host, String url_opponent) {
+    public RoomItem(String id,int roomNumber, String url_host, String url_opponent) {
         this.id = id;
+        this.roomNumber = roomNumber;
         this.url_host = url_host;
         this.url_opponent = url_opponent;
     }

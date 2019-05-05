@@ -19,7 +19,7 @@ public class ChatUsecase extends AbstractUsecase {
     public void execute(Object observer, @Nullable int flag, @Nullable Object... params) {
         switch (flag) {
             case Event.LOAD_MESSAGE:
-                addTask(messageRepository.getNetworkMessage((int) params[0])
+                addTask(messageRepository.getNetworkMessage((String) params[0])
                         .subscribeOn(getSubscribeScheduler())
                         .observeOn(getObserveScheduler())
                         .subscribeWith((DisposableObserver) observer));

@@ -30,7 +30,7 @@ public class RoomDiffCallBack extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldRoomList.get(oldItemPosition).getId() == newRoomList.get(newItemPosition).getId();
+        return oldRoomList.get(oldItemPosition).getRoomNumber() == newRoomList.get(newItemPosition).getRoomNumber();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class RoomDiffCallBack extends DiffUtil.Callback {
         RoomItem oldRoom = oldRoomList.get(oldItemPosition);
         RoomItem newRoom = newRoomList.get(newItemPosition);
 
-        return (oldRoom.getId() == newRoom.getId()) && (oldRoom.getUrl_host().equals(newRoom.getUrl_host()))
+        return (oldRoom.getRoomNumber() == newRoom.getRoomNumber()) && (oldRoom.getUrl_host().equals(newRoom.getUrl_host()))
                 && (equalString(oldRoom.getUrl_opponent(), newRoom.getUrl_opponent())) && (oldRoom.isPrivate() == newRoom.isPrivate());
     }
 

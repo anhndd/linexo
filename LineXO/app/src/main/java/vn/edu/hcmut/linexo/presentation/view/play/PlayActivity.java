@@ -56,7 +56,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int idRoom = (int) extras.get("idRoom");
+            String idRoom = (String) extras.get("idRoom");
             ((PlayViewModel) viewModel).onHelp(Event.create(Event.LOAD_PLAY_INFO, idRoom));
         }
 

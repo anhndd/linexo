@@ -35,7 +35,7 @@ public class RoomRecyclerViewAdapter extends RecyclerView.Adapter<RoomRecyclerVi
 
     @Override
     public void onBindViewHolder(RoomRecyclerViewHolder holder, int position) {
-        holder.itemView.setRoomView(roomItems.get(position).getId(), roomItems.get(position).getUrl_host(),
+        holder.itemView.setRoomView(roomItems.get(position).getRoomNumber(), roomItems.get(position).getUrl_host(),
                 roomItems.get(position).getUrl_opponent(), roomItems.get(position).isPrivate());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

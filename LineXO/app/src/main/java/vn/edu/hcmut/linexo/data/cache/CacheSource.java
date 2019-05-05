@@ -7,9 +7,6 @@ import vn.edu.hcmut.linexo.utils.Optional;
 
 public interface CacheSource {
 
-    Single<Session> getSession();
-    Single<Boolean> setSession(Session session);
-
     Single<Optional<User>> getUser();
     Single<Boolean> setUser(User user);
 

@@ -20,6 +20,6 @@ public interface NetworkSource {
     Single<Boolean> setUser(User user);
     Single<List<User>> getScoreTable();
 
-    Observable<Message> getMessage(int roomNumber);
+    Observable<Message> getMessage(String roomId);
     Single<Boolean> setMessage(int roomNumber, Message message);
 }

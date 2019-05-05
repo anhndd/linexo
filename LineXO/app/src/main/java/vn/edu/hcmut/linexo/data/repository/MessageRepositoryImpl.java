@@ -15,8 +15,8 @@ public class MessageRepositoryImpl implements MessageRepository {
 
 
     @Override
-    public Observable<Message> getNetworkMessage(int roomNumber) {
-        return networkSource.getMessage(roomNumber);
+    public Observable<Message> getNetworkMessage(String roomId) {
+        return networkSource.getMessage(roomId);
     }
 
     @Override

@@ -158,9 +158,9 @@ public class RoomActivity extends BaseActivity {
                         break;
                     }
                     case Event.SHOW_PLAY_ACTIVITY: {
-                        int idRoom = (int) event.getData()[0];
+                        String roomId = (String) event.getData()[0];
                         Intent intent = new Intent(RoomActivity.this, PlayActivity.class);
-                        intent.putExtra("idRoom",idRoom);
+                        intent.putExtra("idRoom",roomId);
                         startActivity(intent);
                         finish();
                         break;
@@ -180,37 +180,7 @@ public class RoomActivity extends BaseActivity {
                                     case R.id.it_rating:
                                         break;
                                     case R.id.it_ranking:
-                                        Dialog rankDialog = new Dialog(RoomActivity.this);
-                                        rankDialog.setContentView(R.layout.layout_rank_view);
-
-                                        ImageButton btnClose = rankDialog.findViewById(R.id.btn_dismiss_rank);
-                                        btnClose.setOnClickListener(view -> rankDialog.dismiss());
-
-                                        CircleImageView firstRankAvatar = rankDialog.findViewById(R.id.civ_first_avatar);
-                                        firstRankAvatar.setImageFromObject(mAuth.getCurrentUser().getPhotoUrl().toString());
-
-                                        TextView firstRankScore = rankDialog.findViewById(R.id.txt_first_score);
-                                        firstRankScore.setText("200000000$");
-
-                                        RecyclerView lst_rank = ((RecyclerView) rankDialog.findViewById(R.id.lst_rank));
-                                        lst_rank.setLayoutManager(new LinearLayoutManager(RoomActivity.this));
-                                        lst_rank.setHasFixedSize(true);
-
-                                        List<RankItem> rankItems = new ArrayList<>();
-                                        rankItems.add(new RankItem("2", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"2"));
-                                        rankItems.add(new RankItem("3", "Nguyễn Viết Sang", 2000,mAuth.getCurrentUser().getPhotoUrl().toString(),"3"));
-                                        rankItems.add(new RankItem("4", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"4"));
-                                        rankItems.add(new RankItem("5", "Nguyễn Viết Sang", 2000,mAuth.getCurrentUser().getPhotoUrl().toString(),"5"));
-                                        rankItems.add(new RankItem("6", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"6"));
-                                        rankItems.add(new RankItem("7", "Nguyễn Viết Sang", 2000,mAuth.getCurrentUser().getPhotoUrl().toString(),"7"));
-                                        rankItems.add(new RankItem("8", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"8"));
-                                        rankItems.add(new RankItem("9", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"9"));
-                                        rankItems.add(new RankItem("10", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"10"));
-                                        rankItems = new ArrayList<>(rankItems);
-                                        RankRecyclerViewAdapter a = new RankRecyclerViewAdapter(rankItems);
-                                        lst_rank.setAdapter(a);
-
-                                        rankDialog.show();
+                                        ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_RANK_DIALOG));
                                         break;
                                     case R.id.it_logout:
                                         mGoogleSignInClient.signOut();
@@ -222,8 +192,6 @@ public class RoomActivity extends BaseActivity {
                             }
                         });
                         popup.show(); //showing popup menu
-//
-//                        ((ViewModelCallback) viewModel).onHelp(Event.create(Event.CLICK_AVATAR_POPUP_MENU, popup));
                         break;
                     }
                     case Event.SHOW_POPUP_USER_OFF: {
@@ -241,14 +209,45 @@ public class RoomActivity extends BaseActivity {
                                     case R.id.it_rating:
                                         break;
                                     case R.id.it_ranking:
+                                        ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_RANK_DIALOG));
+                                        break;
+                                    case R.id.it_login:
+                                        ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_LOGIN));
                                         break;
                                 }
                                 return true;
                             }
                         });
                         popup.show(); //showing popup menu
-//
-//                        ((ViewModelCallback) viewModel).onHelp(Event.create(Event.CLICK_AVATAR_POPUP_MENU, popup));
+                        break;
+                    }
+                    case Event.SHOW_RANK_DIALOG:{
+                        List<RankItem> rankItems = (List<RankItem>) event.getData()[0];
+                        rankItems = new ArrayList<>(rankItems);
+                        Dialog rankDialog = new Dialog(RoomActivity.this);
+                        rankDialog.setContentView(R.layout.layout_rank_view);
+
+                        ImageButton btnClose = rankDialog.findViewById(R.id.btn_dismiss_rank);
+                        btnClose.setOnClickListener(view -> rankDialog.dismiss());
+
+                        RankItem rankFisrtItem = rankItems.get(0);
+
+                        CircleImageView firstRankAvatar = rankDialog.findViewById(R.id.civ_first_avatar);
+                        firstRankAvatar.setImageFromObject(rankFisrtItem.getAvatarURL());
+
+                        TextView firstRankScore = rankDialog.findViewById(R.id.txt_first_score);
+                        firstRankScore.setText(rankFisrtItem.getUserScore());
+
+                        RecyclerView lst_rank = ((RecyclerView) rankDialog.findViewById(R.id.lst_rank));
+                        lst_rank.setLayoutManager(new LinearLayoutManager(RoomActivity.this));
+                        lst_rank.setHasFixedSize(true);
+
+
+                        rankItems.remove(0);
+                        RankRecyclerViewAdapter a = new RankRecyclerViewAdapter(rankItems);
+                        lst_rank.setAdapter(a);
+
+                        rankDialog.show();
                         break;
                     }
                 }

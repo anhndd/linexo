@@ -7,4 +7,8 @@
         android:id="@+id/it_ranking"
         android:icon="@drawable/ic_ranking"
         android:title="@string/ranking" />
+    <item
+        android:id="@+id/it_login"
+        android:icon="@drawable/ic_login"
+        android:title="@string/login_popup" />
 </menu>
