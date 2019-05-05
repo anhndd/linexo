@@ -46,6 +46,7 @@ public class RankRecyclerViewAdapter extends RecyclerView.Adapter<RankRecyclerVi
         holder.txtUserName.setText(rankItems.get(position).getUserName());
         holder.txtUserScore.setText(rankItems.get(position).getUserScore());
         holder.avatar.setImageFromObject(rankItems.get(position).getAvatarURL());
+        holder.txtNumberRank.setText(rankItems.get(position).getNumberRank());
     }
 
     @Override
@@ -57,12 +58,14 @@ public class RankRecyclerViewAdapter extends RecyclerView.Adapter<RankRecyclerVi
         TextView txtUserName;
         TextView txtUserScore;
         CircleImageView avatar;
+        TextView txtNumberRank;
 
         public RankRecyclerViewHolder(View itemRankView) {
             super(itemRankView);
             this.txtUserScore = itemRankView.findViewById(R.id.txt_userscore);
             this.txtUserName = itemRankView.findViewById(R.id.txt_username);
             this.avatar = itemRankView.findViewById(R.id.avatar);
+            this.txtNumberRank = itemRankView.findViewById(R.id.txt_number_rank);
         }
     }
 

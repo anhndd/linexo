@@ -10,6 +10,15 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent" />
 
+    <ImageButton
+        android:id="@+id/btn_dismiss_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dimen_5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_close"
+        android:background="@null"/>
+
     <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
         android:id="@+id/civ_first_avatar"
         android:layout_width="wrap_content"

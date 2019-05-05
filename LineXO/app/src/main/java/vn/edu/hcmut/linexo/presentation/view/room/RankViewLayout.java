@@ -15,6 +15,7 @@ import vn.edu.hcmut.linexo.R;
 
 public class RankViewLayout extends FrameLayout {
 
+    private View txtNumberRank;
     private View txtUserName;
     private View txtScore;
     private View avatar;
@@ -40,6 +41,7 @@ public class RankViewLayout extends FrameLayout {
         txtScore = findViewById(R.id.txt_userscore);
         avatar = findViewById(R.id.avatar);
         lineSpaceRank = findViewById(R.id.line_space_rank);
+        txtNumberRank = findViewById(R.id.txt_number_rank);
         defaultMargin = getResources().getDimensionPixelSize(R.dimen.dimen_10dp);
     }
 
@@ -52,14 +54,18 @@ public class RankViewLayout extends FrameLayout {
         int BgHeight = width / 5;
         int space = width/30;
 
+        txtNumberRank.measure(MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED,
+                MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED);
+
         avatar.measure((BgHeight-space*2) | MeasureSpec.EXACTLY,
                 (BgHeight-space*2) | MeasureSpec.EXACTLY
         );
 
-//        lineSpaceRank.measure(
-//                avatar.getMeasuredWidth() | MeasureSpec.EXACTLY,
-//                avatar.getMeasuredHeight() | MeasureSpec.EXACTLY
-//        );
+        lineSpaceRank.measure(
+                width - defaultMargin*2 - txtNumberRank.getMeasuredWidth() | MeasureSpec.EXACTLY,
+                MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED
+        );
+
         txtScore.measure(
                 MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED,
                 MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED
@@ -76,7 +82,11 @@ public class RankViewLayout extends FrameLayout {
         int space = getMeasuredWidth() / 30;
 
         int l = defaultMargin;
-        int t = defaultMargin;
+        int t = defaultMargin + (avatar.getMeasuredHeight() - txtNumberRank.getMeasuredHeight()) / 2;;
+        txtNumberRank.layout(l,t,l+txtNumberRank.getMeasuredWidth(),t+txtNumberRank.getMeasuredHeight());
+
+        l = txtNumberRank.getMeasuredWidth() + defaultMargin*2;
+        t = defaultMargin;
         avatar.layout(l, t, l + avatar.getMeasuredWidth(), t + avatar.getMeasuredHeight());
 
         l += avatar.getMeasuredWidth() + defaultMargin;
@@ -86,5 +96,9 @@ public class RankViewLayout extends FrameLayout {
         l = getMeasuredWidth() - txtScore.getMeasuredWidth() - defaultMargin;
         t = defaultMargin + (avatar.getMeasuredHeight() - txtScore.getMeasuredHeight()) / 2;
         txtScore.layout(l, t, l + txtScore.getMeasuredWidth(), t + txtScore.getMeasuredHeight());
+
+        l = defaultMargin*2 + txtNumberRank.getMeasuredWidth();
+        t = getMeasuredHeight();
+        lineSpaceRank.layout(l,t,l+lineSpaceRank.getMeasuredWidth(),t+lineSpaceRank.getMeasuredHeight());
     }
 }

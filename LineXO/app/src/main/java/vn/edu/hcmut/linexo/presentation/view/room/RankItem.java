@@ -5,6 +5,7 @@ public class RankItem {
     String avatarURL;
     String userName;
     String userScore;
+    String numberRank;
 
     public String getUid() {
         return uid;
@@ -22,10 +23,15 @@ public class RankItem {
         return avatarURL;
     }
 
-    public RankItem(String uid, String userName, long userScore, String avatarURL) {
+    public String getNumberRank() {
+        return numberRank;
+    }
+
+    public RankItem(String uid, String userName, long userScore, String avatarURL, String numberRank) {
         this.uid = uid;
         this.userName = userName;
         this.userScore = userScore+"$";
         this.avatarURL = avatarURL;
+        this.numberRank = numberRank;
     }
 }

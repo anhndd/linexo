@@ -14,7 +14,9 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -181,6 +183,9 @@ public class RoomActivity extends BaseActivity {
                                         Dialog rankDialog = new Dialog(RoomActivity.this);
                                         rankDialog.setContentView(R.layout.layout_rank_view);
 
+                                        ImageButton btnClose = rankDialog.findViewById(R.id.btn_dismiss_rank);
+                                        btnClose.setOnClickListener(view -> rankDialog.dismiss());
+
                                         CircleImageView firstRankAvatar = rankDialog.findViewById(R.id.civ_first_avatar);
                                         firstRankAvatar.setImageFromObject(mAuth.getCurrentUser().getPhotoUrl().toString());
 
@@ -192,15 +197,15 @@ public class RoomActivity extends BaseActivity {
                                         lst_rank.setHasFixedSize(true);
 
                                         List<RankItem> rankItems = new ArrayList<>();
-                                        rankItems.add(new RankItem("2", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString()));
-                                        rankItems.add(new RankItem("3", "Nguyễn Viết Sang", 2000,mAuth.getCurrentUser().getPhotoUrl().toString()));
-                                        rankItems.add(new RankItem("4", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString()));
-                                        rankItems.add(new RankItem("5", "Nguyễn Viết Sang", 2000,mAuth.getCurrentUser().getPhotoUrl().toString()));
-                                        rankItems.add(new RankItem("6", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString()));
-                                        rankItems.add(new RankItem("7", "Nguyễn Viết Sang", 2000,mAuth.getCurrentUser().getPhotoUrl().toString()));
-                                        rankItems.add(new RankItem("8", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString()));
-                                        rankItems.add(new RankItem("9", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString()));
-                                        rankItems.add(new RankItem("10", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString()));
+                                        rankItems.add(new RankItem("2", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"2"));
+                                        rankItems.add(new RankItem("3", "Nguyễn Viết Sang", 2000,mAuth.getCurrentUser().getPhotoUrl().toString(),"3"));
+                                        rankItems.add(new RankItem("4", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"4"));
+                                        rankItems.add(new RankItem("5", "Nguyễn Viết Sang", 2000,mAuth.getCurrentUser().getPhotoUrl().toString(),"5"));
+                                        rankItems.add(new RankItem("6", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"6"));
+                                        rankItems.add(new RankItem("7", "Nguyễn Viết Sang", 2000,mAuth.getCurrentUser().getPhotoUrl().toString(),"7"));
+                                        rankItems.add(new RankItem("8", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"8"));
+                                        rankItems.add(new RankItem("9", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"9"));
+                                        rankItems.add(new RankItem("10", "Lê Hữu Trọng", 1000,mAuth.getCurrentUser().getPhotoUrl().toString(),"10"));
                                         rankItems = new ArrayList<>(rankItems);
                                         RankRecyclerViewAdapter a = new RankRecyclerViewAdapter(rankItems);
                                         lst_rank.setAdapter(a);
