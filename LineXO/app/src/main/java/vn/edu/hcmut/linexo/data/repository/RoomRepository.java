@@ -8,5 +8,6 @@ import vn.edu.hcmut.linexo.utils.Optional;
 
 public interface RoomRepository {
     Observable<List<Room>> getListRooms();
-    Single<Boolean> setNetworkRoom(Room room);
+    Single<String> setNetworkRoom(Room room);
+    Single<Boolean> updateNetworkRoom(Room room);
 }

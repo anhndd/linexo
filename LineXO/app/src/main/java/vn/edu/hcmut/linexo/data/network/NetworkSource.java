@@ -14,7 +14,8 @@ public interface NetworkSource {
 
     Single<List<Board>> getBoard();
     Observable<List<Room>> getRoom();
-    Single<Boolean> setRoom(Room room);
+    Single<String> setRoom(Room room);
+    Single<Boolean> updateRoom(Room room);
 
     Single<Optional<User>> getUser(String uid);
     Single<Boolean> setUser(User user);

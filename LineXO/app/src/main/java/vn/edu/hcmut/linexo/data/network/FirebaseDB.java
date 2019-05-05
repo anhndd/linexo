@@ -89,19 +89,24 @@ public class FirebaseDB implements NetworkSource {
     }
 
     @Override
-    public Single<Boolean> setRoom(Room room) {
+    public Single<String> setRoom(Room room) {
         return Single.create(emitter -> {
             DatabaseReference roomRef = database.getReference("room").push();
             roomRef.setValue(room, (databaseError, databaseReference) -> {
                 if (databaseError == null){
-                    emitter.onSuccess(true);
+                    emitter.onSuccess(roomRef.getKey());
                 }
                 else {
                     Log.e("FIREBASE ERROR", databaseError.getMessage());
-                    emitter.onSuccess(false);
+                    emitter.onError(new Throwable());
                 }
             });
         });
+    }
+
+    @Override
+    public Single<Boolean> updateRoom(Room room) {
+        return null;
     }
 
     @Override
