@@ -1,0 +1,31 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 17
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 08h00 ngày 05/05/2019.
+	- Địa điểm: Lối tự học nhà B9-B10 CS1 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Các thành viên cùng nhau hoàn thành chức năng sau
+		- Hiện thực chức năng xem bảng xếp hạng điểm của các thành viên.
+		- Fix lỗi không lưu user đã đăng nhập vào cache.
+		- Thực hiện chức năng tạo phòng chơi mới.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Mỗi thành viên chuẩn bị bố cục trình bày cho bài thuyết trình tương ứng phần ứng dụng mình chịu trách nhiệm. Buổi họp tiếp theo trình bày dàn ý.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 14h00 ngày 07/05/2019.
+	- Địa điểm: Hành lang tầng 3 toà H6 CS2 BK.
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 18h00 cùng ngày.

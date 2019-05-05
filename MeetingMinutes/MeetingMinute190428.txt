@@ -1,0 +1,30 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 15
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 08h00 ngày 28/04/2019.
+	- Địa điểm: Lối tự học nhà B9-B10 CS1 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   3/4 (Anh, Hùng, Trọng).
+	- Vắng mặt: 1/4 (Sang có phép).
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	4.1. Các thành viên cùng nhau hiện thực chức năng chat trong ứng dụng
+		- Hiện thực chức năng chat độc lập với chức năng chơi cờ.
+		- Cho phép nhiều người cùng vào chat mà không cần phải chơi ván đấu đó.
+
+5. Xác định nhiệm vụ của từng thành viên
+	* Các thành viên không có nhiệm vụ về nhà, dành thời gian cho luận văn.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 08h00 ngày 30/04/2019.
+	- Địa điểm: The coffee house (Lý Thường Kiệt).
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 13h00 cùng ngày.
