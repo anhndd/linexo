@@ -160,7 +160,7 @@ public class FirebaseDB implements NetworkSource {
                     Log.e("FIREBASE ERROR", databaseError.getMessage());
                 }
             };
-            userRef.orderByChild("score").addListenerForSingleValueEvent(listener);
+            userRef.orderByChild("score").limitToFirst(10).addListenerForSingleValueEvent(listener);
             emitter.setCancellable(() -> userRef.removeEventListener(listener));
         });
     }
