@@ -18,6 +18,8 @@ public class PlayLayout extends FrameLayout {
     private int keyboardHeight;
     private int keyboardOrientation;
 
+    private boolean isAI = false;
+
     private View txtNetwork;
     private View avatar1;
     private View scoreIcon1;
@@ -33,6 +35,7 @@ public class PlayLayout extends FrameLayout {
     private View btnMessage;
     private View btnSend;
     private View edtMessage;
+    private View imgRobot;
 
     public PlayLayout(@NonNull Context context) {
         super(context);
@@ -85,16 +88,35 @@ public class PlayLayout extends FrameLayout {
         btnMessage  = findViewById(R.id.btn_message);
         btnSend     = findViewById(R.id.btn_send);
         edtMessage  = findViewById(R.id.edt_message);
+        imgRobot    = findViewById(R.id.img_robot);
     }
 
     public void setKeyboardHeight(int height, int orientation) {
         keyboardHeight = height;
+        keyboardOrientation = orientation;
         if (height > 0) {
             btnSend.setVisibility(VISIBLE);
             edtMessage.setVisibility(VISIBLE);
         } else {
             btnSend.setVisibility(GONE);
             edtMessage.setVisibility(GONE);
+        }
+    }
+
+    public void setPlayType(boolean isAI) {
+        this.isAI = isAI;
+        if (isAI) {
+            imgRobot.setVisibility(VISIBLE);
+            btnSend.setVisibility(GONE);
+            edtMessage.setVisibility(GONE);
+            btnMessage.setVisibility(GONE);
+            lstMessage.setVisibility(GONE);
+        } else {
+            imgRobot.setVisibility(GONE);
+            btnSend.setVisibility(VISIBLE);
+            edtMessage.setVisibility(VISIBLE);
+            btnMessage.setVisibility(VISIBLE);
+            lstMessage.setVisibility(VISIBLE);
         }
     }
 
@@ -155,14 +177,22 @@ public class PlayLayout extends FrameLayout {
                     txtClock1.getMeasuredHeight() | MeasureSpec.EXACTLY
             );
         }
-        btnMessage.measure(
-                ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 3 * defaultMargin)) | MeasureSpec.EXACTLY,
-                ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 3 * defaultMargin) / 5) | MeasureSpec.EXACTLY
-        );
-        lstMessage.measure(
-                btnMessage.getMeasuredWidth() | MeasureSpec.EXACTLY,
-                (height - statusBarHeight - 2 * defaultMargin - btnMessage.getMeasuredHeight()) | MeasureSpec.EXACTLY
-        );
+        if (btnMessage.getVisibility() != GONE) {
+            btnMessage.measure(
+                    ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 3 * defaultMargin)) | MeasureSpec.EXACTLY,
+                    ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 3 * defaultMargin) / 5) | MeasureSpec.EXACTLY
+            );
+            lstMessage.measure(
+                    btnMessage.getMeasuredWidth() | MeasureSpec.EXACTLY,
+                    (height - statusBarHeight - 2 * defaultMargin - btnMessage.getMeasuredHeight()) | MeasureSpec.EXACTLY
+            );
+        }
+        if (imgRobot.getVisibility() != GONE) {
+            imgRobot.measure(
+                    ((width - 2 * horizontalOffset - board.getMeasuredWidth() - 3 * defaultMargin)) | MeasureSpec.EXACTLY,
+                    (height - statusBarHeight - 2 * defaultMargin) | MeasureSpec.EXACTLY
+            );
+        }
         if (btnSend.getVisibility() != GONE) {
             btnSend.measure(
                     actionBarHeight | MeasureSpec.EXACTLY,
@@ -221,12 +251,20 @@ public class PlayLayout extends FrameLayout {
         t = avatar1.getTop() + (avatar1.getMeasuredHeight() - txtRoom.getMeasuredHeight()) / 2;
         txtRoom.layout(l, t, l + txtRoom.getMeasuredWidth(), t + txtRoom.getMeasuredHeight());
 
-        l = board.getRight() + defaultMargin;
-        t = avatar1.getTop();
-        lstMessage.layout(l, t, l + lstMessage.getMeasuredWidth(), t + lstMessage.getMeasuredHeight());
+        if (btnMessage.getVisibility() != GONE) {
+            l = board.getRight() + defaultMargin;
+            t = avatar1.getTop();
+            lstMessage.layout(l, t, l + lstMessage.getMeasuredWidth(), t + lstMessage.getMeasuredHeight());
 
-        t += lstMessage.getMeasuredHeight();
-        btnMessage.layout(l, t, l + btnMessage.getMeasuredWidth(), t + btnMessage.getMeasuredHeight());
+            t += lstMessage.getMeasuredHeight();
+            btnMessage.layout(l, t, l + btnMessage.getMeasuredWidth(), t + btnMessage.getMeasuredHeight());
+        }
+
+        if (imgRobot.getVisibility() != GONE) {
+            l = board.getRight() + defaultMargin;
+            t = avatar1.getTop();
+            imgRobot.layout(l, t, l + imgRobot.getMeasuredWidth(), t + imgRobot.getMeasuredHeight());
+        }
 
         if (btnSend.getVisibility() != GONE) {
             l = left;

@@ -128,7 +128,7 @@ public class PlayUsecase extends AbstractUsecase {
     private Single<Room> buildAIObservable() {
         return Single.create(emitter -> {
             PlayUsecase.this.room = new Room("AI",
-                    0,
+                    Room.START,
                     0,
                     PlayUsecase.this.boards.get(new Random().nextInt(PlayUsecase.this.boards.size())),
                     "",

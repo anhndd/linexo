@@ -19,6 +19,7 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.subjects.PublishSubject;
 import vn.edu.hcmut.linexo.BR;
+import vn.edu.hcmut.linexo.R;
 import vn.edu.hcmut.linexo.domain.interactor.Usecase;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.model.Message;
@@ -192,9 +193,28 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
     @Bindable
     public int getRoomNumber() {
-        if (room == null)
-            return 0;
+        if (room == null || room.getRoom_number() == 0)
+            return -1;
         return room.getRoom_number();
+    }
+
+    @Bindable
+    public Object getAvatar1() {
+        if (room == null)
+            return R.drawable.img_avatar_holder;
+        if (room.getRoom_number() == 0)
+            return R.drawable.ic_logo_round;
+        return room.getUser_1().getAvatar();
+    }
+
+    @Bindable
+    public Object getAvatar2() {
+        return R.drawable.img_avatar_holder;
+    }
+
+    @Bindable
+    public boolean getPlayType() {
+        return roomId.equals("AI");
     }
 
     @Bindable
@@ -308,6 +328,8 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                     );
                     PlayViewModel.this.room = room;
                     notifyPropertyChanged(BR.board);
+                    notifyPropertyChanged(BR.avatar1);
+                    notifyPropertyChanged(BR.avatar2);
                 }
             }
         }

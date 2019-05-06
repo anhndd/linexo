@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#e2e9f1"
-        bind:onKeyboardChanged="@{viewModel.arrayKeyboardChanged}">
+        bind:onKeyboardChanged="@{viewModel.arrayKeyboardChanged}"
+        bind:play_type="@{viewModel.playType}">
 
         <TextView
             android:id="@+id/txt_network"
@@ -29,7 +30,8 @@
         <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
             android:id="@+id/avatar_1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            bind:src_from_object="@{viewModel.avatar1}"/>
 
         <TextView
             android:id="@+id/txt_score1"
@@ -76,7 +78,8 @@
         <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
             android:id="@+id/avatar_2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            bind:src_from_object="@{viewModel.avatar2}"/>
 
         <TextView
             android:id="@+id/txt_score2"
@@ -120,8 +123,7 @@
             android:id="@+id/lst_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            bind:adapter="@{viewModel.adapter}"
-            />
+            bind:adapter="@{viewModel.adapter}"/>
 
         <Button
             android:id="@+id/btn_message"
@@ -163,5 +165,12 @@
             android:imeOptions="flagNoExtractUi"
             android:visibility="gone"
             android:text="@={viewModel.contentMessage}"/>
+
+        <ImageView
+            android:id="@+id/img_robot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_robot"
+            android:visibility="gone"/>
     </vn.edu.hcmut.linexo.presentation.view.play.PlayLayout>
 </layout>
