@@ -17,24 +17,21 @@ public class Room {
     private String next_turn;
     private User user_1;
     private User user_2;
-    private Boolean isPrivate;
+    private Boolean is_private;
     private Long online_timestamp;
+    private String room_id;
 
     public Room() {
     }
 
-    public Room(int action, Integer room_number, Board board, String last_turn, String next_turn, User user_1, User user_2, Boolean isPrivate) {
+    public Room(String room_id, int action, User user_1, Long online_timestamp) {
         this.action = action;
-        this.room_number = room_number;
-        this.board = board;
-        this.last_turn = last_turn;
-        this.next_turn = next_turn;
         this.user_1 = user_1;
-        this.user_2 = user_2;
-        this.isPrivate = isPrivate;
+        this.online_timestamp = online_timestamp;
+        this.room_id = room_id;
     }
 
-    public Room(int action, Integer room_number, Board board, String last_turn, String next_turn, User user_1, User user_2, Boolean isPrivate, Long online_timestamp) {
+    public Room(String room_id, int action, Integer room_number, Board board, String last_turn, String next_turn, User user_1, User user_2, Boolean is_private) {
         this.action = action;
         this.room_number = room_number;
         this.board = board;
@@ -42,8 +39,21 @@ public class Room {
         this.next_turn = next_turn;
         this.user_1 = user_1;
         this.user_2 = user_2;
-        this.isPrivate = isPrivate;
+        this.is_private = is_private;
+        this.room_id = room_id;
+    }
+
+    public Room(String room_id, int action, Integer room_number, Board board, String last_turn, String next_turn, User user_1, User user_2, Boolean is_private, Long online_timestamp) {
+        this.action = action;
+        this.room_number = room_number;
+        this.board = board;
+        this.last_turn = last_turn;
+        this.next_turn = next_turn;
+        this.user_1 = user_1;
+        this.user_2 = user_2;
+        this.is_private = is_private;
         this.online_timestamp = online_timestamp;
+        this.room_id = room_id;
     }
 
     public Long getOnline_timestamp() {
@@ -110,11 +120,19 @@ public class Room {
         this.user_2 = user_2;
     }
 
-    public Boolean getPrivate() {
-        return isPrivate;
+    public Boolean getIs_private() {
+        return is_private;
     }
 
-    public void setPrivate(Boolean aPrivate) {
-        isPrivate = aPrivate;
+    public void setIs_private(Boolean is_private) {
+        this.is_private = is_private;
+    }
+
+    public String getRoom_id() {
+        return room_id;
+    }
+
+    public void setRoom_id(String room_id) {
+        this.room_id = room_id;
     }
 }
