@@ -119,7 +119,7 @@ public class RoomUsecase extends AbstractUsecase {
                         .setNetworkRoom(((Room) params[0]))
                         .subscribeOn(getSubscribeScheduler())
                         .observeOn(getObserveScheduler())
-                        .subscribeWith((DisposableSingleObserver<Boolean>) observer));
+                        .subscribeWith((DisposableSingleObserver<String>) observer));
                 break;
             }
         }

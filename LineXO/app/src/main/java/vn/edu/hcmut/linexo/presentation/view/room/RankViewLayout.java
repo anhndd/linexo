@@ -63,7 +63,7 @@ public class RankViewLayout extends FrameLayout {
 
         lineSpaceRank.measure(
                 width - defaultMargin*2 - txtNumberRank.getMeasuredWidth() | MeasureSpec.EXACTLY,
-                MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED
+                1 | MeasureSpec.EXACTLY
         );
 
         txtScore.measure(
@@ -98,7 +98,7 @@ public class RankViewLayout extends FrameLayout {
         txtScore.layout(l, t, l + txtScore.getMeasuredWidth(), t + txtScore.getMeasuredHeight());
 
         l = defaultMargin*2 + txtNumberRank.getMeasuredWidth();
-        t = getMeasuredHeight();
+        t = getMeasuredHeight()-1;
         lineSpaceRank.layout(l,t,l+lineSpaceRank.getMeasuredWidth(),t+lineSpaceRank.getMeasuredHeight());
     }
 }

@@ -21,7 +21,10 @@ public class RoomNumberView extends android.support.v7.widget.AppCompatTextView 
 
     public void setNumber(int number) {
         String strNumber = "";
-        if (number == 0) {
+        if (number == -1) {
+            strNumber = getResources().getString(R.string.room_ai_play);
+        }
+        else if (number == 0) {
             strNumber = getResources().getString(R.string.room_ai);
         } else if (number < 10) {
             strNumber = "00" + number;

@@ -104,4 +104,13 @@ public class CustomBindingAdapter {
         clockView.setCountTime(countTime);
     }
 
+    /**
+     * Add listener to know when attribute {@code play_type} change value.
+     * @param playLayout View need to listen an attribute changing.
+     * @param isAI true if type is AI, otherwise.
+     */
+    @BindingAdapter("play_type")
+    public static void setPlayType(PlayLayout playLayout, boolean isAI) {
+        playLayout.setPlayType(isAI);
+    }
 }
