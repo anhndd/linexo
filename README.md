@@ -19,11 +19,11 @@ LineXO is a classic fighting game with two players competing to invade the terri
 
 ## Screenshot
 <div style="display:flex;" >
-<img  src="Figures/logo.png" width="19%" >
-<img style="margin-left:10px;" src="Figures/logo.png" width="19%" >
-<img style="margin-left:10px;" src="Figures/logo.png" width="19%" >
-<img style="margin-left:10px;" src="Figures/logo.png" width="19%" >
-<img style="margin-left:10px;" src="Figures/logo.png" width="19%" >
+<img  src="Figures/1.jpg" width="19%" >
+<img style="margin-left:10px;" src="Figures/2.jpg" width="19%" >
+<img style="margin-left:10px;" src="Figures/3.jpg" width="19%" >
+<img style="margin-left:10px;" src="Figures/4.jpg" width="19%" >
+<img style="margin-left:10px;" src="Figures/5.jpg" width="19%" >
 </div>
 
 ## Usage
