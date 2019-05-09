@@ -1,0 +1,32 @@
+﻿1. Phần chung
+	- Cài đặt tất cả các font trong folder font (chuột phải --> Install).
+	- Mỗi bạn copy vào cùng thư mục một bản của riêng mình file ppt, đặt lại tên với tên mình. VD: LineXO_Hung.pptx.
+	- Trình bày theo format của file.
+	- Sử dụng font Arial cho text.
+	- Font size chọn 24.
+
+2. Tầng Presentation
+	- Trình bày chức năng (nói miệng).
+	- Trình bày được kiến trúc MVVM. Nêu được lợi điểm:
+		+ Điều khiển view dễ dàng thông qua DataBinding.
+		+ Tránh phải dùng findViewById, tăng performance. (findViewById tìm kiếm theo DFS, còn sử dụng databinding lấy đối tượng trực tiếp). Nên vẽ một ViewTree để mô phỏng sự phức tạp tìm kiếm lúc dùng findViewById. So sánh với việc Generate ra class Binding chứa các đối tượng trong View.
+	- Trình bày việc custom layout và custom draw
+		+ Layout tuỳ ý muốn, không bị ràng buộc.
+		+ Mô phỏng các hàm onMeasure, onLayout, onDraw.
+	- Trình bày việc sử dụng toàn bộ drawable là vector
+		+ Render mượt trên mọi kích thước màn hình
+		+ Dung lượng nhỏ
+
+3. Tầng Domain
+	- Trình bày chức năng (nói miệng).
+	- Trình bày 2 chức năng chính của Domain.
+		+ Xây dựng AI.
+		+ Quản lý chơi.
+	- Trình bày từng chức năng.
+
+4. Tầng Data
+	- Trình bày chức năng (nói miệng).
+	- Trình bày 3 loại lưu trữ (Ứng dụng nào cũng nên có):
+		+ Cache : Lưu thông tin về user, score. Lấy ví dụ.
+		+ Local : Lưu dữ liệu offline.
+		+ Network : Lưu dữ liệu online.
