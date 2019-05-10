@@ -1,0 +1,56 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 18
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 14h00 ngày 07/05/2019.
+	- Địa điểm: Hành lang tầng 3 toà H6 CS2 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	- Mỗi thành viên trình bày dàn ý cho phần trình bày của mình, các thành viên còn lại lắng nghe và góp ý.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Hùng:
+		+ Chuẩn bị slice trình chiếu.
+		+ Soạn slide phần giới thiệu chung.
+
+	- Anh: 	
+		+ Trình bày chức năng (nói miệng).
+		+ Trình bày được kiến trúc MVVM. Nêu được lợi điểm:
+			* Điều khiển view dễ dàng thông qua DataBinding.
+			* Tránh phải dùng findViewById, tăng performance. (findViewById tìm kiếm theo DFS, còn sử dụng databinding lấy đối tượng trực tiếp). Nên vẽ một ViewTree để mô phỏng sự phức tạp tìm kiếm lúc dùng findViewById. So sánh với việc Generate ra class Binding chứa các đối tượng trong View.
+		+ Trình bày việc custom layout và custom draw
+			* Layout tuỳ ý muốn, không bị ràng buộc.
+			* Mô phỏng các hàm onMeasure, onLayout, onDraw.
+		+ Trình bày việc sử dụng toàn bộ drawable là vector
+			* Render mượt trên mọi kích thước màn hình
+			* Dung lượng nhỏ
+
+	- Sang:
+		+ Trình bày chức năng (nói miệng).
+		+ Trình bày 3 loại lưu trữ (Ứng dụng nào cũng nên có):
+			* Cache : Lưu thông tin về user, score. Lấy ví dụ.
+			* Local : Lưu dữ liệu offline.
+			* Network : Lưu dữ liệu online.
+
+	- Trọng:
+		+ Trình bày chức năng (nói miệng).
+		+ Trình bày 2 chức năng chính của Domain.
+			* Xây dựng AI.
+			* Quản lý chơi.
+		+ Trình bày từng chức năng.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 08h00 ngày 12/05/2019.
+	- Địa điểm: Lối tự học nhà B9-B10 CS1 BK.
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 15h00 cùng ngày.
