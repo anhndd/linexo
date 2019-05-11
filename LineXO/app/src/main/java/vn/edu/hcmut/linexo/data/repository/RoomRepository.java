@@ -10,4 +10,5 @@ public interface RoomRepository {
     Observable<List<Room>> getListRooms();
     Single<String> setNetworkRoom(Room room);
     Single<Boolean> updateNetworkRoom(Room room);
+    Observable<Room> getRoom(String roomId);
 }

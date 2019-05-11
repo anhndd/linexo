@@ -39,6 +39,7 @@ public class Event {
     public static final int SHOW_RANK_DIALOG = 25;
     public static final int CREATE_ROOM = 26;
     public static final int TOAST_NO_CONNECTION = 27;
+    public static final int SHOW_KEYBOARD = 28;
 
     /***********************************************************************************************
      * Class implementation.

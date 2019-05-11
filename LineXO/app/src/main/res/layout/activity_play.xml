@@ -139,7 +139,7 @@
             android:maxLines="1"
             android:hint="@string/message_hint"
             android:textAllCaps="false"
-            android:onClick="onClickBtnMessage"
+            android:onClick="@{viewModel::onClickBtnMessage}"
             android:text="@={viewModel.contentMessage}"/>
 
         <ImageButton

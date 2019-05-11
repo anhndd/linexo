@@ -66,12 +66,7 @@ public class RoomUsecase extends AbstractUsecase {
                 userRepository.setCacheUser(null);
                 break;
             case Event.LOAD_LIST_ROOM:
-                if (!(boolean) params[0]) {
-                    addTask(buildRoomObserverable()
-                            .subscribeOn(getSubscribeScheduler())
-                            .observeOn(getObserveScheduler())
-                            .subscribeWith((DisposableObserver<List<RoomItem>>) observer));
-                } else {
+                if ((boolean) params[0]) {
                     addTask(roomRepository
                             .getListRooms()
                             .subscribeOn(getSubscribeScheduler())
@@ -82,9 +77,6 @@ public class RoomUsecase extends AbstractUsecase {
                                     RoomItem roomItem = new RoomItem(room.getRoom_id(),room.getRoom_number().intValue(), room.getUser_1().getAvatar(), room.getUser_2() == null ? null : room.getUser_2().getAvatar(), room.getIs_private().booleanValue());
                                     roomItems.add(roomItem);
                                 }
-                                RoomItem roomItem = new RoomItem("AI",0, "LineXOAI", null, false);
-                                roomItems.add(0, roomItem);
-
                                 return roomItems;
                             })
                             .subscribeWith((DisposableObserver<List<RoomItem>>) observer));

@@ -157,7 +157,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                     switch ((int) event.getData()[0]) {
                         case Event.WIN: {
                             View view = endGameDialog.findViewById(R.id.endgame_status);
-                            view.setBackgroundResource((R.drawable.ic_win));
+                            view.setBackgroundResource((R.drawable.ic_cup_win));
                             endGameDialog.show();
 //                            state = "Win";
                             break;
@@ -165,18 +165,23 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                         }
                         case Event.LOSE: {
                             View view = endGameDialog.findViewById(R.id.endgame_status);
-                            view.setBackgroundResource((R.drawable.ic_win));
+                            view.setBackgroundResource((R.drawable.ic_cup_draw));
                             endGameDialog.show();
                             break;
                         }
                         case Event.DRAW: {
                             View view = endGameDialog.findViewById(R.id.endgame_status);
-                            view.setBackgroundResource((R.drawable.ic_win));
+                            view.setBackgroundResource((R.drawable.ic_cup_lose));
                             endGameDialog.show();
                             break;
                         }
                     }
 //                    Toast.makeText(PlayActivity.this, state, Toast.LENGTH_LONG).show();
+                    break;
+                }
+                case Event.SHOW_KEYBOARD:{
+                    binding.edtMessage.setVisibility(View.VISIBLE);
+                    Tool.showSoftKeyboard(binding.edtMessage, PlayActivity.this);
                     break;
                 }
             }
@@ -191,11 +196,6 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
         public void onComplete() {
 
         }
-    }
-
-    public void onClickBtnMessage(View view) {
-        binding.edtMessage.setVisibility(View.VISIBLE);
-        Tool.showSoftKeyboard(binding.edtMessage, this);
     }
 
     /**
