@@ -40,28 +40,6 @@ public class FirebaseDB implements NetworkSource {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
-    public Single<List<Board>> getBoard() {
-//        return null;
-        return Single.create(emitter -> {
-            List<Board> boards = new ArrayList<>();
-            boards.add(new Board(new byte[][]{
-                        {0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0}, // 1
-                        {0,0,0,0,0,0,0,0,3,4,3,0,0,0,0,0,0,0,0}, // 2
-                        {0,0,0,0,0,0,0,3,0,1,0,3,0,0,0,0,0,0,0}, // 3
-                        {0,0,0,0,0,0,3,4,1,4,1,4,3,0,0,0,0,0,0}, // 4
-                        {0,0,0,0,0,3,0,1,0,1,0,1,0,3,0,0,0,0,0}, // 5
-                        {0,0,0,0,3,4,1,4,1,4,1,4,1,4,3,0,0,0,0}, // 6
-                        {0,0,0,3,0,1,0,1,0,1,0,1,0,1,0,3,0,0,0}, // 7
-                        {0,0,3,4,1,4,1,4,1,4,1,4,1,4,1,4,3,0,0}, // 8
-                        {0,3,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,3,0}, // 9
-                        {3,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,3}, // 10
-                        {3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3}, // 11
-                },0,0,25));
-            emitter.onSuccess(boards);
-        });
-    }
-
-    @Override
     public Observable<List<Room>> getListRoom() {
         return Observable.create(emitter -> {
             DatabaseReference myRef = database.getReference("room");
@@ -118,6 +96,27 @@ public class FirebaseDB implements NetworkSource {
                     emitter.onSuccess(false);
                 }
             });
+        });
+    }
+
+    @Override
+    public Observable<Room> getRoom(String roomId) {
+        return Observable.create(emitter -> {
+            DatabaseReference roomRef = database.getReference("room").child(roomId);
+            ValueEventListener listener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Room room = dataSnapshot.getValue(Room.class);
+                    emitter.onNext(room);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("FIREBASE ERROR", databaseError.getMessage());
+                }
+            };
+            roomRef.addValueEventListener(listener);
+            emitter.setCancellable(() -> roomRef.removeEventListener(listener));
         });
     }
 
