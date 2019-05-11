@@ -54,6 +54,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     private long countTimeHost = 0;
     private long countTimeGuest = 0;
     private int gameState = Event.PLAYING;
+    private int timePlaying = 15;
 
     private Handler countDownHandler = new Handler();
 
@@ -290,7 +291,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                                 if (room.getRoom_number() == 0) {
                                     if (room.getNext_turn().equals("AI")) {
                                         getOpponentMove();
-                                        for (int i = 10; i >= 0; --i) {
+                                        for (int i = timePlaying; i >= 0; --i) {
                                             final int numCount = i;
                                             countDownHandler.postDelayed(
                                                     () -> {
@@ -301,11 +302,11 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                                                             publisher.onNext(Event.create(Event.RESULT, gameState));
                                                         }
                                                     },
-                                                    (10 - numCount) * 1000
+                                                    (timePlaying - numCount) * 1000
                                             );
                                         }
                                     } else {
-                                        for (int i = 10; i >= 0; --i) {
+                                        for (int i = timePlaying; i >= 0; --i) {
                                             final int numCount = i;
                                             countDownHandler.postDelayed(
                                                     () -> {
@@ -316,7 +317,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                                                             publisher.onNext(Event.create(Event.RESULT, gameState));
                                                         }
                                                     },
-                                                    (10 - numCount) * 1000
+                                                    (timePlaying - numCount) * 1000
                                             );
                                         }
                                     }
