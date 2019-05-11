@@ -68,7 +68,11 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 isConnected = networkState;
                 notifyPropertyChanged(BR.networkVisibility);
                 if (data.size() < 2) // if list room is empty or just contain AI room
+                {
+                    if (!isConnected)
+                        publisher.onNext(Event.create(Event.TOAST_NO_CONNECTION));
                     roomUsecase.execute(new LoadListRoomObserver(), Event.LOAD_LIST_ROOM, isConnected);
+                }
             }
         });
         // create view list room
@@ -89,13 +93,19 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             case Event.CLICK_ROOM: {
                 Object[] data = e.getData();
                 String roomId = (String) data[0];
-                if (roomId == "AI" || (user != null && user.getScore() != -1)) {
+                if (roomId.equals("AI")) {
                     publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY, roomId));
+                } else if (user != null && user.getScore() != -1) {
+                    if (!isConnected) {
+                        publisher.onNext(Event.create(Event.TOAST_NO_CONNECTION));
+                    } else {
+                        publisher.onNext(Event.create(Event.SHOW_PLAY_ACTIVITY, roomId));
+                    }
                 } else {
                     publisher.onNext(Event.create(Event.SHOW_LOGIN));
                 }
-                break;
             }
+            break;
             case Event.LOAD_LIST_ROOM: {
                 data = new ArrayList<>((List<RoomItem>) e.getData()[0]);
                 if (data == null) return;
@@ -140,7 +150,11 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 break;
             }
             case Event.SHOW_RANK_DIALOG: {
-                roomUsecase.execute(new RankScoreObserver(), Event.SHOW_RANK_DIALOG);
+                if (!isConnected) {
+                    publisher.onNext(Event.create(Event.TOAST_NO_CONNECTION));
+                } else {
+                    roomUsecase.execute(new RankScoreObserver(), Event.SHOW_RANK_DIALOG);
+                }
                 break;
             }
             case Event.LOGIN_INFO: {
@@ -200,7 +214,9 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
     }
 
     public void onClickCreateRoom(View view) {
-        if (user == null) {
+        if (!isConnected) {
+            publisher.onNext(Event.create(Event.TOAST_NO_CONNECTION));
+        } else if (user == null) {
             publisher.onNext(Event.create(Event.SHOW_LOGIN));
         } else {
             Room room = new Room(null, Room.CREATE, user, System.currentTimeMillis());
