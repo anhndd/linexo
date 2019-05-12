@@ -39,6 +39,87 @@ public class MainActivity extends AppCompatActivity {
 
         setNewRoomNumber();
         checkOnlineSignal();
+        addScore();
+    }
+
+    public void addScore(){
+        DatabaseReference roomRef = database.getReference("room");
+        roomRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Room room = dataSnapshot.getValue(Room.class);
+                if (room.getRoom_number() != null && room.getBoard() != null){
+                    Board board = room.getBoard();
+                    User user1 = room.getUser_1();
+                    User user2 = room.getUser_2();
+
+                    if (room.getAction()== Room.MOVE && board.getCell_o() + board.getCell_x() == board.getMax_cell()){
+                        room.setAction(Room.END);
+                        if (board.getCell_x() > board.getCell_o()){
+                            user1.setScore(user1.getScore() + 1);
+                            user2.setScore(user2.getScore() - 1);
+                        }
+                        else if (board.getCell_x() < board.getCell_o()){
+                            user1.setScore(user1.getScore() - 1);
+                            user2.setScore(user2.getScore() + 1);
+                        }
+                        updateUserAndRoom(room, user1, user2);
+                    }
+                    else if (room.getAction() == Room.LEAVE){
+                        room.setAction(Room.NOT_USED);
+                        updateUserAndRoom(room, user1, user2);
+                    }
+                    else if (room.getAction() == Room.DESTROY){
+                        room.setAction(Room.NOT_USED);
+                        updateUserAndRoom(room, user1, user2);
+                    }
+                    else if (room.getAction() == Room.TIMEOUT){
+                        room.setAction(Room.END);
+                        if (room.getNext_turn().equals(user1.getUid())){
+                            user1.setScore(user1.getScore() - 1);
+                            user2.setScore(user2.getScore() + 1);
+                        }
+                        else {
+                            user1.setScore(user1.getScore() + 1);
+                            user2.setScore(user2.getScore() - 1);
+                        }
+                        updateUserAndRoom(room, user1, user2);
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void updateUserAndRoom(Room room, User user1, User user2){
+        DatabaseReference ref = database.getReference();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/room/" + room.getRoom_id(), room);
+        if (user1 != null && user2 != null) {
+            childUpdates.put("/user/" + user1.getUid(), user1);
+            childUpdates.put("/user/" + user2.getUid(), user2);
+            Toast.makeText(MainActivity.this, "Update score of user1 and user2" + room.getRoom_number(), Toast.LENGTH_LONG).show();
+        }
+        ref.updateChildren(childUpdates);
     }
 
     public void deleteRoom(String roomNodeKey, int roomNumber){
