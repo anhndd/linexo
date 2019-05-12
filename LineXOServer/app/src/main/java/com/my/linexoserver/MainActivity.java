@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.internal.Objects;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,7 +19,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -27,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database=  FirebaseDatabase.getInstance();
     TextView txt_log;
     public static final int MAX_ROOM = 1000;
-    private long[] roomTimestamp = new long[1000];
+    private boolean[] listRooms = new boolean[1000];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,28 +42,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deleteRoom(String roomNodeKey, int roomNumber){
-        DatabaseReference roomRef = database.getReference("room");
-        roomRef.child(roomNodeKey).removeValue((databaseError, databaseReference) -> {
-            if (databaseError == null){
-                Toast.makeText(MainActivity.this,"Delete room number " + roomNumber, Toast.LENGTH_LONG).show();
-                DatabaseReference messRef = database.getReference("message");
-                messRef.child(String.valueOf(roomNumber)).removeValue((databaseError1, databaseReference1) -> {
-                    if (databaseError1 == null){
-                        Toast.makeText(MainActivity.this,"Delete message with room number " + roomNumber, Toast.LENGTH_LONG).show();
-                        Log.e("FIREBASE SUCCESS","Deleted message with room");
-                    }
-                    else{
-                        Log.e("FIREBASE ERROR","Deleted message with room");
-                    }
-                });
-
-                roomTimestamp[roomNumber] = 0;
-            }
-            else {
-                Log.e("LineXO", databaseError.getMessage());
-
-            }
-        });
+        DatabaseReference ref = database.getReference();
+        listRooms[roomNumber] = false;
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/room/" + roomNodeKey, null);
+        childUpdates.put("/message/" + roomNodeKey, null);
+        Toast.makeText(MainActivity.this, "Delete room and message" + roomNumber, Toast.LENGTH_LONG).show();
+        ref.updateChildren(childUpdates);
     }
 
     public void setNewRoomNumber(){
@@ -70,11 +59,11 @@ public class MainActivity extends AppCompatActivity {
                 Room room = dataSnapshot.getValue(Room.class);
                 if (room.getRoom_number() == null && room.getAction() == Room.CREATE){
                     for (int i = 1; i < MAX_ROOM; i++){
-                        if (roomTimestamp[i] == 0){
+                        if (listRooms[i] == false){
                             room.setRoom_number(i);
                             DatabaseReference roomNumRef = database.getReference("room").child(dataSnapshot.getKey());
                             roomNumRef.setValue(room);
-                            roomTimestamp[i] = System.currentTimeMillis();
+                            listRooms[i] = true;
                             Toast.makeText(MainActivity.this,"Set new room number " + i, Toast.LENGTH_LONG).show();
                             break;
                         }
@@ -106,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkOnlineSignal(){
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-
         Runnable runCheck = new Runnable() {
             DatabaseReference roomRef = database.getReference("room");
             @Override
@@ -118,10 +106,7 @@ public class MainActivity extends AppCompatActivity {
                             Room room = post.getValue(Room.class);
                             if (room.getRoom_number() != null){
                                 Long newTimestamp = room.getOnline_timestamp();
-                                if (newTimestamp > roomTimestamp[room.getRoom_number()]){
-                                    roomTimestamp[room.getRoom_number()] = newTimestamp;
-                                }
-                                else {
+                                if (System.currentTimeMillis() - newTimestamp >= 60000){
                                     deleteRoom(post.getKey(), room.getRoom_number());
                                 }
                             }
@@ -135,6 +120,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         };
-        service.scheduleAtFixedRate(runCheck, 0, 10, TimeUnit.SECONDS);
+        service.scheduleAtFixedRate(runCheck, 0, 15, TimeUnit.SECONDS);
     }
 }
