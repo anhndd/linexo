@@ -14,9 +14,7 @@ public class ActivityPlayBindingImpl extends ActivityPlayBinding  {
     static {
         sIncludes = null;
         sViewsWithIds = new android.util.SparseIntArray();
-        sViewsWithIds.put(R.id.txt_score1, 12);
-        sViewsWithIds.put(R.id.score_icon_1, 13);
-        sViewsWithIds.put(R.id.txt_score2, 14);
+        sViewsWithIds.put(R.id.score_icon_1, 14);
         sViewsWithIds.put(R.id.score_icon_2, 15);
         sViewsWithIds.put(R.id.img_robot, 16);
     }
@@ -112,22 +110,22 @@ public class ActivityPlayBindingImpl extends ActivityPlayBinding  {
     private ActivityPlayBindingImpl(android.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
         super(bindingComponent, root, 1
             , (vn.edu.hcmut.linexo.presentation.custom.CircleImageView) bindings[2]
-            , (vn.edu.hcmut.linexo.presentation.custom.CircleImageView) bindings[5]
-            , (vn.edu.hcmut.linexo.presentation.view.play.BoardView) bindings[7]
-            , (android.widget.Button) bindings[9]
-            , (android.widget.ImageButton) bindings[10]
-            , (android.widget.EditText) bindings[11]
+            , (vn.edu.hcmut.linexo.presentation.custom.CircleImageView) bindings[6]
+            , (vn.edu.hcmut.linexo.presentation.view.play.BoardView) bindings[9]
+            , (android.widget.Button) bindings[11]
+            , (android.widget.ImageButton) bindings[12]
+            , (android.widget.EditText) bindings[13]
             , (android.widget.ImageView) bindings[16]
-            , (android.support.v7.widget.RecyclerView) bindings[8]
+            , (android.support.v7.widget.RecyclerView) bindings[10]
             , (vn.edu.hcmut.linexo.presentation.view.play.PlayLayout) bindings[0]
-            , (android.view.View) bindings[13]
+            , (android.view.View) bindings[14]
             , (android.view.View) bindings[15]
-            , (vn.edu.hcmut.linexo.presentation.custom.ClockView) bindings[3]
-            , (vn.edu.hcmut.linexo.presentation.custom.ClockView) bindings[6]
+            , (vn.edu.hcmut.linexo.presentation.custom.ClockView) bindings[4]
+            , (vn.edu.hcmut.linexo.presentation.custom.ClockView) bindings[8]
             , (android.widget.TextView) bindings[1]
-            , (vn.edu.hcmut.linexo.presentation.custom.RoomNumberView) bindings[4]
-            , (android.widget.TextView) bindings[12]
-            , (android.widget.TextView) bindings[14]
+            , (vn.edu.hcmut.linexo.presentation.custom.RoomNumberView) bindings[5]
+            , (android.widget.TextView) bindings[3]
+            , (android.widget.TextView) bindings[7]
             );
         this.avatar1.setTag(null);
         this.avatar2.setTag(null);
@@ -141,6 +139,8 @@ public class ActivityPlayBindingImpl extends ActivityPlayBinding  {
         this.txtClock2.setTag(null);
         this.txtNetwork.setTag(null);
         this.txtRoom.setTag(null);
+        this.txtScore1.setTag(null);
+        this.txtScore2.setTag(null);
         setRootTag(root);
         // listeners
         invalidateAll();
@@ -149,7 +149,7 @@ public class ActivityPlayBindingImpl extends ActivityPlayBinding  {
     @Override
     public void invalidateAll() {
         synchronized(this) {
-                mDirtyFlags = 0x8000L;
+                mDirtyFlags = 0x20000L;
         }
         requestRebind();
     }
@@ -225,63 +225,75 @@ public class ActivityPlayBindingImpl extends ActivityPlayBinding  {
             }
             return true;
         }
-        else if (fieldId == BR.enableHost) {
+        else if (fieldId == BR.score1) {
             synchronized(this) {
                     mDirtyFlags |= 0x20L;
             }
             return true;
         }
-        else if (fieldId == BR.countTimeHost) {
+        else if (fieldId == BR.enableHost) {
             synchronized(this) {
                     mDirtyFlags |= 0x40L;
             }
             return true;
         }
-        else if (fieldId == BR.roomNumber) {
+        else if (fieldId == BR.countTimeHost) {
             synchronized(this) {
                     mDirtyFlags |= 0x80L;
             }
             return true;
         }
-        else if (fieldId == BR.avatar2) {
+        else if (fieldId == BR.roomNumber) {
             synchronized(this) {
                     mDirtyFlags |= 0x100L;
             }
             return true;
         }
-        else if (fieldId == BR.enableGuest) {
+        else if (fieldId == BR.avatar2) {
             synchronized(this) {
                     mDirtyFlags |= 0x200L;
             }
             return true;
         }
-        else if (fieldId == BR.countTimeGuest) {
+        else if (fieldId == BR.score2) {
             synchronized(this) {
                     mDirtyFlags |= 0x400L;
             }
             return true;
         }
-        else if (fieldId == BR.board) {
+        else if (fieldId == BR.enableGuest) {
             synchronized(this) {
                     mDirtyFlags |= 0x800L;
             }
             return true;
         }
-        else if (fieldId == BR.touch) {
+        else if (fieldId == BR.countTimeGuest) {
             synchronized(this) {
                     mDirtyFlags |= 0x1000L;
             }
             return true;
         }
-        else if (fieldId == BR.adapter) {
+        else if (fieldId == BR.board) {
             synchronized(this) {
                     mDirtyFlags |= 0x2000L;
             }
             return true;
         }
-        else if (fieldId == BR.contentMessage) {
+        else if (fieldId == BR.touch) {
             synchronized(this) {
                     mDirtyFlags |= 0x4000L;
+            }
+            return true;
+        }
+        else if (fieldId == BR.adapter) {
+            synchronized(this) {
+                    mDirtyFlags |= 0x8000L;
+            }
+            return true;
+        }
+        else if (fieldId == BR.contentMessage) {
+            synchronized(this) {
+                    mDirtyFlags |= 0x10000L;
             }
             return true;
         }
@@ -297,12 +309,14 @@ public class ActivityPlayBindingImpl extends ActivityPlayBinding  {
         }
         int viewModelRoomNumber = 0;
         vn.edu.hcmut.linexo.presentation.model.Board viewModelBoard = null;
+        java.lang.Object viewModelScore2 = null;
         int[] viewModelTouch = null;
         java.lang.String viewModelContentMessage = null;
         long viewModelCountTimeHost = 0L;
         boolean viewModelEnableHost = false;
         boolean viewModelEnableGuest = false;
         vn.edu.hcmut.linexo.presentation.view.play.ChatRecyclerViewAdapter viewModelAdapter = null;
+        java.lang.Object viewModelScore1 = null;
         java.lang.Object viewModelAvatar1 = null;
         int viewModelNetworkVisibility = 0;
         int[] viewModelArrayKeyboardChanged = null;
@@ -313,87 +327,101 @@ public class ActivityPlayBindingImpl extends ActivityPlayBinding  {
         vn.edu.hcmut.linexo.presentation.view_model.play.PlayViewModel viewModel = mViewModel;
         long viewModelCountTimeGuest = 0L;
 
-        if ((dirtyFlags & 0xffffL) != 0) {
+        if ((dirtyFlags & 0x3ffffL) != 0) {
 
 
-            if ((dirtyFlags & 0x8081L) != 0) {
+            if ((dirtyFlags & 0x20101L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.roomNumber
                         viewModelRoomNumber = viewModel.getRoomNumber();
                     }
             }
-            if ((dirtyFlags & 0x8801L) != 0) {
+            if ((dirtyFlags & 0x22001L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.board
                         viewModelBoard = viewModel.getBoard();
                     }
             }
-            if ((dirtyFlags & 0x9001L) != 0) {
+            if ((dirtyFlags & 0x20401L) != 0) {
+
+                    if (viewModel != null) {
+                        // read viewModel.score2
+                        viewModelScore2 = viewModel.getScore2();
+                    }
+            }
+            if ((dirtyFlags & 0x24001L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.touch
                         viewModelTouch = viewModel.getTouch();
                     }
             }
-            if ((dirtyFlags & 0xc001L) != 0) {
+            if ((dirtyFlags & 0x30001L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.contentMessage
                         viewModelContentMessage = viewModel.getContentMessage();
                     }
             }
-            if ((dirtyFlags & 0x8041L) != 0) {
+            if ((dirtyFlags & 0x20081L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.countTimeHost
                         viewModelCountTimeHost = viewModel.getCountTimeHost();
                     }
             }
-            if ((dirtyFlags & 0x8021L) != 0) {
+            if ((dirtyFlags & 0x20041L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.enableHost
                         viewModelEnableHost = viewModel.getEnableHost();
                     }
             }
-            if ((dirtyFlags & 0x8201L) != 0) {
+            if ((dirtyFlags & 0x20801L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.enableGuest
                         viewModelEnableGuest = viewModel.getEnableGuest();
                     }
             }
-            if ((dirtyFlags & 0xa001L) != 0) {
+            if ((dirtyFlags & 0x28001L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.adapter
                         viewModelAdapter = viewModel.getAdapter();
                     }
             }
-            if ((dirtyFlags & 0x8011L) != 0) {
+            if ((dirtyFlags & 0x20021L) != 0) {
+
+                    if (viewModel != null) {
+                        // read viewModel.score1
+                        viewModelScore1 = viewModel.getScore1();
+                    }
+            }
+            if ((dirtyFlags & 0x20011L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.avatar1
                         viewModelAvatar1 = viewModel.getAvatar1();
                     }
             }
-            if ((dirtyFlags & 0x8009L) != 0) {
+            if ((dirtyFlags & 0x20009L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.networkVisibility
                         viewModelNetworkVisibility = viewModel.getNetworkVisibility();
                     }
             }
-            if ((dirtyFlags & 0x8003L) != 0) {
+            if ((dirtyFlags & 0x20003L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.arrayKeyboardChanged
                         viewModelArrayKeyboardChanged = viewModel.getArrayKeyboardChanged();
                     }
             }
-            if ((dirtyFlags & 0x8001L) != 0) {
+            if ((dirtyFlags & 0x20001L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel::onClickBtnMessage
@@ -402,21 +430,21 @@ public class ActivityPlayBindingImpl extends ActivityPlayBinding  {
                         viewModelOnClickSendAndroidViewViewOnClickListener = (((mViewModelOnClickSendAndroidViewViewOnClickListener == null) ? (mViewModelOnClickSendAndroidViewViewOnClickListener = new OnClickListenerImpl1()) : mViewModelOnClickSendAndroidViewViewOnClickListener).setValue(viewModel));
                     }
             }
-            if ((dirtyFlags & 0x8101L) != 0) {
+            if ((dirtyFlags & 0x20201L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.avatar2
                         viewModelAvatar2 = viewModel.getAvatar2();
                     }
             }
-            if ((dirtyFlags & 0x8005L) != 0) {
+            if ((dirtyFlags & 0x20005L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.playType
                         viewModelPlayType = viewModel.getPlayType();
                     }
             }
-            if ((dirtyFlags & 0x8401L) != 0) {
+            if ((dirtyFlags & 0x21001L) != 0) {
 
                     if (viewModel != null) {
                         // read viewModel.countTimeGuest
@@ -425,89 +453,99 @@ public class ActivityPlayBindingImpl extends ActivityPlayBinding  {
             }
         }
         // batch finished
-        if ((dirtyFlags & 0x8011L) != 0) {
+        if ((dirtyFlags & 0x20011L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setImageFromObject(this.avatar1, (java.lang.Object) viewModelAvatar1);
         }
-        if ((dirtyFlags & 0x8101L) != 0) {
+        if ((dirtyFlags & 0x20201L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setImageFromObject(this.avatar2, (java.lang.Object) viewModelAvatar2);
         }
-        if ((dirtyFlags & 0x8801L) != 0) {
+        if ((dirtyFlags & 0x22001L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setBoard(this.board, viewModelBoard);
         }
-        if ((dirtyFlags & 0x9001L) != 0) {
+        if ((dirtyFlags & 0x24001L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setTouch(this.board, viewModelTouch);
         }
-        if ((dirtyFlags & 0x8000L) != 0) {
+        if ((dirtyFlags & 0x20000L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setTouchListener(this.board, boardtouchAttrChanged);
             android.databinding.adapters.TextViewBindingAdapter.setTextWatcher(this.btnMessage, (android.databinding.adapters.TextViewBindingAdapter.BeforeTextChanged)null, (android.databinding.adapters.TextViewBindingAdapter.OnTextChanged)null, (android.databinding.adapters.TextViewBindingAdapter.AfterTextChanged)null, btnMessageandroidTextAttrChanged);
             android.databinding.adapters.TextViewBindingAdapter.setTextWatcher(this.edtMessage, (android.databinding.adapters.TextViewBindingAdapter.BeforeTextChanged)null, (android.databinding.adapters.TextViewBindingAdapter.OnTextChanged)null, (android.databinding.adapters.TextViewBindingAdapter.AfterTextChanged)null, edtMessageandroidTextAttrChanged);
         }
-        if ((dirtyFlags & 0x8001L) != 0) {
+        if ((dirtyFlags & 0x20001L) != 0) {
             // api target 1
 
             this.btnMessage.setOnClickListener(viewModelOnClickBtnMessageAndroidViewViewOnClickListener);
             this.btnSend.setOnClickListener(viewModelOnClickSendAndroidViewViewOnClickListener);
         }
-        if ((dirtyFlags & 0xc001L) != 0) {
+        if ((dirtyFlags & 0x30001L) != 0) {
             // api target 1
 
             android.databinding.adapters.TextViewBindingAdapter.setText(this.btnMessage, viewModelContentMessage);
             android.databinding.adapters.TextViewBindingAdapter.setText(this.edtMessage, viewModelContentMessage);
         }
-        if ((dirtyFlags & 0xa001L) != 0) {
+        if ((dirtyFlags & 0x28001L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setAdapter(this.lstMessage, viewModelAdapter);
         }
-        if ((dirtyFlags & 0x8003L) != 0) {
+        if ((dirtyFlags & 0x20003L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setKeyboardChanged(this.root, viewModelArrayKeyboardChanged);
         }
-        if ((dirtyFlags & 0x8005L) != 0) {
+        if ((dirtyFlags & 0x20005L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setPlayType(this.root, viewModelPlayType);
         }
-        if ((dirtyFlags & 0x8021L) != 0) {
+        if ((dirtyFlags & 0x20041L) != 0) {
             // api target 1
 
             this.txtClock1.setEnabled(viewModelEnableHost);
         }
-        if ((dirtyFlags & 0x8041L) != 0) {
+        if ((dirtyFlags & 0x20081L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setCountTime(this.txtClock1, viewModelCountTimeHost);
         }
-        if ((dirtyFlags & 0x8201L) != 0) {
+        if ((dirtyFlags & 0x20801L) != 0) {
             // api target 1
 
             this.txtClock2.setEnabled(viewModelEnableGuest);
         }
-        if ((dirtyFlags & 0x8401L) != 0) {
+        if ((dirtyFlags & 0x21001L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setCountTime(this.txtClock2, viewModelCountTimeGuest);
         }
-        if ((dirtyFlags & 0x8009L) != 0) {
+        if ((dirtyFlags & 0x20009L) != 0) {
             // api target 1
 
             this.txtNetwork.setVisibility(viewModelNetworkVisibility);
         }
-        if ((dirtyFlags & 0x8081L) != 0) {
+        if ((dirtyFlags & 0x20101L) != 0) {
             // api target 1
 
             vn.edu.hcmut.linexo.presentation.custom.CustomBindingAdapter.setKeyboardChanged(this.txtRoom, viewModelRoomNumber);
+        }
+        if ((dirtyFlags & 0x20021L) != 0) {
+            // api target 1
+
+            android.databinding.adapters.TextViewBindingAdapter.setText(this.txtScore1, (java.lang.CharSequence) viewModelScore1);
+        }
+        if ((dirtyFlags & 0x20401L) != 0) {
+            // api target 1
+
+            android.databinding.adapters.TextViewBindingAdapter.setText(this.txtScore2, (java.lang.CharSequence) viewModelScore2);
         }
     }
     // Listener Stub Implementations
@@ -542,17 +580,19 @@ public class ActivityPlayBindingImpl extends ActivityPlayBinding  {
         flag 2 (0x3L): viewModel.playType
         flag 3 (0x4L): viewModel.networkVisibility
         flag 4 (0x5L): viewModel.avatar1
-        flag 5 (0x6L): viewModel.enableHost
-        flag 6 (0x7L): viewModel.countTimeHost
-        flag 7 (0x8L): viewModel.roomNumber
-        flag 8 (0x9L): viewModel.avatar2
-        flag 9 (0xaL): viewModel.enableGuest
-        flag 10 (0xbL): viewModel.countTimeGuest
-        flag 11 (0xcL): viewModel.board
-        flag 12 (0xdL): viewModel.touch
-        flag 13 (0xeL): viewModel.adapter
-        flag 14 (0xfL): viewModel.contentMessage
-        flag 15 (0x10L): null
+        flag 5 (0x6L): viewModel.score1
+        flag 6 (0x7L): viewModel.enableHost
+        flag 7 (0x8L): viewModel.countTimeHost
+        flag 8 (0x9L): viewModel.roomNumber
+        flag 9 (0xaL): viewModel.avatar2
+        flag 10 (0xbL): viewModel.score2
+        flag 11 (0xcL): viewModel.enableGuest
+        flag 12 (0xdL): viewModel.countTimeGuest
+        flag 13 (0xeL): viewModel.board
+        flag 14 (0xfL): viewModel.touch
+        flag 15 (0x10L): viewModel.adapter
+        flag 16 (0x11L): viewModel.contentMessage
+        flag 17 (0x12L): null
     flag mapping end*/
     //end
 }

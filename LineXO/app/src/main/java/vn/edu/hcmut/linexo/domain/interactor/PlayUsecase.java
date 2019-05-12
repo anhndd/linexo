@@ -3,7 +3,6 @@ package vn.edu.hcmut.linexo.domain.interactor;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import java.util.List;
 import java.util.Random;
@@ -22,6 +21,7 @@ import vn.edu.hcmut.linexo.domain.AI.LineXOMove;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.model.Room;
 import vn.edu.hcmut.linexo.presentation.model.User;
+import vn.edu.hcmut.linexo.presentation.view_model.play.PlayViewModel;
 import vn.edu.hcmut.linexo.utils.Event;
 import vn.edu.hcmut.linexo.utils.Optional;
 
@@ -30,6 +30,7 @@ public class PlayUsecase extends AbstractUsecase {
     private final long MOVE_INTERVAL = 500;
 
     private Room room;
+    private String roomId;
     private User user;
     private List<Board> boards;
     private BoardRepository boardRepository;
@@ -90,12 +91,12 @@ public class PlayUsecase extends AbstractUsecase {
                 playHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        String roomId = (String) params[0];
+                        roomId = (String) params[0];
                         if (user != null && boards != null) {
                             if (roomId.equals("AI")) {
                                 initOfflineGame((DisposableSingleObserver<Room>) observer, roomId);
                             } else {
-                                initOnlineGame((DisposableObserver<Room>) observer,roomId);
+                                initOnlineGame((DisposableObserver<Room>) observer, roomId);
                             }
                         } else {
                             playHandler.postDelayed(this, 100);
@@ -104,10 +105,54 @@ public class PlayUsecase extends AbstractUsecase {
                 });
                 break;
             case Event.SEND_MOVE:
-                userMove((DisposableSingleObserver<Room>) observer, (int) params[0], (int) params[1]);
+                if (roomId.equals("AI")) {
+                    userOfflineMove((DisposableSingleObserver<Room>) observer, (int) params[0], (int) params[1]);
+                } else {
+                    userOnlineMove((int) params[0], (int) params[1]);
+                }
                 break;
             case Event.GET_MOVE:
                 opponentMove((DisposableSingleObserver<Room>) observer);
+                break;
+            case Event.LEAVE_ROOM:
+                if (!roomId.equals("AI")) {
+                    if (user.getUid().equals(room.getUser_1().getUid())) {
+                        room.setAction(Room.DESTROY);
+                        room.setOnline_timestamp(System.currentTimeMillis());
+                        playHandler.removeCallbacksAndMessages(null);
+                    } else if (user.getUid().equals(room.getUser_2().getUid())) {
+                        PlayUsecase.this.room.setAction(Room.LEAVE);
+                        room.setOnline_timestamp(System.currentTimeMillis());
+                    }
+                    addTask(roomRepository.updateNetworkRoom(PlayUsecase.this.room).observeOn(getSubscribeScheduler()).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribe());
+                }
+                break;
+            case Event.LOGIN_INFO:{
+                if ((boolean)params[1]) {
+                    addTask(userRepository
+                            .getNetworkUser((String)params[0])
+                            .subscribeOn(getSubscribeScheduler())
+                            .observeOn(getObserveScheduler())
+                            .subscribeWith((DisposableSingleObserver<Optional<User>>) observer));
+                } else {
+                    addTask(userRepository
+                            .getCacheUser()
+                            .subscribeOn(getSubscribeScheduler())
+                            .observeOn(getObserveScheduler())
+                            .subscribeWith((DisposableSingleObserver<Optional<User>>) observer));
+                }
+                break;
+            }
+            case Event.TIME_OUT:{
+                if (!roomId.equals("AI")) {
+                    if (user.getUid().equals(room.getUser_1().getUid())) {
+                        room.setAction(Room.TIMEOUT);
+                        room.setOnline_timestamp(System.currentTimeMillis());
+                        addTask(roomRepository.updateNetworkRoom(PlayUsecase.this.room).observeOn(getSubscribeScheduler()).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribe());
+                    }
+                }
+                break;
+            }
         }
     }
 
@@ -126,15 +171,28 @@ public class PlayUsecase extends AbstractUsecase {
                         .subscribeOn(getSubscribeScheduler())
                         .observeOn(getObserveScheduler())
                         .map(newRoom -> {
-                            PlayUsecase.this.room = newRoom;
+                            Room copyRoom = new Room(newRoom.getRoom_id(), newRoom.getAction(), newRoom.getRoom_number(), newRoom.getBoard(), newRoom.getLast_turn(), newRoom.getNext_turn(), newRoom.getUser_1(), newRoom.getUser_2(), newRoom.getIs_private(), newRoom.getOnline_timestamp());
+                            PlayUsecase.this.room = copyRoom;
                             switch (newRoom.getAction()) {
                                 case Room.CREATE:
                                     if (user.getUid().equals(newRoom.getUser_1().getUid())) {
                                         if (newRoom.getRoom_number() != null) {
                                             newRoom.setBoard(PlayUsecase.this.boards.get(new Random().nextInt(PlayUsecase.this.boards.size())));
                                             newRoom.setAction(Room.RANDOM);
+                                            newRoom.setOnline_timestamp(System.currentTimeMillis());
                                             addTask(roomRepository.updateNetworkRoom(newRoom).subscribe());
                                         }
+                                        playHandler.postDelayed(
+                                                new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        newRoom.setOnline_timestamp(System.currentTimeMillis());
+                                                        addTask(roomRepository.updateNetworkRoom(newRoom).subscribe());
+                                                        playHandler.postDelayed(this, 15000);
+                                                    }
+                                                }
+                                                , 15000
+                                        );
                                     }
                                     break;
                                 case Room.RANDOM:
@@ -144,24 +202,50 @@ public class PlayUsecase extends AbstractUsecase {
                                         }
                                         if (user.getUid().equals(newRoom.getUser_2().getUid())) {
                                             newRoom.setAction(Room.JOIN);
+                                            newRoom.setOnline_timestamp(System.currentTimeMillis());
                                             addTask(roomRepository.updateNetworkRoom(newRoom).subscribe());
                                         }
                                     }
                                     break;
                                 case Room.JOIN:
+                                    playHandler.removeCallbacksAndMessages(null);
+                                    if (user.getUid().equals(newRoom.getUser_1().getUid())) {
+                                        newRoom.setNext_turn(new Random().nextInt(2) == 0 ? newRoom.getUser_1().getUid() : newRoom.getUser_2().getUid());
+                                        newRoom.setAction(Room.START);
+                                        newRoom.setOnline_timestamp(System.currentTimeMillis());
+                                        addTask(roomRepository.updateNetworkRoom(newRoom).subscribe());
+                                    }
                                     break;
                                 case Room.START:
                                     break;
                                 case Room.MOVE:
                                     break;
                                 case Room.END:
+                                    if (user.getUid().equals(room.getUser_1().getUid())) {
+                                        addTask(
+                                                userRepository
+                                                        .setCacheUser(room.getUser_1())
+                                                        .subscribeOn(getSubscribeScheduler())
+                                                        .observeOn(getObserveScheduler())
+                                                        .subscribe()
+                                        );
+                                    }
+                                    if (user.getUid().equals(room.getUser_2().getUid())) {
+                                        addTask(
+                                                userRepository
+                                                        .setCacheUser(room.getUser_2())
+                                                        .subscribeOn(getSubscribeScheduler())
+                                                        .observeOn(getObserveScheduler())
+                                                        .subscribe()
+                                        );
+                                    }
                                     break;
                                 case Room.LEAVE:
                                     break;
                                 case Room.DESTROY:
                                     break;
                             }
-                            return newRoom;
+                            return copyRoom;
                         })
                         .subscribeWith(observer)
         );
@@ -182,8 +266,7 @@ public class PlayUsecase extends AbstractUsecase {
         });
     }
 
-    private void userMove(DisposableSingleObserver<Room> observer, int x, int y) {
-        Log.e("Test", "userMove");
+    private void userOfflineMove(DisposableSingleObserver<Room> observer, int x, int y) {
         addTask(Single.create((SingleOnSubscribe<Room>) emitter -> {
             String currentMove = PlayUsecase.this.room.getNext_turn();
             int currentPlayer = PlayUsecase.this.room.getNext_turn().equals(PlayUsecase.this.room.getUser_2().getUid()) ? 2 : 1;
@@ -207,6 +290,28 @@ public class PlayUsecase extends AbstractUsecase {
                 emitter.onError(new Throwable());
             }
         }).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribeWith(observer));
+    }
+
+    private void userOnlineMove(int x, int y) {
+        addTask(Single.create((SingleOnSubscribe<Room>) emitter -> {
+            String currentMove = PlayUsecase.this.room.getNext_turn();
+            int currentPlayer = PlayUsecase.this.room.getNext_turn().equals(PlayUsecase.this.room.getUser_2().getUid()) ? 2 : 1;
+            Board state = PlayUsecase.this.room.getBoard();
+            LineXOBoard lineXOBoard = new LineXOBoard(state.getPattern(), currentPlayer);
+            if (lineXOBoard.getValueAt(x, y) == Board.LINE_NOT_DRAWN) {
+                lineXOBoard.mark(new LineXOMove(x, y));
+                PlayUsecase.this.room.setBoard(new Board(lineXOBoard.getBoard(), lineXOBoard.getX_cells(), lineXOBoard.getO_cells(), state.getMax_cells()));
+                if (lineXOBoard.getPlayerToMove() != currentPlayer) {
+                    User user1 = PlayUsecase.this.room.getUser_1();
+                    User user2 = PlayUsecase.this.room.getUser_2();
+                    currentMove = user2.getUid().equals(currentMove) ? user1.getUid() : user2.getUid();
+                }
+                PlayUsecase.this.room.setNext_turn(currentMove);
+                PlayUsecase.this.room.setOnline_timestamp(System.currentTimeMillis());
+                PlayUsecase.this.room.setAction(Room.MOVE);
+                addTask(roomRepository.updateNetworkRoom(PlayUsecase.this.room).subscribe());
+            }
+        }).subscribe());
     }
 
     private void opponentMove(DisposableSingleObserver<Room> observer) {

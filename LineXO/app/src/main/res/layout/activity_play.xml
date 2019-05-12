@@ -43,7 +43,8 @@
             android:paddingRight="@dimen/dimen_10dp"
             android:textColor="@color/colorScore"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text="@{viewModel.score1}"/>
 
         <View
             android:id="@+id/score_icon_1"
@@ -92,7 +93,8 @@
             android:paddingRight="@dimen/dimen_20dp"
             android:textColor="@color/colorScore"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:text="@{viewModel.score2}"/>
 
         <View
             android:id="@+id/score_icon_2"

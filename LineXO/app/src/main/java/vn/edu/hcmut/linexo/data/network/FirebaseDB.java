@@ -49,7 +49,7 @@ public class FirebaseDB implements NetworkSource {
                     List<Room> results = new ArrayList<>();
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()){
                         RoomDB post = postSnapshot.getValue(RoomDB.class);
-                        if (post.getRoom_number() != null){
+                        if (post.getRoom_number() != null  && post.getAction() != Room.NOT_USE){
                             results.add(Mapper.convertRoomDB2Room(post));
                         }
                     }
@@ -86,8 +86,9 @@ public class FirebaseDB implements NetworkSource {
     @Override
     public Single<Boolean> updateRoom(Room room) {
         return Single.create(emitter -> {
+
             DatabaseReference roomRef = database.getReference("room").child(room.getRoom_id());
-            roomRef.setValue(room, (databaseError, databaseReference) -> {
+            roomRef.setValue(Mapper.convertRoom2RoomDB(room), (databaseError, databaseReference) -> {
                 if (databaseError == null){
                     emitter.onSuccess(true);
                 }
@@ -106,8 +107,8 @@ public class FirebaseDB implements NetworkSource {
             ValueEventListener listener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Room room = dataSnapshot.getValue(Room.class);
-                    emitter.onNext(room);
+                    RoomDB room = dataSnapshot.getValue(RoomDB.class);
+                    emitter.onNext(Mapper.convertRoomDB2Room(room));
                 }
 
                 @Override

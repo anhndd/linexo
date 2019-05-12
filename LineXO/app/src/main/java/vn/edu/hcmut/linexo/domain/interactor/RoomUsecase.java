@@ -54,7 +54,7 @@ public class RoomUsecase extends AbstractUsecase {
                                 return userOptional.get();
                             } else {
                                 User user = (User) params[0];
-                                user.setScore(0);
+                                user.setScore(10);
                                 userRepository.setCacheUser(user).subscribe();
                                 userRepository.setNetworkUser(user).subscribe();
                                 return user;
@@ -99,11 +99,27 @@ public class RoomUsecase extends AbstractUsecase {
                 break;
             }
             case Event.LOGIN_INFO:{
-                addTask(userRepository
-                        .getCacheUser()
-                        .subscribeOn(getSubscribeScheduler())
-                        .observeOn(getObserveScheduler())
-                        .subscribeWith((DisposableSingleObserver<Optional<User>>) observer));
+                if ((boolean)params[1]) {
+                    addTask(userRepository
+                            .getNetworkUser((String)params[0])
+                            .subscribeOn(getSubscribeScheduler())
+                            .observeOn(getObserveScheduler())
+                            .map(userOptional -> {
+                                addTask(userRepository
+                                        .setCacheUser(userOptional.get())
+                                        .subscribeOn(getSubscribeScheduler())
+                                        .observeOn(getObserveScheduler())
+                                        .subscribe());
+                                return userOptional;
+                            })
+                            .subscribeWith((DisposableSingleObserver<Optional<User>>) observer));
+                } else {
+                    addTask(userRepository
+                            .getCacheUser()
+                            .subscribeOn(getSubscribeScheduler())
+                            .observeOn(getObserveScheduler())
+                            .subscribeWith((DisposableSingleObserver<Optional<User>>) observer));
+                }
                 break;
             }
             case Event.CREATE_ROOM:{

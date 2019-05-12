@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -138,11 +140,11 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                         countDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         countDialog.getWindow().setLayout(getResources().getDisplayMetrics().widthPixels / 6, getResources().getDisplayMetrics().widthPixels / 6);
                         countDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-                        countDialog.show();
+                        if(!countDialog.isShowing())
+                            countDialog.show();
                     } else {
-                        countDialog.cancel();
+                        countDialog.dismiss();
                     }
-//                    Toast.makeText(PlayActivity.this, count + "",Toast.LENGTH_SHORT).show();
                     break;
                 }
                 case Event.RESULT: {
@@ -165,13 +167,13 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                         }
                         case Event.LOSE: {
                             View view = endGameDialog.findViewById(R.id.endgame_status);
-                            view.setBackgroundResource((R.drawable.ic_cup_draw));
+                            view.setBackgroundResource((R.drawable.ic_cup_lose));
                             endGameDialog.show();
                             break;
                         }
                         case Event.DRAW: {
                             View view = endGameDialog.findViewById(R.id.endgame_status);
-                            view.setBackgroundResource((R.drawable.ic_cup_lose));
+                            view.setBackgroundResource((R.drawable.ic_cup_draw));
                             endGameDialog.show();
                             break;
                         }
@@ -183,6 +185,15 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                     binding.edtMessage.setVisibility(View.VISIBLE);
                     Tool.showSoftKeyboard(binding.edtMessage, PlayActivity.this);
                     break;
+                }
+                case Event.TOAST_USER_WIN:{
+                    String mess = (String) event.getData()[0];
+                    Toast.makeText(PlayActivity.this,mess,Toast.LENGTH_LONG).show();
+                    break;
+                }
+                case Event.OUT_ROOM:{
+                    startActivity(new Intent(PlayActivity.this, RoomActivity.class));
+                    finish();
                 }
             }
         }
@@ -228,6 +239,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
 
     @Override
     public void onBackPressed() {
+        ((PlayViewModel) viewModel).onHelp(Event.create(Event.LEAVE_ROOM));
         startActivity(new Intent(this, RoomActivity.class));
         super.onBackPressed();
     }

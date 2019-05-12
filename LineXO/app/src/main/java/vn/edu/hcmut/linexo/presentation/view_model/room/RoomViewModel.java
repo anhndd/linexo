@@ -165,7 +165,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 break;
             }
             case Event.LOGIN_INFO: {
-                roomUsecase.execute(new LoginInfoObserver(), Event.LOGIN_INFO);
+                roomUsecase.execute(new LoginInfoObserver(), Event.LOGIN_INFO, user.getUid(), isConnected);
                 break;
             }
             case Event.SHOW_LOGIN: {
@@ -236,7 +236,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         if (user == null) {
             return "";
         } else if (user.getScore() == -1) {
-            roomUsecase.execute(new FullInfoUserObserver(), Event.LOAD_FULL_USER_INFO, user.getUid(), isConnected);
+            roomUsecase.execute(new FullInfoUserObserver(), Event.LOGIN_INFO, user.getUid(), isConnected);
             return "-";
         }
         return String.valueOf(user.getScore());

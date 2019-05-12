@@ -23,6 +23,8 @@ public class Board {
     private int o_cells;
     private int max_cells;
 
+    public Board(){}
+
     public Board(byte[][] pattern, int x_cells, int o_cells, int max_cells) {
         this.pattern = pattern;
         this.x_cells = x_cells;
