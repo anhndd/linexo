@@ -250,6 +250,10 @@ public class RoomActivity extends BaseActivity {
                         rankDialog.show();
                         break;
                     }
+                    case Event.TOAST_NO_CONNECTION:{
+                        Toast.makeText(RoomActivity.this,R.string.network_error,Toast.LENGTH_LONG).show();
+                        break;
+                    }
                 }
             }
 
