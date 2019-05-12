@@ -106,30 +106,32 @@ public class DataBinderMapperImpl extends DataBinderMapper {
   }
 
   private static class InnerBrLookup {
-    static final SparseArray<String> sKeys = new SparseArray<String>(22);
+    static final SparseArray<String> sKeys = new SparseArray<String>(24);
 
     static {
       sKeys.put(0, "_all");
       sKeys.put(1, "adapter");
       sKeys.put(2, "roomNumber");
-      sKeys.put(3, "touch");
-      sKeys.put(4, "arrayKeyboardChanged");
-      sKeys.put(5, "userName");
-      sKeys.put(6, "urlAvatar");
-      sKeys.put(7, "countTimeHost");
-      sKeys.put(8, "score");
-      sKeys.put(9, "enableGuest");
-      sKeys.put(10, "strSearch");
-      sKeys.put(11, "userVisibility");
-      sKeys.put(12, "playType");
-      sKeys.put(13, "contentMessage");
-      sKeys.put(14, "enableHost");
-      sKeys.put(15, "networkVisibility");
-      sKeys.put(16, "viewModel");
-      sKeys.put(17, "avatar2");
-      sKeys.put(18, "avatar1");
-      sKeys.put(19, "countTimeGuest");
-      sKeys.put(20, "board");
+      sKeys.put(3, "score2");
+      sKeys.put(4, "touch");
+      sKeys.put(5, "arrayKeyboardChanged");
+      sKeys.put(6, "userName");
+      sKeys.put(7, "urlAvatar");
+      sKeys.put(8, "countTimeHost");
+      sKeys.put(9, "score");
+      sKeys.put(10, "enableGuest");
+      sKeys.put(11, "strSearch");
+      sKeys.put(12, "userVisibility");
+      sKeys.put(13, "playType");
+      sKeys.put(14, "contentMessage");
+      sKeys.put(15, "enableHost");
+      sKeys.put(16, "networkVisibility");
+      sKeys.put(17, "viewModel");
+      sKeys.put(18, "score1");
+      sKeys.put(19, "avatar2");
+      sKeys.put(20, "avatar1");
+      sKeys.put(21, "countTimeGuest");
+      sKeys.put(22, "board");
     }
   }
 

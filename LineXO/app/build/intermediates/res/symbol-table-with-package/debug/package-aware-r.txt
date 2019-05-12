@@ -1192,7 +1192,6 @@ drawable common_google_signin_btn_text_light
 drawable common_google_signin_btn_text_light_focused
 drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
-drawable cup
 drawable design_bottom_navigation_item_background
 drawable design_fab_background
 drawable design_ic_visibility
@@ -1219,6 +1218,9 @@ drawable googleg_standard_color_18
 drawable ic_close
 drawable ic_coin
 drawable ic_crown
+drawable ic_cup_draw
+drawable ic_cup_lose
+drawable ic_cup_win
 drawable ic_lock_close
 drawable ic_lock_gray
 drawable ic_lock_open
@@ -1236,7 +1238,6 @@ drawable ic_ranking
 drawable ic_search
 drawable ic_send
 drawable ic_star_rating
-drawable ic_win
 drawable ic_x
 drawable img_avatar_holder
 drawable img_robot

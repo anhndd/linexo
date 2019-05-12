@@ -219,14 +219,42 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     public Object getAvatar1() {
         if (room == null)
             return R.drawable.img_avatar_holder;
-        if (room.getRoom_number() == 0)
+        if (roomId.equals("AI"))
             return R.drawable.ic_logo_round;
         return room.getUser_1().getAvatar();
     }
 
     @Bindable
     public Object getAvatar2() {
-        return R.drawable.img_avatar_holder;
+        if (room == null)
+            return R.drawable.img_avatar_holder;
+        if (roomId.equals("AI"))
+            return user==null?R.drawable.img_avatar_holder:user.getAvatar();
+        return room.getUser_2().getAvatar();
+    }
+
+    @Bindable
+    public Object getScore1() {
+        if (room == null)
+            return "";
+        if (roomId.equals("AI"))
+            return "";
+        return user.getUid().equals(room.getUser_1().getUid())?user.getScore():room.getUser_1().getScore();
+    }
+
+    @Bindable
+    public Object getScore2() {
+        if (room == null)
+            return "";
+        if (roomId.equals("AI"))
+            return user==null?"":user.getScore()+"";
+        if(room.getUser_2()==null){
+            return "";
+        }
+        if(user.getUid().equals(room.getUser_2().getUid())){
+            return user.getScore();
+        }
+        return room.getUser_2().getScore();
     }
 
     @Bindable
@@ -366,6 +394,8 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                     notifyPropertyChanged(BR.board);
                     notifyPropertyChanged(BR.avatar1);
                     notifyPropertyChanged(BR.avatar2);
+                    notifyPropertyChanged(BR.score1);
+                    notifyPropertyChanged(BR.score2);
                 }
             }
         }
@@ -379,7 +409,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     class RoomReceiverOnlineObserver extends DisposableObserver<Room> {
         @Override
         public void onNext(Room room) {
-//            if (room.getAction() >= Room.START) {
+            if (room.getAction() >= Room.START) {
 //                if (gameState == Event.PLAYING) {
 //                    countDownHandler.removeCallbacksAndMessages(null);
 //                    if ((room.getBoard().getO_cells() + room.getBoard().getX_cells()) == room.getBoard().getMax_cells()) {
@@ -463,16 +493,12 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 //                            },
 //                            PlayViewModel.this.room == null ? 4000 : 0
 //                    );
-//                    PlayViewModel.this.room = room;
-//                    notifyPropertyChanged(BR.board);
-//                    notifyPropertyChanged(BR.avatar1);
-//                    notifyPropertyChanged(BR.avatar2);
+                    PlayViewModel.this.room = room;
+                    notifyPropertyChanged(BR.board);
+                    notifyPropertyChanged(BR.avatar1);
+                    notifyPropertyChanged(BR.avatar2);
 //                }
-//            }
-            PlayViewModel.this.room = room;
-            notifyPropertyChanged(BR.board);
-            notifyPropertyChanged(BR.avatar1);
-            notifyPropertyChanged(BR.avatar2);
+            }
         }
 
         @Override

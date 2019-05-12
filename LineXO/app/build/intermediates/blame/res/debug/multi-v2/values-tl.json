@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-tl/values-tl.xml",
+            "outputFile": "/Users/nvietsang/Desktop/AndroidApp/linexo/LineXO/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-tl/values-tl.xml",
             "map": [
                 {
-                    "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/09f0096450da5c63b0c03078cc546efc/res/values-tl/values.xml",
-                    "from": {
-                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
-                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
-                        "startOffsets": "245,350,558,694,801,1018,1152,1300,1438,1676,1781,1990,2126,2347,2552,2646,2738",
-                        "endColumns": "104,207,135,106,216,133,147,137,237,104,208,135,220,204,93,91,105",
-                        "endOffsets": "349,557,693,800,1017,1151,1299,1437,1675,1780,1989,2125,2346,2551,2645,2737,2843"
-                    },
-                    "to": {
-                        "startLines": "52,53,54,55,56,57,58,59,61,62,63,64,65,66,67,68,69",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "5725,5834,6042,6182,6293,6510,6648,6800,7147,7385,7494,7703,7843,8064,8273,8371,8467",
-                        "endColumns": "108,207,139,110,216,137,151,141,237,108,208,139,220,208,97,95,109",
-                        "endOffsets": "5829,6037,6177,6288,6505,6643,6795,6937,7380,7489,7698,7838,8059,8268,8366,8462,8572"
-                    }
-                },
-                {
-                    "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/6228c02a3eb0e5b22e0268da62b3f7b6/res/values-tl/values-tl.xml",
+                    "source": "/Users/nvietsang/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/1abe43ad3c8edf61ee14ac3a6869fff9/res/values-tl/values-tl.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -38,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.2.0.aar/d7c59b1a99956f2ed6d16a7813e4d576/res/values-tl/values.xml",
+                    "source": "/Users/nvietsang/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.2.0.aar/98dc8abfefead9b1e0b7d3f886c04354/res/values-tl/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -55,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/facebook-login-4.41.0.aar/c9187b80837bd559c94a1657e5488df5/res/values-tl/values-tl.xml",
+                    "source": "/Users/nvietsang/.gradle/caches/transforms-1/files-1.1/facebook-login-4.41.0.aar/31836e2bca99281bd5596796ea9f0e73/res/values-tl/values-tl.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -72,7 +55,24 @@
                     }
                 },
                 {
-                    "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/firebase-ui-auth-4.3.1.aar/f50ce6f70d0f30eb35bb4e891f18003b/res/values-tl/values-tl.xml",
+                    "source": "/Users/nvietsang/.gradle/caches/transforms-1/files-1.1/play-services-base-16.0.1.aar/e44c09feca5a76ef8962aeff66b11588/res/values-tl/values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                        "startOffsets": "245,350,558,694,801,1018,1152,1300,1438,1676,1781,1990,2126,2347,2552,2646,2738",
+                        "endColumns": "104,207,135,106,216,133,147,137,237,104,208,135,220,204,93,91,105",
+                        "endOffsets": "349,557,693,800,1017,1151,1299,1437,1675,1780,1989,2125,2346,2551,2645,2737,2843"
+                    },
+                    "to": {
+                        "startLines": "52,53,54,55,56,57,58,59,61,62,63,64,65,66,67,68,69",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "5725,5834,6042,6182,6293,6510,6648,6800,7147,7385,7494,7703,7843,8064,8273,8371,8467",
+                        "endColumns": "108,207,139,110,216,137,151,141,237,108,208,139,220,208,97,95,109",
+                        "endOffsets": "5829,6037,6177,6288,6505,6643,6795,6937,7380,7489,7698,7838,8059,8268,8366,8462,8572"
+                    }
+                },
+                {
+                    "source": "/Users/nvietsang/.gradle/caches/transforms-1/files-1.1/firebase-ui-auth-4.3.1.aar/0b65e268a0eb186edc16738115f69ca1/res/values-tl/values-tl.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -89,7 +89,7 @@
                     }
                 },
                 {
-                    "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/0b26602ce510bf8af4ecb59119a56de3/res/values-tl/values-tl.xml",
+                    "source": "/Users/nvietsang/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/2c2714a8446375adfe0d82bdd5c65d9c/res/values-tl/values-tl.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

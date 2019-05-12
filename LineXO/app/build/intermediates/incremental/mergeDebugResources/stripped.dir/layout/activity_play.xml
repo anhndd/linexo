@@ -43,7 +43,8 @@
             android:paddingRight="@dimen/dimen_10dp"
             android:textColor="@color/colorScore"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="binding_3"           />
 
         <View
             android:id="@+id/score_icon_1"
@@ -62,7 +63,7 @@
             android:paddingRight="@dimen/dimen_10dp"
             android:textColor="@color/colorWhite"
             android:textStyle="bold"
-            android:tag="binding_3"                  
+            android:tag="binding_4"                  
                                                   />
 
         <vn.edu.hcmut.linexo.presentation.custom.RoomNumberView
@@ -74,13 +75,13 @@
             android:textColor="@color/colorScore"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:tag="binding_4"                  />
+            android:tag="binding_5"                  />
 
         <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
             android:id="@+id/avatar_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="binding_5"                    />
+            android:tag="binding_6"                    />
 
         <TextView
             android:id="@+id/txt_score2"
@@ -92,7 +93,8 @@
             android:paddingRight="@dimen/dimen_20dp"
             android:textColor="@color/colorScore"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tag="binding_7"           />
 
         <View
             android:id="@+id/score_icon_2"
@@ -111,21 +113,21 @@
             android:paddingRight="@dimen/dimen_10dp"
             android:textColor="@color/colorWhite"
             android:textStyle="bold"
-            android:tag="binding_6"                   
+            android:tag="binding_8"                   
                                                    />
 
         <vn.edu.hcmut.linexo.presentation.view.play.BoardView
             android:id="@+id/board"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="binding_7"        
+            android:tag="binding_9"        
                                             />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lst_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="binding_8"            />
+            android:tag="binding_10"           />
 
         <Button
             android:id="@+id/btn_message"
@@ -139,7 +141,7 @@
             android:maxLines="1"
             android:hint="@string/message_hint"
             android:textAllCaps="false"
-            android:tag="binding_9"                          
+            android:tag="binding_11"                         
                                                        />
 
         <ImageButton
@@ -151,7 +153,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/ic_send"
             android:visibility="gone"
-            android:tag="binding_10"                   />
+            android:tag="binding_12"                   />
 
         <EditText
             android:id="@+id/edt_message"
@@ -166,7 +168,7 @@
             android:maxLines="1"
             android:imeOptions="flagNoExtractUi"
             android:visibility="gone"
-            android:tag="binding_11"                   />
+            android:tag="binding_13"                   />
 
         <ImageView
             android:id="@+id/img_robot"
