@@ -8,10 +8,7 @@ import android.util.Log;
 import java.util.List;
 import java.util.Random;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.SingleEmitter;
-import io.reactivex.SingleObserver;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -24,7 +21,6 @@ import vn.edu.hcmut.linexo.domain.AI.LineXOGame;
 import vn.edu.hcmut.linexo.domain.AI.LineXOMove;
 import vn.edu.hcmut.linexo.presentation.model.Board;
 import vn.edu.hcmut.linexo.presentation.model.Room;
-import vn.edu.hcmut.linexo.presentation.model.Session;
 import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.utils.Event;
 import vn.edu.hcmut.linexo.utils.Optional;
@@ -43,8 +39,8 @@ public class PlayUsecase extends AbstractUsecase {
     private long lastTimeGetMove = 0;
 
     public PlayUsecase(BoardRepository boardRepository, UserRepository userRepository, RoomRepository roomRepository) {
-        this.boardRepository    = boardRepository;
-        this.userRepository     = userRepository;
+        this.boardRepository = boardRepository;
+        this.userRepository = userRepository;
         this.roomRepository = roomRepository;
         addTask(
                 userRepository
@@ -54,10 +50,9 @@ public class PlayUsecase extends AbstractUsecase {
                         .subscribeWith(new DisposableSingleObserver<Optional<User>>() {
                             @Override
                             public void onSuccess(Optional<User> userOptional) {
-                                if(userOptional.isPresent()){
+                                if (userOptional.isPresent()) {
                                     PlayUsecase.this.user = userOptional.get();
-                                }
-                                else {
+                                } else {
                                     PlayUsecase.this.user = new User("fake", "a@gmail.com", "fake.jpg", "Fucking guy", 0);
                                 }
                             }
@@ -95,8 +90,14 @@ public class PlayUsecase extends AbstractUsecase {
                 playHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        String roomId = (String) params[0];
                         if (user != null && boards != null) {
-                            initGame((DisposableSingleObserver<Room>) observer, (String) params[0]);
+                            if (roomId.equals("AI")) {
+                                initOfflineGame((DisposableSingleObserver<Room>) observer, roomId);
+                            } else {
+                                initOnlineGame((DisposableObserver<Room>) observer,roomId);
+                            }
+                            initOfflineGame((DisposableSingleObserver<Room>) observer, (String) params[0]);
                         } else {
                             playHandler.postDelayed(this, 100);
                         }
@@ -111,18 +112,22 @@ public class PlayUsecase extends AbstractUsecase {
         }
     }
 
-    private void initGame(DisposableSingleObserver<Room> observer, String roomId) {
-        if (roomId.equals("AI")) {
-            addTask(
-                    buildAIObservable()
-                            .subscribeOn(getSubscribeScheduler())
-                            .observeOn(getObserveScheduler())
-                            .subscribeWith(observer)
-            );
-        }
-        else {
+    private void initOfflineGame(DisposableSingleObserver<Room> observer, String roomId) {
+        addTask(
+                buildAIObservable()
+                        .subscribeOn(getSubscribeScheduler())
+                        .observeOn(getObserveScheduler())
+                        .subscribeWith(observer)
+        );
+    }
 
-        }
+    private void initOnlineGame(DisposableObserver<Room> observer, String roomId) {
+        addTask(
+                roomRepository.getRoom(roomId)
+                        .subscribeOn(getSubscribeScheduler())
+                        .observeOn(getObserveScheduler())
+                        .subscribeWith(observer)
+        );
     }
 
     private Single<Room> buildAIObservable() {
@@ -161,8 +166,7 @@ public class PlayUsecase extends AbstractUsecase {
                 }
                 PlayUsecase.this.room.setNext_turn(currentMove);
                 emitter.onSuccess(PlayUsecase.this.room);
-            }
-            else {
+            } else {
                 emitter.onError(new Throwable());
             }
         }).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribeWith(observer));
@@ -184,8 +188,7 @@ public class PlayUsecase extends AbstractUsecase {
                 User user2 = PlayUsecase.this.room.getUser_2();
                 if (user1 == null) {
                     currentMove = user2.getUid().equals(currentMove) ? "AI" : user2.getUid();
-                }
-                else {
+                } else {
                     currentMove = user2.getUid().equals(currentMove) ? user1.getUid() : user2.getUid();
                 }
             }

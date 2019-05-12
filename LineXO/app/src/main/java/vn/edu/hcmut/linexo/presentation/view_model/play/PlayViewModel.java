@@ -169,11 +169,18 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     public void onClickSend(View view) {
         if (!contentMessage.equals("")) {
             messages = new ArrayList<>(messages);
-            chatUsecase.execute(null, Event.PUSH_MESSAGE, room.getRoom_number(), new Message(user.getUid(), user.getName(), user.getAvatar(), contentMessage, System.currentTimeMillis()));
+            chatUsecase.execute(null, Event.PUSH_MESSAGE, room.getRoom_id(), new Message(user.getUid(), user.getName(), user.getAvatar(), contentMessage, System.currentTimeMillis()));
             contentMessage = "";
             notifyPropertyChanged(BR.contentMessage);
 
             onHelp(Event.create(Event.LOAD_MESSAGE, messages));
+        }
+    }
+
+
+    public void onClickBtnMessage(View view) {
+        if(room != null){
+            publisher.onNext(Event.create(Event.SHOW_KEYBOARD));
         }
     }
 
@@ -264,7 +271,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
 
         @Override
         public void onSuccess(Room room) {
-            if (room.getAction() >= Room.START) {
+            if (room.getAction() >= 0) {
                 if (gameState == Event.PLAYING) {
                     countDownHandler.removeCallbacksAndMessages(null);
                     if ((room.getBoard().getO_cells() + room.getBoard().getX_cells()) == room.getBoard().getMax_cells()) {

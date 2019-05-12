@@ -62,7 +62,7 @@ public class FirebaseDB implements NetworkSource {
     }
 
     @Override
-    public Observable<List<Room>> getRoom() {
+    public Observable<List<Room>> getListRoom() {
         return Observable.create(emitter -> {
             DatabaseReference myRef = database.getReference("room");
             ValueEventListener listener = new ValueEventListener() {

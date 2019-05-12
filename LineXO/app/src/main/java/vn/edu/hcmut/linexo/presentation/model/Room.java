@@ -17,7 +17,7 @@ public class Room {
     private String next_turn;
     private User user_1;
     private User user_2;
-    private Boolean is_private;
+    private Boolean is_private = false;
     private Long online_timestamp;
     private String room_id;
 

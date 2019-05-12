@@ -3,12 +3,8 @@ package vn.edu.hcmut.linexo.data.repository;
 import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.observers.DisposableObserver;
-import vn.edu.hcmut.linexo.data.cache.CacheSource;
-import vn.edu.hcmut.linexo.data.local.LocalSource;
 import vn.edu.hcmut.linexo.data.network.NetworkSource;
 import vn.edu.hcmut.linexo.presentation.model.Room;
-import vn.edu.hcmut.linexo.utils.Optional;
 
 public class RoomRepositoryImpl implements RoomRepository{
     private NetworkSource networkSource;
@@ -19,7 +15,7 @@ public class RoomRepositoryImpl implements RoomRepository{
 
     @Override
     public Observable<List<Room>> getListRooms() {
-        return networkSource.getRoom();
+        return networkSource.getListRoom();
     }
 
     @Override
@@ -30,6 +26,11 @@ public class RoomRepositoryImpl implements RoomRepository{
     @Override
     public Single<Boolean> updateNetworkRoom(Room room) {
         return networkSource.updateRoom(room);
+    }
+
+    @Override
+    public Observable<Room> getRoom(String roomId) {
+        return networkSource.getRoom(roomId);
     }
 }
 

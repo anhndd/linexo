@@ -179,6 +179,11 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
 //                    Toast.makeText(PlayActivity.this, state, Toast.LENGTH_LONG).show();
                     break;
                 }
+                case Event.SHOW_KEYBOARD:{
+                    binding.edtMessage.setVisibility(View.VISIBLE);
+                    Tool.showSoftKeyboard(binding.edtMessage, PlayActivity.this);
+                    break;
+                }
             }
         }
 
@@ -191,11 +196,6 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
         public void onComplete() {
 
         }
-    }
-
-    public void onClickBtnMessage(View view) {
-        binding.edtMessage.setVisibility(View.VISIBLE);
-        Tool.showSoftKeyboard(binding.edtMessage, this);
     }
 
     /**

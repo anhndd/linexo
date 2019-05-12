@@ -9,6 +9,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -67,8 +69,9 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             public void onNetworkChange(boolean networkState) {
                 isConnected = networkState;
                 notifyPropertyChanged(BR.networkVisibility);
-                if (data.size() < 2) // if list room is empty or just contain AI room
+                if (data.size() < 2) { // if list room is empty or just contain AI room
                     roomUsecase.execute(new LoadListRoomObserver(), Event.LOAD_LIST_ROOM, isConnected);
+                }
             }
         });
         // create view list room
@@ -99,6 +102,9 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             case Event.LOAD_LIST_ROOM: {
                 data = new ArrayList<>((List<RoomItem>) e.getData()[0]);
                 if (data == null) return;
+                RoomItem roomItem = new RoomItem("AI", 0, "LineXOAI", null, false);
+                data.add(roomItem);
+                Collections.sort(data, new RoomComparator());
                 if (!strSearch.isEmpty()) {
                     ArrayList<RoomItem> filteredList = new ArrayList<>();
                     for (RoomItem item : data) {
@@ -355,4 +361,11 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
 
         }
     }
+
+     class RoomComparator implements Comparator<RoomItem> {
+
+         public int compare(RoomItem o1,RoomItem o2){
+            return o1.getRoomNumber() - o2.getRoomNumber();
+         }
+     }
 }
