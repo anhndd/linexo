@@ -97,7 +97,6 @@ public class PlayUsecase extends AbstractUsecase {
                             } else {
                                 initOnlineGame((DisposableObserver<Room>) observer,roomId);
                             }
-                            initOfflineGame((DisposableSingleObserver<Room>) observer, (String) params[0]);
                         } else {
                             playHandler.postDelayed(this, 100);
                         }
@@ -126,6 +125,28 @@ public class PlayUsecase extends AbstractUsecase {
                 roomRepository.getRoom(roomId)
                         .subscribeOn(getSubscribeScheduler())
                         .observeOn(getObserveScheduler())
+                        .map(newRoom -> {
+                            PlayUsecase.this.room = newRoom;
+                            switch (newRoom.getAction()) {
+                                case Room.CREATE:
+                                    break;
+                                case Room.DESTROY:
+                                    break;
+                                case Room.END:
+                                    break;
+                                case Room.JOIN:
+                                    break;
+                                case Room.LEAVE:
+                                    break;
+                                case Room.MOVE:
+                                    break;
+                                case Room.RANDOM:
+                                    break;
+                                case Room.START:
+                                    break;
+                            }
+                            return newRoom;
+                        })
                         .subscribeWith(observer)
         );
     }

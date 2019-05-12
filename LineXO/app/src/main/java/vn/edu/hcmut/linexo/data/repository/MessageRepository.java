@@ -7,6 +7,6 @@ import vn.edu.hcmut.linexo.presentation.model.Message;
 public interface MessageRepository {
 
     Observable<Message> getNetworkMessage(String roomId);
-    Single<Boolean> setNetworkMessage(int roomNumber, Message message);
+    Single<Boolean> setNetworkMessage(String roomId, Message message);
 
 }

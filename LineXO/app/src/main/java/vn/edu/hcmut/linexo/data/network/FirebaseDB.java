@@ -220,10 +220,10 @@ public class FirebaseDB implements NetworkSource {
     }
 
     @Override
-    public Single<Boolean> setMessage(int roomNumber, Message message) {
+    public Single<Boolean> setMessage(String roomId, Message message) {
         return Single.create(emitter -> {
             DatabaseReference messRef = database.getReference("message")
-                    .child(String.valueOf(roomNumber))
+                    .child(roomId)
                     .child(message.getId() + "@" + message.getTime());
 
             messRef.setValue(message, ((databaseError, databaseReference) -> {

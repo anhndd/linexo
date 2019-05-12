@@ -22,5 +22,5 @@ public interface NetworkSource {
     Single<List<User>> getScoreTable();
 
     Observable<Message> getMessage(String roomId);
-    Single<Boolean> setMessage(int roomNumber, Message message);
+    Single<Boolean> setMessage(String roomId, Message message);
 }

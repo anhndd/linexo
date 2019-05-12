@@ -20,7 +20,7 @@ public class MessageRepositoryImpl implements MessageRepository {
     }
 
     @Override
-    public Single<Boolean> setNetworkMessage(int roomNumber, Message message) {
-        return networkSource.setMessage(roomNumber, message);
+    public Single<Boolean> setNetworkMessage(String roomId, Message message) {
+        return networkSource.setMessage(roomId, message);
     }
 }

@@ -26,7 +26,7 @@ public class ChatUsecase extends AbstractUsecase {
                 break;
 
             case Event.PUSH_MESSAGE:
-                addTask(messageRepository.setNetworkMessage((int) params[0], (Message) params[1])
+                addTask(messageRepository.setNetworkMessage((String) params[0], (Message) params[1])
                         .subscribeOn(getSubscribeScheduler())
                         .observeOn(getObserveScheduler())
                         .subscribe());
