@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +41,18 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference roomRef = database.getReference("room");
         roomRef.child(roomNodeKey).removeValue((databaseError, databaseReference) -> {
             if (databaseError == null){
+                Toast.makeText(MainActivity.this,"Delete room number " + roomNumber, Toast.LENGTH_LONG).show();
+                DatabaseReference messRef = database.getReference("message");
+                messRef.child(String.valueOf(roomNumber)).removeValue((databaseError1, databaseReference1) -> {
+                    if (databaseError1 == null){
+                        Toast.makeText(MainActivity.this,"Delete message with room number " + roomNumber, Toast.LENGTH_LONG).show();
+                        Log.e("FIREBASE SUCCESS","Deleted message with room");
+                    }
+                    else{
+                        Log.e("FIREBASE ERROR","Deleted message with room");
+                    }
+                });
+
                 roomTimestamp[roomNumber] = 0;
             }
             else {
@@ -62,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                             DatabaseReference roomNumRef = database.getReference("room").child(dataSnapshot.getKey());
                             roomNumRef.setValue(room);
                             roomTimestamp[i] = System.currentTimeMillis();
+                            Toast.makeText(MainActivity.this,"Set new room number " + i, Toast.LENGTH_LONG).show();
                             break;
                         }
                     }
