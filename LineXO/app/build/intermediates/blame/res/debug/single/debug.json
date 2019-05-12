@@ -1,15 +1,15 @@
 [
     {
-        "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/layout-v21_notification_action.xml.flat",
-        "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/6228c02a3eb0e5b22e0268da62b3f7b6/res/layout-v21/notification_action.xml"
+        "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_black_16dp.png.flat",
+        "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/0b26602ce510bf8af4ecb59119a56de3/res/drawable-xhdpi-v4/abc_ic_star_black_16dp.png"
     },
     {
         "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/layout_abc_action_mode_bar.xml.flat",
         "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/0b26602ce510bf8af4ecb59119a56de3/res/layout/abc_action_mode_bar.xml"
     },
     {
-        "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_ic_star_black_16dp.png.flat",
-        "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/0b26602ce510bf8af4ecb59119a56de3/res/drawable-xhdpi-v4/abc_ic_star_black_16dp.png"
+        "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/layout-v21_notification_action.xml.flat",
+        "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/6228c02a3eb0e5b22e0268da62b3f7b6/res/layout-v21/notification_action.xml"
     },
     {
         "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/color_abc_primary_text_disable_only_material_dark.xml.flat",
@@ -202,10 +202,6 @@
     {
         "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/menu_popup_logout.xml.flat",
         "source": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/src/main/res/menu/popup_logout.xml"
-    },
-    {
-        "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable_cup.xml.flat",
-        "source": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/src/main/res/drawable/cup.xml"
     },
     {
         "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_com_facebook_button_icon_blue.png.flat",
@@ -1720,6 +1716,10 @@
         "source": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/src/main/res/drawable/ic_crown.xml"
     },
     {
+        "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable_ic_cup_win.xml.flat",
+        "source": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/src/main/res/drawable/ic_cup_win.xml"
+    },
+    {
         "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable_fui_ic_googleg_color_24dp.xml.flat",
         "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/firebase-ui-auth-4.3.1.aar/f50ce6f70d0f30eb35bb4e891f18003b/res/drawable/fui_ic_googleg_color_24dp.xml"
     },
@@ -1828,10 +1828,6 @@
         "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/547f8a3bba6e57671759fc5c78d85b75/res/drawable-xxxhdpi-v4/design_ic_visibility_off.png"
     },
     {
-        "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable_ic_win.xml.flat",
-        "source": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/src/main/res/drawable/ic_win.xml"
-    },
-    {
         "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_design_ic_visibility.png.flat",
         "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/547f8a3bba6e57671759fc5c78d85b75/res/drawable-hdpi-v4/design_ic_visibility.png"
     },
@@ -1850,6 +1846,10 @@
     {
         "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable-xxhdpi-v4_com_facebook_button_icon_white.png.flat",
         "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/facebook-common-4.41.0.aar/3b6e6e4d04dd663db4d389e2f42ab621/res/drawable-xxhdpi-v4/com_facebook_button_icon_white.png"
+    },
+    {
+        "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable_ic_cup_draw.xml.flat",
+        "source": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/src/main/res/drawable/ic_cup_draw.xml"
     },
     {
         "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable-xhdpi-v4_abc_list_divider_mtrl_alpha.9.png.flat",
@@ -2018,6 +2018,10 @@
     {
         "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable-hdpi-v4_design_ic_visibility_off.png.flat",
         "source": "/home/tronglehuu/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/547f8a3bba6e57671759fc5c78d85b75/res/drawable-hdpi-v4/design_ic_visibility_off.png"
+    },
+    {
+        "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/drawable_ic_cup_lose.xml.flat",
+        "source": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/src/main/res/drawable/ic_cup_lose.xml"
     },
     {
         "merged": "/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/res/merged/debug/layout_abc_screen_simple_overlay_action_mode.xml.flat",

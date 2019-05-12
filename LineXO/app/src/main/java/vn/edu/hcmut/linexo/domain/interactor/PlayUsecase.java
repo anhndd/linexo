@@ -129,20 +129,36 @@ public class PlayUsecase extends AbstractUsecase {
                             PlayUsecase.this.room = newRoom;
                             switch (newRoom.getAction()) {
                                 case Room.CREATE:
+                                    if (user.getUid().equals(newRoom.getUser_1().getUid())) {
+                                        if (newRoom.getRoom_number() != null) {
+                                            newRoom.setBoard(PlayUsecase.this.boards.get(new Random().nextInt(PlayUsecase.this.boards.size())));
+                                            newRoom.setAction(Room.RANDOM);
+                                            addTask(roomRepository.updateNetworkRoom(newRoom).subscribe());
+                                        }
+                                    }
                                     break;
-                                case Room.DESTROY:
-                                    break;
-                                case Room.END:
+                                case Room.RANDOM:
+                                    if (!user.getUid().equals(newRoom.getUser_1().getUid())) {
+                                        if (newRoom.getUser_2() == null) {
+                                            newRoom.setUser_2(user);
+                                        }
+                                        if (user.getUid().equals(newRoom.getUser_2().getUid())) {
+                                            newRoom.setAction(Room.JOIN);
+                                            addTask(roomRepository.updateNetworkRoom(newRoom).subscribe());
+                                        }
+                                    }
                                     break;
                                 case Room.JOIN:
                                     break;
-                                case Room.LEAVE:
+                                case Room.START:
                                     break;
                                 case Room.MOVE:
                                     break;
-                                case Room.RANDOM:
+                                case Room.END:
                                     break;
-                                case Room.START:
+                                case Room.LEAVE:
+                                    break;
+                                case Room.DESTROY:
                                     break;
                             }
                             return newRoom;

@@ -64,6 +64,11 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             onHelp(Event.create(Event.LOGIN_INFO, user));
         }
 
+        data = new ArrayList<>();
+        RoomItem roomItem = new RoomItem("AI", 0, "LineXOAI", null, false);
+        data.add(roomItem);
+        adapter.updateRoomListItems(data);
+
         networkChangeReceiver.initReceiver(context, new NetworkChangeReceiver.NetworkChangeListener() {
             @Override
             public void onNetworkChange(boolean networkState) {
@@ -80,8 +85,6 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         // create view list room
 
         adapter = new RoomRecyclerViewAdapter(data, this);
-        data = new ArrayList<>(data);
-
     }
 
     @Override
@@ -110,9 +113,8 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             break;
             case Event.LOAD_LIST_ROOM: {
                 data = new ArrayList<>((List<RoomItem>) e.getData()[0]);
-                if (data == null) return;
                 RoomItem roomItem = new RoomItem("AI", 0, "LineXOAI", null, false);
-                data.add(roomItem);
+                data.add(0,roomItem);
                 Collections.sort(data, new RoomComparator());
                 if (!strSearch.isEmpty()) {
                     ArrayList<RoomItem> filteredList = new ArrayList<>();

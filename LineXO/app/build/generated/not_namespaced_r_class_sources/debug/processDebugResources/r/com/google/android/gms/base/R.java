@@ -56,8 +56,8 @@ public final class R {
         public static final int common_google_signin_btn_text_light_focused = 0x7f07009e;
         public static final int common_google_signin_btn_text_light_normal = 0x7f07009f;
         public static final int common_google_signin_btn_text_light_normal_background = 0x7f0700a0;
-        public static final int googleg_disabled_color_18 = 0x7f0700b7;
-        public static final int googleg_standard_color_18 = 0x7f0700b8;
+        public static final int googleg_disabled_color_18 = 0x7f0700b6;
+        public static final int googleg_standard_color_18 = 0x7f0700b7;
     }
     public static final class id {
         private id() {}
