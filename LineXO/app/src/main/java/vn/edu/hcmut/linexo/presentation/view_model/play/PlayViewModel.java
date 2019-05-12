@@ -53,7 +53,10 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     private String contentMessage = "";
     private long countTimeHost = 0;
     private long countTimeGuest = 0;
+    private boolean isEnableHost = false;
+    private boolean isEnableGuest = false;
     private int gameState = Event.PLAYING;
+    private int timePlaying = 15;
 
     private Handler countDownHandler = new Handler();
 
@@ -238,8 +241,18 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     }
 
     @Bindable
+    public boolean getEnableHost() {
+        return isEnableHost;
+    }
+
+    @Bindable
     public long getCountTimeGuest() {
         return countTimeGuest;
+    }
+
+    @Bindable
+    public boolean getEnableGuest() {
+        return isEnableGuest;
     }
 
     @Override
@@ -254,7 +267,6 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
             if (room.getAction() >= Room.START) {
                 if (gameState == Event.PLAYING) {
                     countDownHandler.removeCallbacksAndMessages(null);
-                    Log.e("Test", room.getBoard().getO_cells() + " " + room.getBoard().getX_cells() + " " + room.getBoard().getMax_cells());
                     if ((room.getBoard().getO_cells() + room.getBoard().getX_cells()) == room.getBoard().getMax_cells()) {
                         if (room.getRoom_number() == 0) {
                             if (room.getBoard().getO_cells() > room.getBoard().getX_cells()) {
@@ -289,8 +301,12 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                                 notifyPropertyChanged(BR.countTimeGuest);
                                 if (room.getRoom_number() == 0) {
                                     if (room.getNext_turn().equals("AI")) {
+                                        isEnableHost = true;
+                                        isEnableGuest = false;
+                                        notifyPropertyChanged(BR.enableHost);
+                                        notifyPropertyChanged(BR.enableGuest);
                                         getOpponentMove();
-                                        for (int i = 10; i >= 0; --i) {
+                                        for (int i = timePlaying; i >= 0; --i) {
                                             final int numCount = i;
                                             countDownHandler.postDelayed(
                                                     () -> {
@@ -301,11 +317,15 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                                                             publisher.onNext(Event.create(Event.RESULT, gameState));
                                                         }
                                                     },
-                                                    (10 - numCount) * 1000
+                                                    (timePlaying - numCount) * 1000
                                             );
                                         }
                                     } else {
-                                        for (int i = 10; i >= 0; --i) {
+                                        isEnableHost = false;
+                                        isEnableGuest = true;
+                                        notifyPropertyChanged(BR.enableHost);
+                                        notifyPropertyChanged(BR.enableGuest);
+                                        for (int i = timePlaying; i >= 0; --i) {
                                             final int numCount = i;
                                             countDownHandler.postDelayed(
                                                     () -> {
@@ -316,12 +336,14 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                                                             publisher.onNext(Event.create(Event.RESULT, gameState));
                                                         }
                                                     },
-                                                    (10 - numCount) * 1000
+                                                    (timePlaying - numCount) * 1000
                                             );
                                         }
                                     }
                                 } else if (user != null && !room.getNext_turn().equals(user.getUid())) {
                                     getOpponentMove();
+                                } else {
+
                                 }
                             },
                             PlayViewModel.this.room == null ? 4000 : 0

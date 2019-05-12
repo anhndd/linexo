@@ -62,6 +62,7 @@
             android:paddingRight="@dimen/dimen_10dp"
             android:textColor="@color/colorWhite"
             android:textStyle="bold"
+            android:enabled="@{viewModel.enableHost}"
             bind:time="@{viewModel.countTimeHost}"/>
 
         <vn.edu.hcmut.linexo.presentation.custom.RoomNumberView
@@ -110,6 +111,7 @@
             android:paddingRight="@dimen/dimen_10dp"
             android:textColor="@color/colorWhite"
             android:textStyle="bold"
+            android:enabled="@{viewModel.enableGuest}"
             bind:time="@{viewModel.countTimeGuest}"/>
 
         <vn.edu.hcmut.linexo.presentation.view.play.BoardView
