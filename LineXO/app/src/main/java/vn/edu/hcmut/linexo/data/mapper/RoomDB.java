@@ -11,12 +11,13 @@ public class RoomDB {
     private User user_1;
     private User user_2;
     private Boolean is_private;
+    private Long online_timestamp;
     private String room_id;
 
     public RoomDB() {
     }
 
-    public RoomDB(String room_id, int action, Integer room_number, DBBoard board, String last_turn, String next_turn, User user_1, User user_2, Boolean is_private) {
+    public RoomDB(String room_id, int action, Integer room_number, DBBoard board, String last_turn, String next_turn, User user_1, User user_2, Boolean is_private , Long online_timestamp) {
         this.action = action;
         this.room_number = room_number;
         this.board = board;
@@ -26,6 +27,7 @@ public class RoomDB {
         this.user_2 = user_2;
         this.is_private = is_private;
         this.room_id = room_id;
+        this.online_timestamp = online_timestamp;
     }
 
     public Integer getRoom_number() {
@@ -94,5 +96,13 @@ public class RoomDB {
 
     public String getRoom_id() {
         return room_id;
+    }
+
+    public Long getOnline_timestamp() {
+        return online_timestamp;
+    }
+
+    public void setOnline_timestamp(Long online_timestamp) {
+        this.online_timestamp = online_timestamp;
     }
 }

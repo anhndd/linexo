@@ -64,6 +64,11 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             onHelp(Event.create(Event.LOGIN_INFO, user));
         }
 
+        data = new ArrayList<>();
+        RoomItem roomItem = new RoomItem("AI", 0, "LineXOAI", null, false);
+        data.add(roomItem);
+        adapter.updateRoomListItems(data);
+
         networkChangeReceiver.initReceiver(context, new NetworkChangeReceiver.NetworkChangeListener() {
             @Override
             public void onNetworkChange(boolean networkState) {
@@ -80,8 +85,6 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         // create view list room
 
         adapter = new RoomRecyclerViewAdapter(data, this);
-        data = new ArrayList<>(data);
-
     }
 
     @Override
@@ -110,9 +113,8 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
             break;
             case Event.LOAD_LIST_ROOM: {
                 data = new ArrayList<>((List<RoomItem>) e.getData()[0]);
-                if (data == null) return;
                 RoomItem roomItem = new RoomItem("AI", 0, "LineXOAI", null, false);
-                data.add(roomItem);
+                data.add(0,roomItem);
                 Collections.sort(data, new RoomComparator());
                 if (!strSearch.isEmpty()) {
                     ArrayList<RoomItem> filteredList = new ArrayList<>();
@@ -163,7 +165,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
                 break;
             }
             case Event.LOGIN_INFO: {
-                roomUsecase.execute(new LoginInfoObserver(), Event.LOGIN_INFO);
+                roomUsecase.execute(new LoginInfoObserver(), Event.LOGIN_INFO, user.getUid(), isConnected);
                 break;
             }
             case Event.SHOW_LOGIN: {
@@ -234,7 +236,7 @@ public class RoomViewModel extends BaseObservable implements ViewModel, ViewMode
         if (user == null) {
             return "";
         } else if (user.getScore() == -1) {
-            roomUsecase.execute(new FullInfoUserObserver(), Event.LOAD_FULL_USER_INFO, user.getUid(), isConnected);
+            roomUsecase.execute(new FullInfoUserObserver(), Event.LOGIN_INFO, user.getUid(), isConnected);
             return "-";
         }
         return String.valueOf(user.getScore());

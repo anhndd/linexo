@@ -40,6 +40,10 @@ public class Event {
     public static final int CREATE_ROOM = 26;
     public static final int TOAST_NO_CONNECTION = 27;
     public static final int SHOW_KEYBOARD = 28;
+    public static final int TOAST_USER_WIN = 29;
+    public static final int LEAVE_ROOM = 30;
+    public static final int OUT_ROOM = 31;
+    public static final int TIME_OUT = 32;
 
     /***********************************************************************************************
      * Class implementation.

@@ -9,6 +9,8 @@ public class Room {
     public final static int END = 5;
     public final static int LEAVE = 6;
     public final static int DESTROY = 7;
+    public final static int TIMEOUT = 8;
+    public final static int NOT_USE = 9;
 
     private int action;
     private Integer room_number;
@@ -135,4 +137,6 @@ public class Room {
     public void setRoom_id(String room_id) {
         this.room_id = room_id;
     }
+
+
 }
