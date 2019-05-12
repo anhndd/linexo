@@ -1,6 +1,8 @@
 package com.my.linexoserver;
 
 
+import java.util.List;
+
 public class Board {
     private Integer cell_x;
     private Integer cell_o;
@@ -9,7 +11,7 @@ public class Board {
     public static final int N_ROW = 11;
     public static final int N_COL = 19;
 
-    private Integer[][] pattern;
+    private List<List<Integer>> pattern;
 
     public Board(){
         cell_x = null;
@@ -30,6 +32,9 @@ public class Board {
         return cell_o;
     }
 
+    public List<List<Integer>> getPattern() {
+        return pattern;
+    }
 
     public Integer[][] convertBoard(byte[][] board){
         int temp;

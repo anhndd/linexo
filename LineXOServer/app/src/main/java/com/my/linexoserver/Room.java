@@ -9,6 +9,8 @@ public class Room {
     public final static int END = 5;
     public final static int LEAVE = 6;
     public final static int DESTROY = 7;
+    public final static int TIMEOUT = 8;
+    public final static int NOT_USED = 9;
 
     private int action;
     private Integer room_number;
