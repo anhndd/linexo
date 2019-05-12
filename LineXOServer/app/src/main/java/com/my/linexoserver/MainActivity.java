@@ -122,13 +122,13 @@ public class MainActivity extends AppCompatActivity {
         ref.updateChildren(childUpdates);
     }
 
-    public void deleteRoom(String roomNodeKey, int roomNumber){
+    public void deleteRoom(String roomNodeKey, Integer roomNumber){
         DatabaseReference ref = database.getReference();
         listRooms[roomNumber] = false;
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/room/" + roomNodeKey, null);
         childUpdates.put("/message/" + roomNodeKey, null);
-        Toast.makeText(MainActivity.this, "Delete room and message" + roomNumber, Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "Delete room " + roomNodeKey + " its message", Toast.LENGTH_LONG).show();
         ref.updateChildren(childUpdates);
     }
 
@@ -185,11 +185,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot post: dataSnapshot.getChildren()){
                             Room room = post.getValue(Room.class);
-                            if (room.getRoom_number() != null){
-                                Long newTimestamp = room.getOnline_timestamp();
-                                if (System.currentTimeMillis() - newTimestamp >= 60000){
-                                    deleteRoom(post.getKey(), room.getRoom_number());
-                                }
+                            Long newTimestamp = room.getOnline_timestamp();
+                            if (System.currentTimeMillis() - newTimestamp >= 60000){
+                                deleteRoom(post.getKey(), room.getRoom_number());
                             }
                         }
                     }

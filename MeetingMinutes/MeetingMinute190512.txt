@@ -1,0 +1,28 @@
+﻿BIÊN BẢN CUỘC HỌP SỐ 19
+
+
+1. Thời gian họp
+	- Thời gian bắt đầu: 08h00 ngày 12/05/2019.
+	- Địa điểm: Lối tự học nhà B9-B10 CS1 BK.
+
+2. Thành phần thành viên tham dự
+	- Có mặt:   4/4 (Anh, Hùng, Sang, Trọng).
+	- Vắng mặt: 0/4.
+
+3. Điều hành cuộc họp: Nguyễn Văn Hùng.
+
+4. Nội dung cuộc họp
+	- Các thành viên cùng nhau hoàn thành ứng dụng, kiểm tra lần cuối.
+
+5. Xác định nhiệm vụ của từng thành viên
+	- Mỗi thành viên xem lại bài thuyết trình trước khi nộp.
+
+6. Thống nhất buổi họp tiếp theo
+	- Thời gian: 08h00 ngày 19/05/2019.
+	- Địa điểm: Lối tự học nhà B9-B10 CS1 BK.
+
+7. Tổng kết
+	- Biểu quyết: 100% nhất trí.
+			0% không nhất trí.
+
+8. Cuộc họp kết thúc vào lúc 19h00 cùng ngày.
