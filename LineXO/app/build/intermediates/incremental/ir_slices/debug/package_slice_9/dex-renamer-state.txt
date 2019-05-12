@@ -1,4 +1,0 @@
-#Sun May 12 19:27:44 ICT 2019
-base.0=/home/tronglehuu/Workspace/Mobile/linexo/LineXO/app/build/intermediates/transforms/dexMerger/debug/9
-path.0=classes.dex
-renamed.0=classes.dex
