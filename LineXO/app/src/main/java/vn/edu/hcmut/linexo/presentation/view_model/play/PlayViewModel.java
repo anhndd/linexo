@@ -562,6 +562,10 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                     );
                     PlayViewModel.this.room = room;
                     notifyPropertyChanged(BR.board);
+                    notifyPropertyChanged(BR.avatar1);
+                    notifyPropertyChanged(BR.avatar2);
+                    notifyPropertyChanged(BR.score1);
+                    notifyPropertyChanged(BR.score2);
                 }
                 return;
             }
