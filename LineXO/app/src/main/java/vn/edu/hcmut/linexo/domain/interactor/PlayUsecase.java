@@ -153,6 +153,16 @@ public class PlayUsecase extends AbstractUsecase {
                 }
                 break;
             }
+            case Event.RE_START:{
+                if (!roomId.equals("AI")) {
+                    if (user.getUid().equals(room.getUser_1().getUid())) {
+                        room.setAction(Room.CREATE);
+                        room.setOnline_timestamp(System.currentTimeMillis());
+                        addTask(roomRepository.updateNetworkRoom(PlayUsecase.this.room).observeOn(getSubscribeScheduler()).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribe());
+                    }
+                }
+                break;
+            }
         }
     }
 

@@ -44,6 +44,7 @@ public class Event {
     public static final int LEAVE_ROOM = 30;
     public static final int OUT_ROOM = 31;
     public static final int TIME_OUT = 32;
+    public static final int RE_START = 33;
 
     /***********************************************************************************************
      * Class implementation.

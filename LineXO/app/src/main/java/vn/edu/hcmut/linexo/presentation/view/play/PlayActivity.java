@@ -1,28 +1,21 @@
 package vn.edu.hcmut.linexo.presentation.view.play;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import vn.edu.hcmut.linexo.R;
@@ -51,6 +44,8 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
 
     Disposable disposable;
     Dialog countDialog;
+    Dialog endGameDialog;
+    Handler endGameHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +58,6 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
         }
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-//        linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         binding.lstMessage.setLayoutManager(linearLayoutManager);
         binding.lstMessage.setHasFixedSize(true);
@@ -148,20 +142,20 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                     break;
                 }
                 case Event.RESULT: {
-                    String state = "";
-                    Dialog endGameDialog = new Dialog(PlayActivity.this);
+                    endGameDialog = new Dialog(PlayActivity.this);
                     endGameDialog.setContentView(R.layout.layout_end_game);
-//                    endGameDialog.setCancelable(false);
-//                    endGameDialog.setCanceledOnTouchOutside(false);
                     endGameDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    endGameDialog.getWindow().setLayout(getResources().getDisplayMetrics().widthPixels / 5, getResources().getDisplayMetrics().widthPixels / 5);
-
+                    endGameDialog.setOnCancelListener(dialog -> {
+                        if (endGameHandler != null) {
+                            endGameHandler.removeCallbacksAndMessages(null);
+                        }
+                        onBackPressed();
+                    });
                     switch ((int) event.getData()[0]) {
                         case Event.WIN: {
                             View view = endGameDialog.findViewById(R.id.endgame_status);
                             view.setBackgroundResource((R.drawable.ic_cup_win));
                             endGameDialog.show();
-//                            state = "Win";
                             break;
 
                         }
@@ -178,7 +172,21 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                             break;
                         }
                     }
-//                    Toast.makeText(PlayActivity.this, state, Toast.LENGTH_LONG).show();
+                    TextView txtTime = endGameDialog.findViewById(R.id.txt_time);
+                    endGameHandler = new Handler();
+                    for (int i = 10; i >= 0; --i) {
+                        int numCount = i;
+                        endGameHandler.postDelayed(
+                                () -> {
+                                    if (numCount != 0) {
+                                        txtTime.setText("Ván đấu tiếp theo sẽ bắt đầu sau " + numCount + " giây");
+                                    } else {
+                                        endGameDialog.dismiss();
+                                    }
+                                },
+                                (10 - numCount) * 1000
+                        );
+                    }
                     break;
                 }
                 case Event.SHOW_KEYBOARD:{

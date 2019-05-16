@@ -4,32 +4,26 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.common.internal.Objects;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
-    FirebaseDatabase database=  FirebaseDatabase.getInstance();
-    TextView txt_log;
-    public static final int MAX_ROOM = 1000;
+
+
+    private static final int MAX_ROOM = 1000;
+
+    private FirebaseDatabase database=  FirebaseDatabase.getInstance();
+
     private boolean[] listRooms = new boolean[1000];
 
     @Override
@@ -117,18 +111,20 @@ public class MainActivity extends AppCompatActivity {
         if (user1 != null && user2 != null) {
             childUpdates.put("/user/" + user1.getUid(), user1);
             childUpdates.put("/user/" + user2.getUid(), user2);
-            Toast.makeText(MainActivity.this, "Update score of user1 and user2" + room.getRoom_number(), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Update score in room " + room.getRoom_number(), Toast.LENGTH_LONG).show();
         }
         ref.updateChildren(childUpdates);
     }
 
     public void deleteRoom(String roomNodeKey, Integer roomNumber){
         DatabaseReference ref = database.getReference();
-        listRooms[roomNumber] = false;
+        if (roomNumber != null) {
+            listRooms[roomNumber] = false;
+        }
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/room/" + roomNodeKey, null);
         childUpdates.put("/message/" + roomNodeKey, null);
-        Toast.makeText(MainActivity.this, "Delete room " + roomNodeKey + " its message", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "Delete room " + roomNumber, Toast.LENGTH_LONG).show();
         ref.updateChildren(childUpdates);
     }
 
