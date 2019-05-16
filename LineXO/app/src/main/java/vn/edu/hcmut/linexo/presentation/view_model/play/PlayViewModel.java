@@ -471,7 +471,148 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     class RoomReceiverOnlineObserver extends DisposableObserver<Room> {
         @Override
         public void onNext(Room room) {
-            if (room.getAction() == Room.CREATE) {
+
+            PlayViewModel.this.room = room;
+            notifyPropertyChanged(BR.roomNumber);
+            notifyPropertyChanged(BR.user2Visibility);
+            notifyPropertyChanged(BR.avatar1);
+            notifyPropertyChanged(BR.avatar2);
+            notifyPropertyChanged(BR.score1);
+            notifyPropertyChanged(BR.score2);
+            notifyPropertyChanged(BR.board);
+
+            switch (room.getAction()) {
+                case Room.CREATE:
+                    break;
+                case Room.RANDOM:
+                    break;
+                case Room.JOIN:
+                    break;
+                case Room.START:
+                    if (room.getAction() == Room.START) {
+                       for (int i = 3; i >= 0; --i) {
+                          final int numCount = i;
+                          countDownHandler.postDelayed(
+                                  () -> publisher.onNext(Event.create(Event.COUNT_DOWN, numCount)),
+                                  (3 - numCount) * 1000
+                          );
+                        }
+                    }
+                case Room.MOVE:
+                    if (room.getAction() != Room.START) {
+                        countDownHandler.removeCallbacksAndMessages(null);
+                    }
+                    countDownHandler.postDelayed(
+                            () -> {
+                                countTimeHost = 0;
+                                countTimeGuest = 0;
+                                notifyPropertyChanged(BR.countTimeHost);
+                                notifyPropertyChanged(BR.countTimeGuest);
+                                if (room.getNext_turn().equals(room.getUser_1().getUid())) {
+                                    isEnableHost = true;
+                                    isEnableGuest = false;
+                                    notifyPropertyChanged(BR.enableHost);
+                                    notifyPropertyChanged(BR.enableGuest);
+                                    for (int i = timePlaying; i >= 0; --i) {
+                                        final int numCount = i;
+                                        countDownHandler.postDelayed(
+                                                () -> {
+                                                    countTimeHost = numCount;
+                                                    notifyPropertyChanged(BR.countTimeHost);
+                                                    if (countTimeHost == 0) {
+                                                        playUsecase.execute(null, Event.TIME_OUT);
+                                                    }
+                                                },
+                                                (timePlaying - numCount) * 1000
+                                        );
+                                    }
+                                } else {
+                                    isEnableHost = false;
+                                    isEnableGuest = true;
+                                    notifyPropertyChanged(BR.enableHost);
+                                    notifyPropertyChanged(BR.enableGuest);
+                                    for (int i = timePlaying; i >= 0; --i) {
+                                        final int numCount = i;
+                                        countDownHandler.postDelayed(
+                                                () -> {
+                                                    countTimeGuest = numCount;
+                                                    notifyPropertyChanged(BR.countTimeGuest);
+                                                    if (countTimeGuest == 0) {
+                                                        playUsecase.execute(null, Event.TIME_OUT);
+                                                    }
+                                                },
+                                                (timePlaying - numCount) * 1000
+                                        );
+                                    }
+                                }
+                            },
+                            room.getAction() == Room.START ? 4000 : 0
+                    );
+                    break;
+                case Room.END:
+                    countDownHandler.removeCallbacksAndMessages(null);
+                    if ((room.getBoard().getO_cells() + room.getBoard().getX_cells()) == room.getBoard().getMax_cells()) {
+                        if(user.getUid().equals(room.getUser_1().getUid())){
+                            if (room.getBoard().getO_cells() > room.getBoard().getX_cells()) {
+                                publisher.onNext(Event.create(Event.RESULT, Event.LOSE));
+                            } else if (room.getBoard().getO_cells() < room.getBoard().getX_cells()) {
+                                publisher.onNext(Event.create(Event.RESULT, Event.WIN));
+                            } else {
+                                publisher.onNext(Event.create(Event.RESULT, Event.DRAW));
+                            }
+                        }
+                        else if (user.getUid().equals(room.getUser_2().getUid())){
+                            if (room.getBoard().getO_cells() > room.getBoard().getX_cells()) {
+                                publisher.onNext(Event.create(Event.RESULT, Event.WIN));
+                            } else if (room.getBoard().getO_cells() < room.getBoard().getX_cells()) {
+                                publisher.onNext(Event.create(Event.RESULT, Event.LOSE));
+                            } else {
+                                publisher.onNext(Event.create(Event.RESULT, Event.DRAW));
+                            }
+                        }
+                        else {
+                            if (room.getBoard().getO_cells() > room.getBoard().getX_cells()) {
+                                publisher.onNext(Event.create(Event.TOAST_USER_WIN, room.getUser_2().getName() + " thắng"));
+                            } else if (room.getBoard().getO_cells() < room.getBoard().getX_cells()) {
+                                publisher.onNext(Event.create(Event.TOAST_USER_WIN, room.getUser_1().getName() + " thắng"));
+                            } else {
+                                publisher.onNext(Event.create(Event.TOAST_USER_WIN, "Hoà"));
+                            }
+                        }
+                    } else if (user.getUid().equals(room.getUser_1().getUid()) || user.getUid().equals(room.getUser_2().getUid())) {
+                        if (user.getUid().equals(room.getNext_turn())) {
+                            publisher.onNext(Event.create(Event.RESULT, Event.LOSE));
+                        } else {
+                            publisher.onNext(Event.create(Event.RESULT, Event.WIN));
+                        }
+                    } else {
+                        if (room.getUser_1().getUid().equals(room.getNext_turn())) {
+                            publisher.onNext(Event.create(Event.TOAST_USER_WIN, room.getUser_2().getName() + " thắng"));
+                        } else {
+                            publisher.onNext(Event.create(Event.TOAST_USER_WIN, room.getUser_1().getName() + " thắng"));
+                        }
+                    }
+                    countDownHandler.postDelayed(
+                            () -> {
+                                gameState = Event.PLAYING;
+                                PlayViewModel.this.room = null;
+                                playUsecase.execute(
+                                        null,
+                                        Event.RE_START,
+                                        null
+                                );
+                            },
+                            10000
+                    );
+                    break;
+                case Room.LEAVE:
+                case Room.DESTROY:
+                    publisher.onNext(Event.create(Event.OUT_ROOM));
+                    break;
+                case Room.TIMEOUT:
+                    break;
+            }
+            /*if (room.getAction() == Room.CREATE) {
                 PlayViewModel.this.room = room;
                 notifyPropertyChanged(BR.roomNumber);
                 notifyPropertyChanged(BR.user2Visibility);
@@ -658,7 +799,7 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                     notifyPropertyChanged(BR.board);
                 }
                 return;
-            }
+            }*/
         }
 
         @Override

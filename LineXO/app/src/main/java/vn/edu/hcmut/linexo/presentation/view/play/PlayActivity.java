@@ -63,18 +63,17 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
         binding.lstMessage.setHasFixedSize(true);
 
         keyboardHeightProvider = new KeyboardHeightProvider(this);
-        binding.root.post(new Runnable() {
-            public void run() {
-                keyboardHeightProvider.start();
-            }
-        });
+        binding.root.post(() -> keyboardHeightProvider.start());
 
         addControlKeyboardView(binding.edtMessage);
 
         countDialog = new Dialog(PlayActivity.this);
         countDialog.setContentView(R.layout.layout_count_view);
-        countDialog.setCancelable(false);
+        countDialog.setCancelable(true);
         countDialog.setCanceledOnTouchOutside(false);
+        countDialog.setOnCancelListener(dialog -> {
+            onBackPressed();
+        });
     }
 
     @Override
@@ -145,6 +144,8 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                     endGameDialog = new Dialog(PlayActivity.this);
                     endGameDialog.setContentView(R.layout.layout_end_game);
                     endGameDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    endGameDialog.setCancelable(true);
+                    endGameDialog.setCanceledOnTouchOutside(false);
                     endGameDialog.setOnCancelListener(dialog -> {
                         if (endGameHandler != null) {
                             endGameHandler.removeCallbacksAndMessages(null);
@@ -200,6 +201,15 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                     break;
                 }
                 case Event.OUT_ROOM:{
+                    if (countDialog != null && countDialog.isShowing()) {
+                        countDialog.dismiss();
+                    }
+                    if (endGameDialog != null && endGameDialog.isShowing()) {
+                        if (endGameHandler != null) {
+                            endGameHandler.removeCallbacksAndMessages(null);
+                        }
+                        endGameDialog.dismiss();
+                    }
                     startActivity(new Intent(PlayActivity.this, RoomActivity.class));
                     finish();
                 }
