@@ -84,8 +84,8 @@ public class AppModule {
     @Provides
     @Named("PlayUsecase")
     public Usecase providePlayUsecase(BoardRepository boardRepository,
-                                      UserRepository userRepository, RoomRepository roomRepository) {
-        return new PlayUsecase(boardRepository, userRepository, roomRepository);
+                                      UserRepository userRepository, RoomRepository roomRepository, MessageRepository messageRepository) {
+        return new PlayUsecase(boardRepository, userRepository, roomRepository, messageRepository);
     }
 
     @Provides

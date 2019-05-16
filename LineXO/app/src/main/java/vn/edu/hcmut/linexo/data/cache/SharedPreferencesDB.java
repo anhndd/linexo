@@ -3,10 +3,7 @@ package vn.edu.hcmut.linexo.data.cache;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Path;
-
 import io.reactivex.Single;
-import vn.edu.hcmut.linexo.presentation.model.Session;
 import vn.edu.hcmut.linexo.presentation.model.User;
 import vn.edu.hcmut.linexo.utils.Optional;
 

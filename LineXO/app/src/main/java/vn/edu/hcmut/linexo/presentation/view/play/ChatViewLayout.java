@@ -21,6 +21,7 @@ public class ChatViewLayout extends FrameLayout {
     private TextView txtMessageName;
     private CircleImageView civAvatar;
     private TextView txtMessage;
+    private TextView txtMessageSystem;
     private String id;
     private String Uid;
 
@@ -42,6 +43,7 @@ public class ChatViewLayout extends FrameLayout {
         txtMessageName = findViewById(R.id.txt_message_name);
         civAvatar = findViewById(R.id.civ_avatar);
         txtMessage = findViewById(R.id.txt_message);
+        txtMessageSystem = findViewById(R.id.txt_message_system);
     }
 
     @Override
@@ -60,11 +62,11 @@ public class ChatViewLayout extends FrameLayout {
             setMeasuredDimension(width, txtMessage.getMeasuredHeight() + rooomBgHeight / 8);
         }
         else if (this.id.equals("0")){
-            txtMessage.measure(
+            txtMessageSystem.measure(
                     (roomBgWitdh) | MeasureSpec.AT_MOST,
                     (rooomBgHeight - rooomBgHeight / 8) | MeasureSpec.UNSPECIFIED
             );
-            setMeasuredDimension(width, txtMessage.getMeasuredHeight() + rooomBgHeight / 8);
+            setMeasuredDimension(width, txtMessageSystem.getMeasuredHeight() + rooomBgHeight / 8);
         }
         else{
             txtMessage.measure(
@@ -93,9 +95,9 @@ public class ChatViewLayout extends FrameLayout {
             txtMessage.layout(l, t, l + txtMessage.getMeasuredWidth(), t + txtMessage.getMeasuredHeight());
         }
         else if (this.id.equals("0")){
-            int l = (getMeasuredWidth() - txtMessage.getMeasuredWidth()) / 2;
+            int l = (getMeasuredWidth() - txtMessageSystem.getMeasuredWidth()) / 2;
             int t = 0;
-            txtMessage.layout(l, t, l + txtMessage.getMeasuredWidth(), t + txtMessage.getMeasuredHeight());
+            txtMessageSystem.layout(l, t, l + txtMessageSystem.getMeasuredWidth(), t + txtMessageSystem.getMeasuredHeight());
         }
         else{
             int l = civAvatar.getMeasuredWidth() + getMeasuredWidth() / 4 / 8;
@@ -127,13 +129,14 @@ public class ChatViewLayout extends FrameLayout {
             txtMessage.setTextSize(14);
             civAvatar.setVisibility(GONE);
             txtMessageName.setVisibility(GONE);
+            txtMessageSystem.setVisibility(GONE);
         }
-        else if (this.id.equals("0")){
-            txtMessage.setBackgroundResource(R.drawable.bg_message_system);
-            txtMessage.setText(message);
-            txtMessage.setTextColor(Color.WHITE);
-            txtMessage.setTextSize(12);
+        else if (this.id.equals("0")) {
+            txtMessageSystem.setText(message);
+            txtMessageSystem.setTextColor(Color.WHITE);
+            txtMessageSystem.setTextSize(12);
             civAvatar.setVisibility(GONE);
+            txtMessage.setVisibility(GONE);
             txtMessageName.setVisibility(GONE);
         }
         else {
@@ -146,6 +149,7 @@ public class ChatViewLayout extends FrameLayout {
             txtMessageName.setTextSize(12);
             civAvatar.setVisibility(VISIBLE);
             txtMessageName.setVisibility(VISIBLE);
+            txtMessageSystem.setVisibility(GONE);
         }
     }
 }

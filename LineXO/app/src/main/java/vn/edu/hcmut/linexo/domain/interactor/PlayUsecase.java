@@ -3,15 +3,14 @@ package vn.edu.hcmut.linexo.domain.interactor;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
-
 import java.util.List;
 import java.util.Random;
-
 import io.reactivex.Single;
 import io.reactivex.SingleOnSubscribe;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import vn.edu.hcmut.linexo.data.repository.BoardRepository;
+import vn.edu.hcmut.linexo.data.repository.MessageRepository;
 import vn.edu.hcmut.linexo.data.repository.RoomRepository;
 import vn.edu.hcmut.linexo.data.repository.UserRepository;
 import vn.edu.hcmut.linexo.domain.AI.LineXOAlphaBetaSearch;
@@ -19,11 +18,12 @@ import vn.edu.hcmut.linexo.domain.AI.LineXOBoard;
 import vn.edu.hcmut.linexo.domain.AI.LineXOGame;
 import vn.edu.hcmut.linexo.domain.AI.LineXOMove;
 import vn.edu.hcmut.linexo.presentation.model.Board;
+import vn.edu.hcmut.linexo.presentation.model.Message;
 import vn.edu.hcmut.linexo.presentation.model.Room;
 import vn.edu.hcmut.linexo.presentation.model.User;
-import vn.edu.hcmut.linexo.presentation.view_model.play.PlayViewModel;
 import vn.edu.hcmut.linexo.utils.Event;
 import vn.edu.hcmut.linexo.utils.Optional;
+import vn.edu.hcmut.linexo.utils.Tool;
 
 public class PlayUsecase extends AbstractUsecase {
 
@@ -36,13 +36,19 @@ public class PlayUsecase extends AbstractUsecase {
     private BoardRepository boardRepository;
     private UserRepository userRepository;
     private RoomRepository roomRepository;
+    private MessageRepository messageRepository;
     private Handler playHandler = new Handler();
     private long lastTimeGetMove = 0;
+    private boolean allowPushSysstemMessageForViewer = true;
 
-    public PlayUsecase(BoardRepository boardRepository, UserRepository userRepository, RoomRepository roomRepository) {
+    public PlayUsecase(BoardRepository boardRepository,
+                       UserRepository userRepository,
+                       RoomRepository roomRepository,
+                       MessageRepository messageRepository) {
         this.boardRepository = boardRepository;
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
+        this.messageRepository = messageRepository;
         addTask(
                 userRepository
                         .getCacheUser()
@@ -81,7 +87,6 @@ public class PlayUsecase extends AbstractUsecase {
                             }
                         })
         );
-//        user =
     }
 
     @Override
@@ -120,11 +125,31 @@ public class PlayUsecase extends AbstractUsecase {
                         room.setAction(Room.DESTROY);
                         room.setOnline_timestamp(System.currentTimeMillis());
                         playHandler.removeCallbacksAndMessages(null);
+                        addTask(
+                                roomRepository
+                                        .updateNetworkRoom(room)
+                                        .subscribeOn(getSubscribeScheduler())
+                                        .observeOn(getObserveScheduler())
+                                        .subscribe()
+                        );
                     } else if (user.getUid().equals(room.getUser_2().getUid())) {
                         PlayUsecase.this.room.setAction(Room.LEAVE);
                         room.setOnline_timestamp(System.currentTimeMillis());
+                        addTask(
+                                roomRepository
+                                        .updateNetworkRoom(room)
+                                        .subscribeOn(getSubscribeScheduler())
+                                        .observeOn(getObserveScheduler())
+                                        .subscribe()
+                        );
                     }
-                    addTask(roomRepository.updateNetworkRoom(PlayUsecase.this.room).observeOn(getSubscribeScheduler()).subscribeOn(getSubscribeScheduler()).observeOn(getObserveScheduler()).subscribe());
+                    addTask(
+                            messageRepository
+                                    .setNetworkMessage(room.getRoom_id(), new Message("0", "", "", Tool.getTagName(user.getName()) + " đã rời phòng", System.currentTimeMillis()))
+                                    .subscribeOn(getSubscribeScheduler())
+                                    .observeOn(getObserveScheduler())
+                                    .subscribe()
+                    );
                 }
                 break;
             case Event.LOGIN_INFO:{
@@ -187,6 +212,15 @@ public class PlayUsecase extends AbstractUsecase {
                                 case Room.CREATE:
                                     if (user.getUid().equals(newRoom.getUser_1().getUid())) {
                                         if (newRoom.getRoom_number() != null) {
+                                            if (newRoom.getBoard() == null) {
+                                                addTask(
+                                                        messageRepository
+                                                                .setNetworkMessage(newRoom.getRoom_id(), new Message("0", "", "", Tool.getTagName(user.getName()) + " đã tạo phòng", System.currentTimeMillis()))
+                                                                .subscribeOn(getSubscribeScheduler())
+                                                                .observeOn(getObserveScheduler())
+                                                                .subscribe()
+                                                );
+                                            }
                                             newRoom.setBoard(PlayUsecase.this.boards.get(new Random().nextInt(PlayUsecase.this.boards.size())));
                                             newRoom.setAction(Room.RANDOM);
                                             newRoom.setOnline_timestamp(System.currentTimeMillis());
@@ -204,17 +238,50 @@ public class PlayUsecase extends AbstractUsecase {
                                                 , 15000
                                         );
                                     }
+                                    if (allowPushSysstemMessageForViewer & !user.getUid().equals(newRoom.getUser_1().getUid()) && !user.getUid().equals(newRoom.getUser_2().getUid())) {
+                                        allowPushSysstemMessageForViewer = false;
+                                        addTask(
+                                                messageRepository
+                                                        .setNetworkMessage(newRoom.getRoom_id(), new Message("0", "", "", Tool.getTagName(user.getName()) + " đang theo dõi", System.currentTimeMillis()))
+                                                        .subscribeOn(getSubscribeScheduler())
+                                                        .observeOn(getObserveScheduler())
+                                                        .subscribe()
+                                        );
+                                    }
                                     break;
                                 case Room.RANDOM:
                                     if (!user.getUid().equals(newRoom.getUser_1().getUid())) {
                                         if (newRoom.getUser_2() == null) {
                                             newRoom.setUser_2(user);
+                                            addTask(
+                                                    messageRepository
+                                                            .setNetworkMessage(newRoom.getRoom_id(), new Message("0", "", "", Tool.getTagName(user.getName()) + " đã vào phòng", System.currentTimeMillis()))
+                                                            .subscribeOn(getSubscribeScheduler())
+                                                            .observeOn(getObserveScheduler())
+                                                            .subscribe()
+                                            );
                                         }
                                         if (user.getUid().equals(newRoom.getUser_2().getUid())) {
                                             newRoom.setAction(Room.JOIN);
                                             newRoom.setOnline_timestamp(System.currentTimeMillis());
-                                            addTask(roomRepository.updateNetworkRoom(newRoom).subscribe());
+                                            addTask(
+                                                    roomRepository
+                                                            .updateNetworkRoom(newRoom)
+                                                            .subscribeOn(getSubscribeScheduler())
+                                                            .observeOn(getObserveScheduler())
+                                                            .subscribe()
+                                            );
                                         }
+                                    }
+                                    if (allowPushSysstemMessageForViewer & !user.getUid().equals(newRoom.getUser_1().getUid()) && !user.getUid().equals(newRoom.getUser_2().getUid())) {
+                                        allowPushSysstemMessageForViewer = false;
+                                        addTask(
+                                                messageRepository
+                                                        .setNetworkMessage(newRoom.getRoom_id(), new Message("0", "", "", Tool.getTagName(user.getName()) + " đang theo dõi", System.currentTimeMillis()))
+                                                        .subscribeOn(getSubscribeScheduler())
+                                                        .observeOn(getObserveScheduler())
+                                                        .subscribe()
+                                        );
                                     }
                                     break;
                                 case Room.JOIN:
@@ -225,10 +292,40 @@ public class PlayUsecase extends AbstractUsecase {
                                         newRoom.setOnline_timestamp(System.currentTimeMillis());
                                         addTask(roomRepository.updateNetworkRoom(newRoom).subscribe());
                                     }
+                                    if (allowPushSysstemMessageForViewer & !user.getUid().equals(newRoom.getUser_1().getUid()) && !user.getUid().equals(newRoom.getUser_2().getUid())) {
+                                        allowPushSysstemMessageForViewer = false;
+                                        addTask(
+                                                messageRepository
+                                                        .setNetworkMessage(newRoom.getRoom_id(), new Message("0", "", "", Tool.getTagName(user.getName()) + " đang theo dõi", System.currentTimeMillis()))
+                                                        .subscribeOn(getSubscribeScheduler())
+                                                        .observeOn(getObserveScheduler())
+                                                        .subscribe()
+                                        );
+                                    }
                                     break;
                                 case Room.START:
+                                    if (allowPushSysstemMessageForViewer & !user.getUid().equals(newRoom.getUser_1().getUid()) && !user.getUid().equals(newRoom.getUser_2().getUid())) {
+                                        allowPushSysstemMessageForViewer = false;
+                                        addTask(
+                                                messageRepository
+                                                        .setNetworkMessage(newRoom.getRoom_id(), new Message("0", "", "", Tool.getTagName(user.getName()) + " đang theo dõi", System.currentTimeMillis()))
+                                                        .subscribeOn(getSubscribeScheduler())
+                                                        .observeOn(getObserveScheduler())
+                                                        .subscribe()
+                                        );
+                                    }
                                     break;
                                 case Room.MOVE:
+                                    if (allowPushSysstemMessageForViewer & !user.getUid().equals(newRoom.getUser_1().getUid()) && !user.getUid().equals(newRoom.getUser_2().getUid())) {
+                                        allowPushSysstemMessageForViewer = false;
+                                        addTask(
+                                                messageRepository
+                                                        .setNetworkMessage(newRoom.getRoom_id(), new Message("0", "", "", Tool.getTagName(user.getName()) + " đang theo dõi", System.currentTimeMillis()))
+                                                        .subscribeOn(getSubscribeScheduler())
+                                                        .observeOn(getObserveScheduler())
+                                                        .subscribe()
+                                        );
+                                    }
                                     break;
                                 case Room.END:
                                     if (user.getUid().equals(room.getUser_1().getUid())) {
@@ -244,6 +341,16 @@ public class PlayUsecase extends AbstractUsecase {
                                         addTask(
                                                 userRepository
                                                         .setCacheUser(room.getUser_2())
+                                                        .subscribeOn(getSubscribeScheduler())
+                                                        .observeOn(getObserveScheduler())
+                                                        .subscribe()
+                                        );
+                                    }
+                                    if (allowPushSysstemMessageForViewer & !user.getUid().equals(newRoom.getUser_1().getUid()) && !user.getUid().equals(newRoom.getUser_2().getUid())) {
+                                        allowPushSysstemMessageForViewer = false;
+                                        addTask(
+                                                messageRepository
+                                                        .setNetworkMessage(newRoom.getRoom_id(), new Message("0", "", "", Tool.getTagName(user.getName()) + " đang theo dõi", System.currentTimeMillis()))
                                                         .subscribeOn(getSubscribeScheduler())
                                                         .observeOn(getObserveScheduler())
                                                         .subscribe()
