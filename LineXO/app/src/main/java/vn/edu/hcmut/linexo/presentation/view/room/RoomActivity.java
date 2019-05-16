@@ -14,7 +14,6 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -177,7 +176,8 @@ public class RoomActivity extends BaseActivity {
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
-                                    case R.id.it_rating:
+                                    case R.id.it_about_us:
+
                                         break;
                                     case R.id.it_ranking:
                                         ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_RANK_DIALOG));
@@ -206,7 +206,10 @@ public class RoomActivity extends BaseActivity {
                         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
-                                    case R.id.it_rating:
+                                    case R.id.it_about_us:
+                                        Dialog aboutUsDialog = new Dialog(RoomActivity.this);
+                                        aboutUsDialog.setContentView(R.layout.layout_about_us);
+                                        aboutUsDialog.show();
                                         break;
                                     case R.id.it_ranking:
                                         ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_RANK_DIALOG));
@@ -226,9 +229,6 @@ public class RoomActivity extends BaseActivity {
                         rankItems = new ArrayList<>(rankItems);
                         Dialog rankDialog = new Dialog(RoomActivity.this);
                         rankDialog.setContentView(R.layout.layout_rank_view);
-
-                        ImageButton btnClose = rankDialog.findViewById(R.id.btn_dismiss_rank);
-                        btnClose.setOnClickListener(view -> rankDialog.dismiss());
 
                         RankItem rankFisrtItem = rankItems.get(0);
 

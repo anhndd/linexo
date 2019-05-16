@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vn.edu.hcmut.linexo.presentation.view.room.AboutUsLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"/>
+
+    <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
+        android:id="@+id/ci_hung"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_logo_round"/>
+
+    <TextView
+        android:id="@+id/txt_hung_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nguyễn Văn Hùng"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/txt_hung_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Leader"
+        android:textStyle="italic"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"/>
+
+</vn.edu.hcmut.linexo.presentation.view.room.AboutUsLayout>

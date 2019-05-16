@@ -1,12 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/it_rating"
-        android:icon="@drawable/ic_star_rating"
-        android:title="@string/rating" />
-    <item
         android:id="@+id/it_ranking"
         android:icon="@drawable/ic_ranking"
         android:title="@string/ranking" />
+    <item
+        android:id="@+id/it_about_us"
+        android:icon="@drawable/ic_about_us"
+        android:title="@string/about_us" />
     <item
         android:id="@+id/it_logout"
         android:icon="@drawable/ic_logout"

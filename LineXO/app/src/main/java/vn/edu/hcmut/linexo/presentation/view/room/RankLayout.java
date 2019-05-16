@@ -13,7 +13,6 @@ public class RankLayout extends FrameLayout {
 
     private int defaultMargin;
 
-    private View btnDismissRank;
     private View lstRank;
     private View firstBackground;
     private View civFirstAvatar;
@@ -47,7 +46,6 @@ public class RankLayout extends FrameLayout {
         civFirstAvatar = findViewById(R.id.civ_first_avatar);
         kingIcon = findViewById(R.id.king_icon);
         txtFirstScore = findViewById(R.id.txt_first_score);
-        btnDismissRank = findViewById(R.id.btn_dismiss_rank);
     }
 
     @Override
@@ -78,11 +76,6 @@ public class RankLayout extends FrameLayout {
                 MeasureSpec.UNSPECIFIED | MeasureSpec.UNSPECIFIED
         );
 
-        btnDismissRank.measure(
-                civFirstAvatar.getMeasuredWidth() / 2 | MeasureSpec.EXACTLY,
-                civFirstAvatar.getMeasuredWidth() / 2 | MeasureSpec.EXACTLY
-        );
-
         setMeasuredDimension(
                 width,
                 firstBackground.getMeasuredHeight() + lstRank.getMeasuredHeight()
@@ -110,9 +103,5 @@ public class RankLayout extends FrameLayout {
         l = 0;
         t = firstBackground.getHeight();
         lstRank.layout(l, t, l + lstRank.getMeasuredWidth(), t + lstRank.getMeasuredHeight());
-
-        l = firstBackground.getMeasuredWidth() - btnDismissRank.getMeasuredWidth();
-        t = 0;
-        btnDismissRank.layout(l,t,l+btnDismissRank.getMeasuredWidth(),t+btnDismissRank.getMeasuredHeight());
     }
 }
