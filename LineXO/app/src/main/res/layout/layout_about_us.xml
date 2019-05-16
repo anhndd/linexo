@@ -5,16 +5,28 @@
     android:layout_height="wrap_content">
 
     <View
-        android:id="@+id/background"
+        android:id="@+id/obj_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"/>
+
+    <View
+        android:id="@+id/obj_line_x"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_logo_linex"/>
+
+    <View
+        android:id="@+id/obj_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_logo_round"/>
 
     <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
         android:id="@+id/ci_hung"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_logo_round"/>
+        android:src="@drawable/dev_hung"/>
 
     <TextView
         android:id="@+id/txt_hung_name"
@@ -30,6 +42,96 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Leader"
+        android:textStyle="italic"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"/>
+
+    <View
+        android:id="@+id/obj_hung_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"/>
+
+    <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
+        android:id="@+id/ci_anh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dev_anh"/>
+
+    <TextView
+        android:id="@+id/txt_anh_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nguyễn Đỗ Đức Anh"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/txt_anh_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dev"
+        android:textStyle="italic"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"/>
+
+    <View
+        android:id="@+id/obj_anh_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"/>
+
+    <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
+        android:id="@+id/ci_trong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dev_trong"/>
+
+    <TextView
+        android:id="@+id/txt_trong_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lê Hữu Trọng"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/txt_trong_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dev"
+        android:textStyle="italic"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"/>
+
+    <View
+        android:id="@+id/obj_trong_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"/>
+
+    <vn.edu.hcmut.linexo.presentation.custom.CircleImageView
+        android:id="@+id/ci_sang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/dev_sang"/>
+
+    <TextView
+        android:id="@+id/txt_sang_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nguyễn Viết Sang"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/txt_sang_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dev"
         android:textStyle="italic"
         android:textColor="@color/colorAccent"
         android:textSize="16sp"/>

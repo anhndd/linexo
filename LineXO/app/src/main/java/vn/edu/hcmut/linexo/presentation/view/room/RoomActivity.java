@@ -15,10 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -39,14 +37,10 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import vn.edu.hcmut.linexo.R;
@@ -173,23 +167,23 @@ public class RoomActivity extends BaseActivity {
 
                         popup.getMenuInflater().inflate(R.menu.popup_logout, popup.getMenu());
                         //registering popup with OnMenuItemClickListener
-                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            public boolean onMenuItemClick(MenuItem item) {
-                                switch (item.getItemId()) {
-                                    case R.id.it_about_us:
-
-                                        break;
-                                    case R.id.it_ranking:
-                                        ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_RANK_DIALOG));
-                                        break;
-                                    case R.id.it_logout:
-                                        mGoogleSignInClient.signOut();
-                                        LoginManager.getInstance().logOut();
-                                        ((ViewModelCallback) viewModel).onHelp(Event.create(Event.LOGOUT));
-                                        break;
-                                }
-                                return true;
+                        popup.setOnMenuItemClickListener(item -> {
+                            switch (item.getItemId()) {
+                                case R.id.it_about_us:
+                                    Dialog aboutUsDialog = new Dialog(RoomActivity.this);
+                                    aboutUsDialog.setContentView(R.layout.layout_about_us);
+                                    aboutUsDialog.show();
+                                    break;
+                                case R.id.it_ranking:
+                                    ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_RANK_DIALOG));
+                                    break;
+                                case R.id.it_logout:
+                                    mGoogleSignInClient.signOut();
+                                    LoginManager.getInstance().logOut();
+                                    ((ViewModelCallback) viewModel).onHelp(Event.create(Event.LOGOUT));
+                                    break;
                             }
+                            return true;
                         });
                         popup.show(); //showing popup menu
                         break;
@@ -203,23 +197,21 @@ public class RoomActivity extends BaseActivity {
 
                         popup.getMenuInflater().inflate(R.menu.popup_login, popup.getMenu());
                         //registering popup with OnMenuItemClickListener
-                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            public boolean onMenuItemClick(MenuItem item) {
-                                switch (item.getItemId()) {
-                                    case R.id.it_about_us:
-                                        Dialog aboutUsDialog = new Dialog(RoomActivity.this);
-                                        aboutUsDialog.setContentView(R.layout.layout_about_us);
-                                        aboutUsDialog.show();
-                                        break;
-                                    case R.id.it_ranking:
-                                        ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_RANK_DIALOG));
-                                        break;
-                                    case R.id.it_login:
-                                        ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_LOGIN));
-                                        break;
-                                }
-                                return true;
+                        popup.setOnMenuItemClickListener(item -> {
+                            switch (item.getItemId()) {
+                                case R.id.it_about_us:
+                                    Dialog aboutUsDialog = new Dialog(RoomActivity.this);
+                                    aboutUsDialog.setContentView(R.layout.layout_about_us);
+                                    aboutUsDialog.show();
+                                    break;
+                                case R.id.it_ranking:
+                                    ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_RANK_DIALOG));
+                                    break;
+                                case R.id.it_login:
+                                    ((RoomViewModel)viewModel).onHelp(Event.create(Event.SHOW_LOGIN));
+                                    break;
                             }
+                            return true;
                         });
                         popup.show(); //showing popup menu
                         break;
