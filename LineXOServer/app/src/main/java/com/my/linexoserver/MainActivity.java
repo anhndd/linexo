@@ -107,13 +107,15 @@ public class MainActivity extends AppCompatActivity {
     public void updateUserAndRoom(Room room, User user1, User user2){
         DatabaseReference ref = database.getReference();
         Map<String, Object> childUpdates = new HashMap<>();
+        String strToast = "Update room " + room.getRoom_number();
         childUpdates.put("/room/" + room.getRoom_id(), room);
         if (user1 != null && user2 != null) {
             childUpdates.put("/user/" + user1.getUid(), user1);
             childUpdates.put("/user/" + user2.getUid(), user2);
-            Toast.makeText(MainActivity.this, "Update score in room " + room.getRoom_number(), Toast.LENGTH_LONG).show();
+            strToast += " and user's score";
         }
         ref.updateChildren(childUpdates);
+        Toast.makeText(MainActivity.this, strToast, Toast.LENGTH_LONG).show();
     }
 
     public void deleteRoom(String roomNodeKey, Integer roomNumber){
@@ -141,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                             DatabaseReference roomNumRef = database.getReference("room").child(dataSnapshot.getKey());
                             roomNumRef.setValue(room);
                             listRooms[i] = true;
-                            Toast.makeText(MainActivity.this,"Set new room number " + i, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this,"Set room number " + i, Toast.LENGTH_LONG).show();
                             break;
                         }
                     }
