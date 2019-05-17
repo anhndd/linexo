@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'LineXOServerKey'
+            keyPassword 'anhhungsangtrong'
+            storeFile file('D:/Source_study/University/HK182/PhatTrienAppTrenTBDD_NguyenCongDoi/Assignment/linexo/LineXOServer/LineXOServerKey.jks')
+            storePassword 'anhhungsangtrong'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.my.linexoserver"
@@ -15,6 +23,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {
@@ -24,7 +34,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.google.firebase:firebase-database:16.0.1'

@@ -13,7 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,9 +54,11 @@ import vn.edu.hcmut.linexo.presentation.view_model.ViewModel;
 import vn.edu.hcmut.linexo.presentation.view_model.ViewModelCallback;
 import vn.edu.hcmut.linexo.presentation.view_model.room.RoomViewModel;
 import vn.edu.hcmut.linexo.utils.Event;
+import vn.edu.hcmut.linexo.utils.KeyboardHeightObserver;
+import vn.edu.hcmut.linexo.utils.KeyboardHeightProvider;
 import vn.edu.hcmut.linexo.utils.Tool;
 
-public class RoomActivity extends BaseActivity {
+public class RoomActivity extends BaseActivity implements KeyboardHeightObserver {
 
     @Inject
     @Named("RoomViewModel")
@@ -71,6 +73,7 @@ public class RoomActivity extends BaseActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private CallbackManager mCallbackManager;
+    private KeyboardHeightProvider keyboardHeightProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +92,9 @@ public class RoomActivity extends BaseActivity {
         binding.lstRoom.setHasFixedSize(true);
 
         addControlKeyboardView(binding.edtSearch);
+
+        keyboardHeightProvider = new KeyboardHeightProvider(this);
+        binding.root.post(() -> keyboardHeightProvider.start());
     }
 
     @Override
@@ -262,6 +268,19 @@ public class RoomActivity extends BaseActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        keyboardHeightProvider.setKeyboardHeightObserver(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        keyboardHeightProvider.setKeyboardHeightObserver(null);
+        Tool.hideSoftKeyboard(this);
+    }
+
+    @Override
     public void onUnSubscribeViewModel() {
         if (!disposable.isDisposed()) {
             disposable.dispose();
@@ -270,12 +289,18 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     public Object onSaveViewModel() {
-        return null;
+        return viewModel;
     }
 
     @Override
     public void onEndTaskViewModel() {
+        viewModel.endTask();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        keyboardHeightProvider.stop();
     }
 
     private void loginGoogle() {
@@ -346,5 +371,15 @@ public class RoomActivity extends BaseActivity {
                         }
                     }
                 });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onKeyboardHeightChanged(int height, int orientation) {
+        if (height == 0) {
+            Tool.hideSystemUI(this);
+        }
     }
 }

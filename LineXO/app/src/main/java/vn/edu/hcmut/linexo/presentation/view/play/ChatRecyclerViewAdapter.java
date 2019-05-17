@@ -35,8 +35,13 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.itemView.setMessageView(messages.get(position).getId(), messages.get(position).getName(), messages.get(position).getAvatarURL()
-                , messages.get(position).getMessage(),Uid);
+        holder.itemView.setMessageView(
+                messages.get(position).getId(),
+                messages.get(position).getName(),
+                messages.get(position).getAvatarURL(),
+                messages.get(position).getMessage(),
+                Uid
+        );
     }
 
     @Override

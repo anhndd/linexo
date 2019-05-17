@@ -33,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
         setNewRoomNumber();
         checkOnlineSignal();
-        addScore();
+        controlRoomState();
     }
 
-    public void addScore(){
+    public void controlRoomState(){
         DatabaseReference roomRef = database.getReference("room");
         roomRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -66,11 +66,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else if (room.getAction() == Room.LEAVE){
                         room.setAction(Room.NOT_USED);
-                        updateUserAndRoom(room, user1, user2);
+                        updateUserAndRoom(room, null, null);
                     }
                     else if (room.getAction() == Room.DESTROY){
                         room.setAction(Room.NOT_USED);
-                        updateUserAndRoom(room, user1, user2);
+                        updateUserAndRoom(room, null, null);
                     }
                     else if (room.getAction() == Room.TIMEOUT){
                         room.setAction(Room.END);
@@ -116,18 +116,6 @@ public class MainActivity extends AppCompatActivity {
         }
         ref.updateChildren(childUpdates);
         Toast.makeText(MainActivity.this, strToast, Toast.LENGTH_LONG).show();
-    }
-
-    public void deleteRoom(String roomNodeKey, Integer roomNumber){
-        DatabaseReference ref = database.getReference();
-        if (roomNumber != null) {
-            listRooms[roomNumber] = false;
-        }
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/room/" + roomNodeKey, null);
-        childUpdates.put("/message/" + roomNodeKey, null);
-        Toast.makeText(MainActivity.this, "Delete room " + roomNumber, Toast.LENGTH_LONG).show();
-        ref.updateChildren(childUpdates);
     }
 
     public void setNewRoomNumber(){
@@ -198,5 +186,17 @@ public class MainActivity extends AppCompatActivity {
 
         };
         service.scheduleAtFixedRate(runCheck, 0, 15, TimeUnit.SECONDS);
+    }
+
+    public void deleteRoom(String roomNodeKey, Integer roomNumber){
+        DatabaseReference ref = database.getReference();
+        if (roomNumber != null) {
+            listRooms[roomNumber] = false;
+        }
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/room/" + roomNodeKey, null);
+        childUpdates.put("/message/" + roomNodeKey, null);
+        Toast.makeText(MainActivity.this, "Delete room " + roomNumber, Toast.LENGTH_LONG).show();
+        ref.updateChildren(childUpdates);
     }
 }

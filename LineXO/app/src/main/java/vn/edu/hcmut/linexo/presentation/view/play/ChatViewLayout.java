@@ -127,6 +127,7 @@ public class ChatViewLayout extends FrameLayout {
             txtMessage.setText(message);
             txtMessage.setTextColor(Color.BLACK);
             txtMessage.setTextSize(14);
+            txtMessage.setVisibility(VISIBLE);
             civAvatar.setVisibility(GONE);
             txtMessageName.setVisibility(GONE);
             txtMessageSystem.setVisibility(GONE);
@@ -135,6 +136,7 @@ public class ChatViewLayout extends FrameLayout {
             txtMessageSystem.setText(message);
             txtMessageSystem.setTextColor(Color.WHITE);
             txtMessageSystem.setTextSize(12);
+            txtMessageSystem.setVisibility(VISIBLE);
             civAvatar.setVisibility(GONE);
             txtMessage.setVisibility(GONE);
             txtMessageName.setVisibility(GONE);
@@ -147,6 +149,7 @@ public class ChatViewLayout extends FrameLayout {
             txtMessage.setTextSize(14);
             txtMessageName.setText(name);
             txtMessageName.setTextSize(12);
+            txtMessage.setVisibility(VISIBLE);
             civAvatar.setVisibility(VISIBLE);
             txtMessageName.setVisibility(VISIBLE);
             txtMessageSystem.setVisibility(GONE);

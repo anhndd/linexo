@@ -148,17 +148,22 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     }
 
     public void setTouch(int[] touch) {
-        if (PlayViewModel.this.room.getRoom_number() == 0) {
-            if (!PlayViewModel.this.room.getNext_turn().equals("AI"))
-                playUsecase.execute(new RoomReceiverOfflineObserver(),
-                        Event.SEND_MOVE,
-                        touch[0], touch[1]
-                );
-        } else if (PlayViewModel.this.room.getNext_turn().equals(user.getUid())) {
-            playUsecase.execute(null,
-                    Event.SEND_MOVE,
-                    touch[0], touch[1]
-            );
+        if (room != null && room.getRoom_number() != null) {
+            if (room.getRoom_number() == 0) {
+                if (!room.getNext_turn().equals("AI")) {
+                    playUsecase.execute(new RoomReceiverOfflineObserver(),
+                            Event.SEND_MOVE,
+                            touch[0], touch[1]
+                    );
+                }
+            } else if (room.getAction() == Room.START || room.getAction() == Room.MOVE) {
+                if (room.getNext_turn().equals(user.getUid())) {
+                    playUsecase.execute(null,
+                            Event.SEND_MOVE,
+                            touch[0], touch[1]
+                    );
+                }
+            }
         }
     }
 
@@ -187,13 +192,24 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
     }
 
     public void onClickSend(View view) {
+        if (room != null) {
+            publisher.onNext(Event.create(Event.HIDE_KEYBOARD));
+        }
         if (!contentMessage.equals("")) {
-            messages = new ArrayList<>(messages);
-            chatUsecase.execute(null, Event.PUSH_MESSAGE, room.getRoom_id(), new Message(user.getUid(), user.getName(), user.getAvatar(), contentMessage, System.currentTimeMillis()));
+            chatUsecase.execute(
+                    null,
+                    Event.PUSH_MESSAGE,
+                    room.getRoom_id(),
+                    new Message(
+                            user.getUid(),
+                            user.getName(),
+                            user.getAvatar(),
+                            contentMessage,
+                            System.currentTimeMillis()
+                    )
+            );
             contentMessage = "";
             notifyPropertyChanged(BR.contentMessage);
-
-            onHelp(Event.create(Event.LOAD_MESSAGE, messages));
         }
     }
 
@@ -367,6 +383,14 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                         return;
                     }
                     if (PlayViewModel.this.room == null) {
+                        countTimeHost = 0;
+                        countTimeGuest = 0;
+                        notifyPropertyChanged(BR.countTimeHost);
+                        notifyPropertyChanged(BR.countTimeGuest);
+                        isEnableHost = false;
+                        isEnableGuest = false;
+                        notifyPropertyChanged(BR.enableHost);
+                        notifyPropertyChanged(BR.enableGuest);
                         for (int i = 3; i >= 0; --i) {
                             final int numCount = i;
                             countDownHandler.postDelayed(
@@ -492,6 +516,14 @@ public class PlayViewModel extends BaseObservable implements ViewModel, ViewMode
                 case Room.JOIN:
                     break;
                 case Room.START:
+                    countTimeHost = 0;
+                    countTimeGuest = 0;
+                    notifyPropertyChanged(BR.countTimeHost);
+                    notifyPropertyChanged(BR.countTimeGuest);
+                    isEnableHost = false;
+                    isEnableGuest = false;
+                    notifyPropertyChanged(BR.enableHost);
+                    notifyPropertyChanged(BR.enableGuest);
                     if (room.getAction() == Room.START) {
                         if (user.getUid().equals(room.getUser_1().getUid()) || user.getUid().equals(room.getUser_2().getUid())) {
                             for (int i = 3; i >= 0; --i) {

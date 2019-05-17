@@ -19,7 +19,7 @@ public class Event {
     public static final int LOGIN_INFO = 5;
     public static final int LOGOUT = 6;
     public static final int END_SPLASH = 7;
-    public static final int LOAD_FULL_USER_INFO = 8;
+    public static final int HIDE_KEYBOARD = 8;
     public static final int SHOW_LOGIN = 9;
     public static final int SHOW_PLAY_ACTIVITY = 10;
     public static final int LOGIN_USER = 11;

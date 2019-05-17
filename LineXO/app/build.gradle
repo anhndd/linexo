@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'LineXOKey'
+            keyPassword 'anhhungsangtrong'
+            storeFile file('D:/Source_study/University/HK182/PhatTrienAppTrenTBDD_NguyenCongDoi/Assignment/linexo/LineXO/LineXOKey.jks')
+            storePassword 'anhhungsangtrong'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "vn.edu.hcmut.linexo"
@@ -15,6 +23,8 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.config
         }
     }
     dataBinding {

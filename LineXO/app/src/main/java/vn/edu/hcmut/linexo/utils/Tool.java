@@ -18,7 +18,6 @@ public class Tool {
      * @param activity  activity that need to hide keyboard.
      */
     public static void hideSoftKeyboard(Activity activity) {
-        Log.e("Test", "hide");
         if(activity.getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
@@ -112,5 +111,44 @@ public class Tool {
         } else {
             return "@" + wordFilter3.get(wordFilter3.size() - 1);
         }
+    }
+
+
+
+    public static void showSystemUI(Activity activity) {
+
+        View decorView = activity.getWindow().getDecorView();
+
+        int flag = View.SYSTEM_UI_FLAG_VISIBLE;
+
+        decorView.setSystemUiVisibility(flag);
+
+        decorView.setOnSystemUiVisibilityChangeListener(visibility -> {
+                    if((visibility & View.SYSTEM_UI_FLAG_VISIBLE) == 0) {
+                        decorView.setSystemUiVisibility(flag);
+                    }
+                }
+        );
+    }
+
+    public static void hideSystemUI(Activity activity) {
+
+        View decorView = activity.getWindow().getDecorView();
+
+        int flag = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+
+        decorView.setSystemUiVisibility(flag);
+
+        decorView.setOnSystemUiVisibilityChangeListener(visibility -> {
+                    if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
+                        decorView.setSystemUiVisibility(flag);
+                    }
+                }
+        );
     }
 }

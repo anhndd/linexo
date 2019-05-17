@@ -2,7 +2,6 @@ package vn.edu.hcmut.linexo.presentation.view.play;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -65,7 +64,7 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
         keyboardHeightProvider = new KeyboardHeightProvider(this);
         binding.root.post(() -> keyboardHeightProvider.start());
 
-        addControlKeyboardView(binding.edtMessage);
+        addControlKeyboardView(binding.edtMessage, binding.btnSend);
 
         countDialog = new Dialog(PlayActivity.this);
         countDialog.setContentView(R.layout.layout_count_view);
@@ -191,8 +190,15 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
                     break;
                 }
                 case Event.SHOW_KEYBOARD:{
+                    Tool.showSystemUI(PlayActivity.this);
                     binding.edtMessage.setVisibility(View.VISIBLE);
                     Tool.showSoftKeyboard(binding.edtMessage, PlayActivity.this);
+                    break;
+                }
+                case Event.HIDE_KEYBOARD:{
+                    Tool.hideSoftKeyboard(PlayActivity.this);
+                    binding.edtMessage.setVisibility(View.GONE);
+                    Tool.hideSystemUI(PlayActivity.this);
                     break;
                 }
                 case Event.TOAST_USER_WIN:{
@@ -269,7 +275,9 @@ public class PlayActivity extends BaseActivity implements KeyboardHeightObserver
     public void onKeyboardHeightChanged(int height, int orientation) {
         int[] array = {height, orientation};
         ((PlayViewModel) viewModel).onHelp(Event.create(Event.KEYBOARD_CHANGED, array));
-        String or = orientation == Configuration.ORIENTATION_PORTRAIT ? "portrait" : "landscape";
-        Log.i("Text", "onKeyboardHeightChanged in pixels: " + height + " " + or);
+        if (height == 0) {
+            Tool.hideSystemUI(this);
+            binding.root.postDelayed(() -> binding.root.requestLayout(), 16);
+        }
     }
 }
